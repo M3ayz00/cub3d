@@ -134,6 +134,7 @@ void draw(t_data *data)
         for (int y = drawStart; y < drawEnd; y++)
         {
             mlx_pixel_put(data->mlx, data->win, x, y, color);
+            // void *img = mlx
         }
     }
 }

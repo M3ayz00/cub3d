@@ -5,20 +5,32 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
-#define MAP_SIZE 20
-#define TILE_SIZE 64
-#define WIDTH 1000
-#define HEIGHT 800
+#define NUM_ROWS 6
+#define NUM_COLS 10
+#define TILE_SIZE 120
 
-typedef struct {
-    double x;
-    double y;
-    double dir;
-} Player;
+typedef struct s_player
+{
+    int x ;
+    int y;
+    double turn_dir;
+    double walk_dir;
+    double rot_angle;
+    double move_speed;
+    double turn_speed;
 
+} t_player;
 
+typedef struct s_data
+{
+    void *mlx;
+    void *win;
+    char **map;
+    t_player *player;
+} t_data;
 
 
 #endif
