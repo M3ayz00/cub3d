@@ -1,4 +1,4 @@
-#include <mlx.h>
+#include "./minilibx-linux/mlx.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,6 +10,11 @@ typedef struct s_data
 {
     void *mlx;
     void *win;
+    void *img;
+    char *addr;
+    int bits_per_pixel;
+    int line_length;
+    int endian;
     int mapWidth;
     int mapHeight;
     int map[10][10];
@@ -21,8 +26,20 @@ typedef struct s_data
     double planeY;
 } t_data;
 
+void my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+    char *dst;
 
-void draw(t_data *data)
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+    *(unsigned int *)dst = color;
+}
+
+int get_rgb(int t, int r, int g, int b)
+{
+    return (t << 24 | r << 16 | g << 8 | b);
+}
+
+int draw(t_data *data)
 {
     for (int x = 0; x < WIDTH; x++)
     {
@@ -79,22 +96,24 @@ void draw(t_data *data)
             // Jump to next map square, OR in x-direction, OR in y-direction
             if (sideDistX < sideDistY)
             {
-                sideDistX += deltaDistX;
                 mapX += stepX;
-                side = 0;
+                sideDistX += deltaDistX;
+                side = 0; // Horizontal intersection
             }
             else
             {
-                sideDistY += deltaDistY;
                 mapY += stepY;
-                side = 1;
+                sideDistY += deltaDistY;
+                side = 1; // Vertical intersection
             }
+
             // Check if ray has hit a wall
             if (data->map[mapX][mapY] > 0)
                 hit = 1;
         }
 
         // Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
+
         if (side == 0)
             perpWallDist = (mapX - data->posX + (1 - stepX) / 2) / rayDirX;
         else
@@ -116,11 +135,11 @@ void draw(t_data *data)
         switch (data->map[mapX][mapY])
         {
         case 1:
-            color = 0xFF0000;
+            color = get_rgb(200, 180, 77, 80);
             break; // Red
         // You can add more cases for different wall types
         default:
-            color = 0xFFFFFF;
+            color = get_rgb(255, 100, 5, 80);
             break; // White
         }
 
@@ -133,11 +152,26 @@ void draw(t_data *data)
         // Draw the vertical stripe
         for (int y = drawStart; y < drawEnd; y++)
         {
-            mlx_pixel_put(data->mlx, data->win, x, y, color);
-            // void *img = mlx
+            my_mlx_pixel_put(data, x, y, color);
+        }
+
+        // Draw the sky
+        for (int y = 0; y < drawStart; y++)
+        {
+            my_mlx_pixel_put(data, x, y, get_rgb(240,111, 199, 242)); // Light blue color for the sky
+        }
+
+        // Draw the floor
+        for (int y = drawEnd; y < HEIGHT; y++)
+        {
+            // Calculate floor color (could be more complex based on ray position, but we'll use a solid color here)
+            int floorColor = get_rgb(255,133, 138, 128); // Dark gray color for the floor
+            my_mlx_pixel_put(data, x, y, floorColor);
         }
     }
+    return (0);
 }
+
 int key_press(int keycode, t_data *data)
 {
     if (keycode == 65307) // Escape key
@@ -174,18 +208,25 @@ int key_press(int keycode, t_data *data)
         data->planeX = data->planeX * cos(-0.1) - data->planeY * sin(-0.1);
         data->planeY = oldPlaneX * sin(-0.1) + data->planeY * cos(-0.1);
     }
-    mlx_clear_window(data->mlx, data->win);
+    if (data->img)
+        mlx_destroy_image(data->mlx, data->img);
+    data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
     draw(data);
+    mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
     return (0);
 }
-
-
 
 int main(void)
 {
     t_data data;
     data.mlx = mlx_init();
     data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "Raycaster");
+
+    // Create an image
+
+    data.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
+    data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
+
     data.mapWidth = 10;
     data.mapHeight = 10;
     // Initialize your map, player position, direction and plane
@@ -197,8 +238,8 @@ int main(void)
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            {1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+            {1, 0, 0, 0, 1, 1, 0, 0, 0, 1},
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
@@ -216,6 +257,7 @@ int main(void)
 
     // Draw the initial frame
     draw(&data);
+    mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
     mlx_hook(data.win, 2, 1L << 0, key_press, &data);
     mlx_loop(data.mlx);
     return (0);
