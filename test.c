@@ -138,7 +138,7 @@ int key_press(int keycode, t_data *data)
     }
     if (keycode == 100) // D key
     {
-        //both camera direction and camera plane must be rotated
+        // both camera direction and camera plane must be rotated
         double oldDirX = data->player->dirX;
         data->player->dirX = data->player->dirX * cos(-0.1) - data->player->dirY * sin(-0.1);
         data->player->dirY = oldDirX * sin(-0.1) + data->player->dirY * cos(-0.1);
@@ -180,7 +180,7 @@ int main(void)
         {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            {1, 0, 0, 0, 1, 1, 1, 1 ,1, 1},
+            {1, 0, 0, 0, 1, 1, 1, 1, 1, 1},
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             {1, 0, 0, 0, 0, 0, 1, 0, 0, 1},
             {1, 0, 0, 0, 1, 0, 0, 0, 0, 1},

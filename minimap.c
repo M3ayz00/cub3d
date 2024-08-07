@@ -5,11 +5,11 @@ int map[10][10] = {
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 0, 1, 1, 1, 1, 0, 0, 1},
     {1, 0, 0, 0, 1, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 1, 0, 1, 0, 0, 1},
+    {1, 0, 0, 0, 2, 0, 1, 0, 0, 1},
     {1, 0, 0, 0, 1, 0, 1, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 2, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 1, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 };
 
@@ -96,30 +96,86 @@ void draw_cub(t_data *data, int x, int y, int size_h, int size_w, int color)
 
 void cast_ray(t_data *data, double ray_angle)
 {
-    data->ray->angle = ray_angle;
-    double step_size = 0.1;
+    int mapX, mapY;
+    double sideDistX, sideDistY;
+    double deltaDistX, deltaDistY;
+    double perpWallDist;
+    int stepX, stepY;
+    int hit = 0;
+    int side; // 0 for vertical, 1 for horizontal
 
-    double ray_x = data->player->posX;
-    double ray_y = data->player->posY;
+    // Initial position in the map
+    mapX = (int)data->player->posX;
+    mapY = (int)data->player->posY;
 
-    while (1)
+    // Calculate ray direction and deltas
+    double rayDirX = cos(ray_angle);
+    double rayDirY = sin(ray_angle);
+
+    // Calculate delta distances
+    deltaDistX = fabs(1 / rayDirX);
+    deltaDistY = fabs(1 / rayDirY);
+
+    // Calculate step and initial side distances
+    if (rayDirX < 0)
     {
-        ray_x += cos(ray_angle) * step_size;
-        ray_y += sin(ray_angle) * step_size;
-
-        if (map[(int)ray_y][(int)ray_x] == 1)
-        {
-            data->ray->hitX = ray_x;
-            data->ray->hitY = ray_y;
-            data->ray->distance = sqrt(pow(ray_x - data->player->posX, 2) + pow(ray_y - data->player->posY, 2));
-            break;
-        }
+        stepX = -1;
+        sideDistX = (data->player->posX - mapX) * deltaDistX;
     }
+    else
+    {
+        stepX = 1;
+        sideDistX = (mapX + 1.0 - data->player->posX) * deltaDistX;
+    }
+    if (rayDirY < 0)
+    {
+        stepY = -1;
+        sideDistY = (data->player->posY - mapY) * deltaDistY;
+    }
+    else
+    {
+        stepY = 1;
+        sideDistY = (mapY + 1.0 - data->player->posY) * deltaDistY;
+    }
+
+    // Perform DDA
+    while (hit == 0)
+    {
+        // Jump to next map square in X or Y direction
+        if (sideDistX < sideDistY)
+        {
+            sideDistX += deltaDistX;
+            mapX += stepX;
+            side = 0;
+        }
+        else
+        {
+            sideDistY += deltaDistY;
+            mapY += stepY;
+            side = 1;
+        }
+
+        // Check if ray has hit a wall
+        if (map[mapY][mapX] == 1)
+            hit = 1;
+    }
+
+    // Calculate distance to the point of impact
+  if (side == 0)
+        perpWallDist = (sideDistX - deltaDistX);
+    else
+        perpWallDist = (sideDistY - deltaDistY);
+
+    // Store the results in the ray structure
+    data->ray->hitX = data->player->posX + perpWallDist * rayDirX;
+    data->ray->hitY = data->player->posY + perpWallDist * rayDirY;
+    data->ray->hit_distance = perpWallDist;
+    data->ray->is_vertical = (side == 0);
 }
 
 void cast_all_rays(t_data *data)
 {
-    int num_rays = WIDTH / 10;
+    int num_rays = WIDTH;
 
     double angle_step = FOV / num_rays;
 
@@ -134,7 +190,7 @@ void cast_all_rays(t_data *data)
         int player_y = data->player->posY * TILE_SIZE;
         int ray_x = data->ray->hitX * TILE_SIZE;
         int ray_y = data->ray->hitY * TILE_SIZE;
-        draw_line(data,player_x,player_y,ray_x,ray_y,0xf0ff0f);
+        draw_line(data,player_x,player_y,ray_x,ray_y,0xff0fff);
     }
 }
 void render(t_data *data)
@@ -184,13 +240,13 @@ int key_press(int key, t_data *data)
 
     if (key == W_KEY)
     {
-        newPosX += cos(data->player->angle) * 0.2;
-        newPosY += sin(data->player->angle) * 0.2;
+        newPosX += cos(data->player->angle) * 0.1;
+        newPosY += sin(data->player->angle) * 0.1;
     }
     else if (key == S_KEY)
     {
-        newPosX -= cos(data->player->angle) * 0.2;
-        newPosY -= sin(data->player->angle) * 0.2;
+        newPosX -= cos(data->player->angle) * 0.1;
+        newPosY -= sin(data->player->angle) * 0.1;
     }
     else if (key == A_KEY)
     {

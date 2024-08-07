@@ -8,12 +8,10 @@
 #include <string.h>
 #include <math.h>
 
-
 #define FOV (M_PI / 3) // Field of View (60 degrees)
 
-
-#define WIDTH 640
-#define HEIGHT 640
+#define WIDTH 1080
+#define HEIGHT 720
 #define NUM_ROWS 6
 #define NUM_COLS 10
 #define TILE_SIZE 64
@@ -23,24 +21,38 @@
 #define A_KEY 97
 #define D_KEY 100
 
-
 typedef struct s_ray
 {
- double angle;
- double distance;
- double hitX;
- double hitY;
-} t_ray;
+    double angle;
+    double hitX;
+    double hitY;
+    double rayDirX;
+    double rayDirY;
+    int mapX;
+    int mapY;
+    double deltaDistX;
+    double deltaDistY;
+    double sideDistX;
+    double sideDistY;
+    int side;
+    int hit;
+    int stepX;
+    int stepY;
 
+    int is_vertical;
+    double hit_distance;
+} t_ray;
 
 typedef struct s_player
 {
     double posX;
     double posY;
+    double dirX;
+    double dirY;
     double planeX;
     double planeY;
     double angle;
-}   t_player;
+} t_player;
 
 typedef struct s_map
 {
@@ -67,6 +79,5 @@ typedef struct s_data
     t_ray *ray;
     t_player *player;
 } t_data;
-
 
 #endif
