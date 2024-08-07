@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
+/*   Updated: 2024/08/07 17:58:26 by msaadidi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 #define CUB3D_H
 
 #include "minilibx-linux/mlx.h"
+#include "parsing/gnl/get_next_line.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -20,6 +33,14 @@
 #define S_KEY 115
 #define A_KEY 97
 #define D_KEY 100
+
+typedef struct	s_color
+{
+	int	r;
+	int	g;
+	int	b;
+	int	t;
+}	t_color;
 
 typedef struct s_ray
 {
@@ -61,6 +82,19 @@ typedef struct s_map
     int map[10][10];
 } t_map;
 
+typedef struct s_flr_cln
+{
+	t_color	floor;
+	t_color ceiling;
+}	t_flr_cln;
+
+typedef struct	s_map2
+{
+	char	**map;
+
+
+}	t_map2;
+
 typedef struct s_image
 {
     void *img;
@@ -78,6 +112,8 @@ typedef struct s_data
     t_map *map;
     t_ray *ray;
     t_player *player;
+	t_map2	*map;
+	t_flr_cln	floor_ceil;
 } t_data;
 
 #endif
