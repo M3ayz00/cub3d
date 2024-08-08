@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:59:04 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/07 17:19:44 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:51:56 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,13 @@ int	is_file_valid(char *path)
 	return (0);
 }
 
+int	open_file(char *path)
+{
+	int	fd;
 
+	fd = -1;
+	if(!is_file_valid(path))
+		return(fd);
+	fd = open(path, O_RDONLY, 0644);
+	return (fd);
+}

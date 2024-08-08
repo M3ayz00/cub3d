@@ -73,7 +73,7 @@ void draw_player(t_image *image, int xc, int yc, int radius, int color) {
     }
 }
 
-void cast_ray(t_data *data, double ray_angle) {
+void cast_ray(t_cub3d *data, double ray_angle) {
     int mapX, mapY;
     double sideDistX, sideDistY;
     double deltaDistX, deltaDistY;
@@ -138,7 +138,7 @@ int calc_height(double distance, int screen_height) {
     return (int)(screen_height / distance);
 }
 
-void cast_all_rays(t_data *data) {
+void cast_all_rays(t_cub3d *data) {
     int num_rays = WIDTH;
     double angle_step = FOV / num_rays;
 
@@ -165,12 +165,12 @@ void cast_all_rays(t_data *data) {
     }
 }
 
-void render(t_data *data) {
+void render(t_cub3d *data) {
     cast_all_rays(data);
     mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
 }
 
-void get_player_pos(t_data *data) {
+void get_player_pos(t_cub3d *data) {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
             if (map[i][j] == 2) {
@@ -183,7 +183,7 @@ void get_player_pos(t_data *data) {
     }
 }
 
-int key_press(int key, t_data *data) {
+int key_press(int key, t_cub3d *data) {
     double move_speed = 0.1;
     double rot_speed = 0.1;
     double newPosX = data->player->posX;
@@ -211,7 +211,7 @@ int key_press(int key, t_data *data) {
 }
 
 int main() {
-    t_data data;
+    t_cub3d data;
 
     data.player = malloc(sizeof(t_player));
     data.ray = malloc(sizeof(t_ray));
@@ -219,7 +219,7 @@ int main() {
     data.mlx = mlx_init();
     data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "cub3d");
     data.image->img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
-    data.image->addr = mlx_get_data_addr(data.image->img, &data.image->bits_per_pixel, &data.image->line_length, &data.image->endian);
+    data.image->addr = mlx_get_cub3d_addr(data.image->img, &data.image->bits_per_pixel, &data.image->line_length, &data.image->endian);
     get_player_pos(&data);
     render(&data);
     mlx_hook(data.win, 2, 1L << 0, key_press, &data);
