@@ -6,14 +6,14 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/08 20:31:05 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:44:14 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 #define CUB3D_H
 
-#include "minilibx-linux/mlx.h"
+// #include "minilibx-linux/mlx.h"
 #include "parsing/gnl/get_next_line.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -45,8 +45,8 @@ typedef struct	s_color
 
 typedef struct s_textures
 {
-	t_color	floor;
-	t_color	ceiling;
+	t_color	*floor;
+	t_color	*ceiling;
 	char	*north;
 	char	*south;
 	char	*east;
@@ -125,7 +125,7 @@ typedef struct s_cub3d
 int	open_file(char *path);
 void	free_strs(char **strs);
 char	**ft_split(char *s, char *set);
-char	*ft_strtrim(char const *s, char const *set);
+char	*ft_strtrim(char *s, char *set);
 int	ft_strcmp(char *s1, char *s2);
 int get_rgb(int t, int r, int g, int b);
 

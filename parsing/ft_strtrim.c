@@ -6,13 +6,13 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 20:30:41 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/08 20:32:37 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:27:04 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-static int	ft_start(const char *set, char const *s)
+static int	ft_start(char *set, char *s)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ static int	ft_start(const char *set, char const *s)
 	return (i);
 }
 
-static int	ft_end(const char *set, char const *s)
+static int	ft_end(char *set, char *s)
 {
 	int	j;
 
@@ -32,7 +32,7 @@ static int	ft_end(const char *set, char const *s)
 	return (j);
 }
 
-char	*ft_strtrim(char const *s, char const *set)
+char	*ft_strtrim(char *s, char *set)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -49,6 +49,7 @@ char	*ft_strtrim(char const *s, char const *set)
 		if (!tmp)
 			return (NULL);
 		ft_memcpy(tmp, s + i, j - i);
+		tmp[j - i] = '\0';
 	}
 	else
 		return (NULL);
