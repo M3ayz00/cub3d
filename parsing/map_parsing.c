@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/09 16:51:08 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/09 18:38:25 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,44 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
     return (new);
 }
 
+int	is_color(char *element)
+{
+	return (!ft_strcmp(element, "F")
+		|| !ft_strcmp(element, "C"));
+}
+
+int	is_texture(char *element)
+{
+	return  (!ft_strcmp(element, "NO")
+		|| !ft_strcmp(element, "SO")
+		|| !ft_strcmp(element, "EA")
+		|| !ft_strcmp(element, "WE"));
+}
+
 int	is_identifier(char *line)
 {
 	char	**splitted;
 
-	splitted = ft_split(line, "/t/v/r ");
+	splitted = ft_split(line, "\n\t\v\r ");
 	if (!splitted)
 		return (0);
-	// printf("=>splitted : %s\n", splitted[0]);
-	if (!ft_strcmp(splitted[0], "NO")
-		|| !ft_strcmp(splitted[0], "SO")
-		|| !ft_strcmp(splitted[0], "EA")
-		|| !ft_strcmp(splitted[0], "WE")
-		|| !ft_strcmp(splitted[0], "F")
-		|| !ft_strcmp(splitted[0], "C"))
+	if (is_color(splitted[0])
+		|| is_texture(splitted[0]))
 		return (free_strs(splitted), 1);
 	else if (ft_strlen(splitted[0]) > 0)
 		return (free_strs(splitted), -1);
 	return (free_strs(splitted), 0);
+}
+
+char	*ft_strdup(char *str)
+{
+	char	*new_str;
+
+	new_str = (char *)ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	if (!new_str)
+		return (NULL);
+	ft_memcpy(new_str, str, ft_strlen(str));
+	return (new_str);
 }
 
 void   full_realloc(char **map, char *element, int *len)
@@ -52,10 +72,10 @@ void   full_realloc(char **map, char *element, int *len)
     map = (char **)ft_realloc(map, sizeof(char *) * (*len) ,sizeof(char *) * (*len) + 2);
 	if (!map)
 		return ;
-	map[(*len)] = (char *)malloc(sizeof(char) * ft_strlen(element) + 1);
-	ft_memcpy(map[(*len)], element, ft_strlen(element) + 1);
-    map[++(*len)] = NULL;
+	map[(*len)++] = ft_strdup(element);
+    map[(*len)] = NULL;
 }
+
 
 void	free_strs(char **strs)
 {
@@ -120,26 +140,53 @@ int	ft_atoi(char *str)
 	return (result);
 }
 
-t_color	*split_color(char *color)
+t_color	*split_color(char **color)
 {
 	char 	**colors;
+	char	*trimmed1;
+	char	*trimmed2;
+	char	*trimmed3;
 	t_color	*actual_col;
 
-	colors = ft_split(color, ",");
-	if (!colors)
-		return (NULL);
-	if (count_rows(colors) != 3)
-		return (free_strs(colors), NULL);
 	actual_col = (t_color *)malloc(sizeof(t_color));
 	if (!actual_col)
 		return (NULL);
-	actual_col->r = ft_atoi(colors[0]);
-	actual_col->g = ft_atoi(colors[1]);
-	actual_col->b = ft_atoi(colors[2]);
-	if (actual_col->r == -1
-		|| actual_col->g == -1
-		|| actual_col->b == -1)
-		return (free_strs(colors), free(actual_col), NULL);
+	if(count_rows(color) == 2)
+	{
+		colors = ft_split(color[1], ",");
+		if (!colors)
+			return (NULL);
+		if (count_rows(colors) != 3)
+			return (free_strs(colors), NULL);
+		actual_col->r = ft_atoi(colors[0]);
+		actual_col->g = ft_atoi(colors[1]);
+		actual_col->b = ft_atoi(colors[2]);
+		if (actual_col->r == -1
+			|| actual_col->g == -1
+			|| actual_col->b == -1)
+			return (free_strs(colors), free(actual_col), NULL);
+	}
+	else if (count_rows(color) == 4)
+	{
+		trimmed1 = ft_strtrim(color[1], ", \t\n\r\v");
+		if (!trimmed1)
+			return (free(actual_col), NULL);
+		trimmed2 = ft_strtrim(color[2], ", \t\n\r\v");
+		if (!trimmed1)
+			return (free(trimmed1), free(actual_col), NULL);
+		trimmed3 = ft_strtrim(color[3], ", \t\n\r\v");
+			return (free(trimmed1), free(trimmed2), free(actual_col), NULL);
+		actual_col->r = ft_atoi(trimmed1);
+		actual_col->g = ft_atoi(trimmed2);
+		actual_col->b = ft_atoi(trimmed3);
+		free(trimmed1);
+		free(trimmed2);
+		free(trimmed3);
+		if (actual_col->r == -1
+			|| actual_col->g == -1
+			|| actual_col->b == -1)
+			return (free_strs(colors), free(actual_col), NULL);
+	}
 	return (free_strs(colors), actual_col);
 }
 
@@ -173,7 +220,7 @@ int	process_texture(t_textures **textures, char **splitted)
 	{
 		if ((*textures)->floor)
 			return (0);
-		(*textures)->floor = split_color(splitted[1]);
+		(*textures)->floor = split_color(splitted);
 		if (!(*textures)->floor)
 			return (0);
 	}
@@ -181,7 +228,7 @@ int	process_texture(t_textures **textures, char **splitted)
 	{
 		if ((*textures)->ceiling)
 			return (0);
-		(*textures)->ceiling = split_color(splitted[1]);
+		(*textures)->ceiling = split_color(splitted);
 		if (!(*textures)->ceiling)
 			return (0);
 	}
@@ -190,19 +237,28 @@ int	process_texture(t_textures **textures, char **splitted)
 	return (1);
 }
 
+int	is_count_valid(char *identifier, int rows)
+{
+	if (is_texture(identifier))
+		return (rows == 2);
+	if (is_color(identifier))
+		return (rows == 2 || rows == 4);
+	return (0);
+}
+
 int	parse_texture(char **line, t_textures **textures, int *counter)
 {
 	char	**splitted;
 	int		status;
 
 	splitted = ft_split(*line, "\t\v\r\n ");
-	if (count_rows(splitted) != 2)
+	printf("%s, %s\n", splitted[0], splitted[1]);
+	if (!is_count_valid(splitted[0], count_rows(splitted)))
 	{
 		free(*line);
 		free_strs(splitted);
 		return (0);
 	}
-	printf("%s, %s\n", splitted[0], splitted[1]);
 	status = process_texture(textures, splitted);
 	if (status == 1)
 		(*counter)++;
@@ -314,7 +370,7 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 	line = get_next_line(fd);
 	while (line && i < 6)
 	{
-		if (is_identifier(line))
+		if (is_identifier(line) == 1)
 		{
 			if (!parse_texture(&line, &textures, &i))
 				return (free(map), free_textures(textures), 0);
@@ -325,18 +381,15 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 			free(line);
 		line = get_next_line(fd);
 	}
-	if (i != 6)
-		return (free_textures(textures), free(map), 0);
+	if (!check_textures(textures))
+		return (free(map) ,free_textures(textures), 0);
 	i = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
-		// printf("LINE -> %s\n", line);
 		fill_map(&map, &line, &i);
 		line = get_next_line(fd);
 	}
-	if (!check_textures(textures))
-		return (free(map) ,free_textures(textures), 0);
 	// parse_map(&map->map);
 	cub3d->textures = textures;
 	cub3d->map2 = map;
