@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/10 18:15:48 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/10 20:12:56 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,7 @@ int	check_row(char *row, int *count)
 
 	trimmed = ft_strtrim(row, " \t\n\v\r");
 	if (!trimmed)
-		return (1);
+		return (0);
 	size = ft_strlen(row);
 	if (trimmed[0] != '1' && trimmed[size - 1] != '1')
 		return (0);
@@ -315,14 +315,33 @@ int	check_row(char *row, int *count)
 	return (1);
 }
 
-int	parse_map(t_lst *rows)
+int	check_empty_row(t_lst **rows, t_lst **curr, int *before)
 {
-	int	count = 0;
-	t_lst	*curr = rows;
+	char	*trimmed;
+	int		size;
+	t_lst	*sacrifice;
+
+	sacrifice = (*curr);
+	*curr = (*curr)->next;
+	trimmed = ft_strtrim(sacrifice->row, " \t\n\v\r");
+	if (!trimmed)
+		return (printf("HEEEREE\n"),ft_lst_remove(rows, sacrifice), 1);
+	*before = 1;
+	return (0);
+}
+
+int	parse_map(t_lst **rows)
+{
+	int		count = 0;
+	int		before = 0;
+	t_lst	*curr = *rows;
 	while (curr)
 	{
-		if (!check_row(curr->row, &count))
+		while (!before && curr && check_empty_row(rows, &curr, &before))
+			continue ;
+		if (curr && !check_row(curr->row, &count))
 			return (0);
+		printf("HEEELLLOOO\n");
 		curr = curr->next;
 	}
 	return (1);
@@ -462,7 +481,7 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 		line = get_next_line(fd);
 	}
 	print_map(map->rows);
-	if (!parse_map(map->rows))
+	if (!parse_map(&map->rows))
 		return (free_map(&map), free_textures(&textures), 0);
 	cub3d->textures = textures;
 	cub3d->map2 = map;
