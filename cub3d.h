@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/10 18:05:28 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/10 19:33:39 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ int	ft_strcmp(char *s1, char *s2);
 int get_rgb(int t, int r, int g, int b);
 t_lst	*lst_new(char *row);
 void	ft_lstadd_back(t_lst **lst, t_lst *new);
+t_lst	*ft_lst_before(t_lst **lst, t_lst *curr);
+void	ft_lst_remove(t_lst	**lst, t_lst *to_rem);
 int	ft_lstsize(t_lst *lst);
 void	ft_lstclear(t_lst **lst);
 char	*ft_strdup(char *str);
