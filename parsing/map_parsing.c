@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/09 18:38:25 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:15:48 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
         free(ptr);
     }
     return (new);
+}
+
+
+int	is_space(char c)
+{
+	return ((c >= 9 && c <= 13) || c == 32);
+}
+
+int	is_digit(char c)
+{
+	return (c >= '0' && c <= '9');
 }
 
 int	is_color(char *element)
@@ -67,13 +78,42 @@ char	*ft_strdup(char *str)
 	return (new_str);
 }
 
-void   full_realloc(char **map, char *element, int *len)
+int	is_player(char c)
 {
-    map = (char **)ft_realloc(map, sizeof(char *) * (*len) ,sizeof(char *) * (*len) + 2);
-	if (!map)
-		return ;
-	map[(*len)++] = ft_strdup(element);
-    map[(*len)] = NULL;
+	return (c == 'N' || c == 'W' || c == 'N'
+		|| c == 'E');
+}
+
+int	is_plane(char c)
+{
+	return (c == '0' || c == '1');
+}
+
+
+int	is_valid_char(char c)
+{
+	return (is_plane(c) || is_player(c) || is_space(c));
+}
+
+int	is_valid_elem(char *element)
+{
+	int i = 0;
+	if (!element)
+		return (0);
+	while (element[i] && element[i] != '\n')
+	{
+		if (!is_valid_char(element[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+int   full_realloc(t_map2 **map, char *element)
+{
+	if (!is_valid_elem(element))
+		return (0);
+	ft_lstadd_back(&(*map)->rows, lst_new(element));
+	return (1);
 }
 
 
@@ -91,11 +131,6 @@ void	free_strs(char **strs)
 	free(strs);
 }
 
-int	is_valid_char(char c)
-{
-	return (c == '1' || c == '0' || c == 'N'
-		|| c == 'E' || c == 'W' || c == 'S');
-}
 
 int	count_rows(char **map)
 {
@@ -103,16 +138,6 @@ int	count_rows(char **map)
 	while (map && map[i])
 		i++;
 	return (i);
-}
-
-int	is_space(char c)
-{
-	return (c >= 9 && c <= 13);
-}
-
-int	is_digit(char c)
-{
-	return (c >= '0' && c <= '9');
 }
 
 int	ft_atoi(char *str)
@@ -140,54 +165,31 @@ int	ft_atoi(char *str)
 	return (result);
 }
 
+t_color	*get_color(t_color **actual_color, char ***colors, char *color)
+{
+	(*actual_color)->r = ft_atoi((*colors)[1]);
+	(*actual_color)->g = ft_atoi((*colors)[2]);
+	(*actual_color)->b = ft_atoi((*colors)[3]);
+	if ((*actual_color)->r == -1
+		|| (*actual_color)->g == -1
+		|| (*actual_color)->b == -1)
+		return (free((*actual_color)), NULL);
+	return ((*actual_color));
+}
+
 t_color	*split_color(char **color)
 {
 	char 	**colors;
-	char	*trimmed1;
-	char	*trimmed2;
-	char	*trimmed3;
+	int		size;
 	t_color	*actual_col;
 
+	size = count_rows(color);
 	actual_col = (t_color *)malloc(sizeof(t_color));
 	if (!actual_col)
 		return (NULL);
-	if(count_rows(color) == 2)
-	{
-		colors = ft_split(color[1], ",");
-		if (!colors)
-			return (NULL);
-		if (count_rows(colors) != 3)
-			return (free_strs(colors), NULL);
-		actual_col->r = ft_atoi(colors[0]);
-		actual_col->g = ft_atoi(colors[1]);
-		actual_col->b = ft_atoi(colors[2]);
-		if (actual_col->r == -1
-			|| actual_col->g == -1
-			|| actual_col->b == -1)
-			return (free_strs(colors), free(actual_col), NULL);
-	}
-	else if (count_rows(color) == 4)
-	{
-		trimmed1 = ft_strtrim(color[1], ", \t\n\r\v");
-		if (!trimmed1)
-			return (free(actual_col), NULL);
-		trimmed2 = ft_strtrim(color[2], ", \t\n\r\v");
-		if (!trimmed1)
-			return (free(trimmed1), free(actual_col), NULL);
-		trimmed3 = ft_strtrim(color[3], ", \t\n\r\v");
-			return (free(trimmed1), free(trimmed2), free(actual_col), NULL);
-		actual_col->r = ft_atoi(trimmed1);
-		actual_col->g = ft_atoi(trimmed2);
-		actual_col->b = ft_atoi(trimmed3);
-		free(trimmed1);
-		free(trimmed2);
-		free(trimmed3);
-		if (actual_col->r == -1
-			|| actual_col->g == -1
-			|| actual_col->b == -1)
-			return (free_strs(colors), free(actual_col), NULL);
-	}
-	return (free_strs(colors), actual_col);
+	if(size == 4)
+		return (get_color(&actual_col, &color, color[1]));
+	return (actual_col);
 }
 
 int	process_texture(t_textures **textures, char **splitted)
@@ -196,25 +198,25 @@ int	process_texture(t_textures **textures, char **splitted)
 	{
 		if ((*textures)->north)
 			return (0);
-		(*textures)->north = splitted[1];
+		(*textures)->north = ft_strdup(splitted[1]);
 	}
 	else if (!ft_strcmp(splitted[0], "SO"))
 	{
 		if ((*textures)->south)
 			return (0);
-		(*textures)->south = splitted[1];
+		(*textures)->south = ft_strdup(splitted[1]);
 	}
 	else if (!ft_strcmp(splitted[0], "EA"))
 	{
 		if ((*textures)->east)
 			return (0);
-		(*textures)->east = splitted[1];
+		(*textures)->east = ft_strdup(splitted[1]);
 	}
 	else if (!ft_strcmp(splitted[0], "WE"))
 	{
 		if ((*textures)->west)
 			return (0);
-		(*textures)->west = splitted[1];
+		(*textures)->west = ft_strdup(splitted[1]);
 	}
 	else if (!ft_strcmp(splitted[0], "F"))
 	{
@@ -246,46 +248,84 @@ int	is_count_valid(char *identifier, int rows)
 	return (0);
 }
 
+int	count_commas(char *str)
+{
+	int i = 0;
+	int count = 0;
+	while (str[i])
+	{
+		if (str[i] == ',')
+			count++;
+		i++;
+	}
+	return (count);
+}
+int	based_split(char *line, char ***splitted)
+{
+	(*splitted) = ft_split(line, "\t\v\r\n ");
+	if (is_color((*splitted)[0]))
+	{
+		if (count_commas(line) != 2)
+			return (free_strs(*splitted), 0);
+		free_strs(*splitted);
+		*splitted = ft_split(line, "\t\v\r\n ,");
+	}
+	return (1);
+}
 int	parse_texture(char **line, t_textures **textures, int *counter)
 {
 	char	**splitted;
 	int		status;
 
-	splitted = ft_split(*line, "\t\v\r\n ");
-	printf("%s, %s\n", splitted[0], splitted[1]);
+	if (!based_split(*line, &splitted))
+		return (free(*line), 0);
 	if (!is_count_valid(splitted[0], count_rows(splitted)))
-	{
-		free(*line);
-		free_strs(splitted);
-		return (0);
-	}
+		return (free(*line), free_strs(splitted), 0);
 	status = process_texture(textures, splitted);
 	if (status == 1)
 		(*counter)++;
 	return (free(*line), free_strs(splitted), status);
 }
 
-void	fill_map(t_map2 **map, char **line, int *i)
+int	check_row(char *row, int *count)
 {
 	char	*trimmed;
+	int		size;
 
-	trimmed = ft_strtrim(*line, " \n\t\v\r");
+	trimmed = ft_strtrim(row, " \t\n\v\r");
 	if (!trimmed)
-	{
-		free(*line);
-		return ;
-	}
-	// printf("HELLO : %s\n", trimmed);
-	if (trimmed[0] == '1')
-		full_realloc((*map)->map, trimmed, i);
-	else
-		free(trimmed);
-	free(*line);
+		return (1);
+	size = ft_strlen(row);
+	if (trimmed[0] != '1' && trimmed[size - 1] != '1')
+		return (0);
+	// int i = 0;
+	// while (row[i] && is_space(row[i]))
+	// 	i++;
+	// if (row[i] && row[i] != '1')
+	// 	return (0);
+	// // printf("ROW : %s\n", row);
+	// while (row[i])
+	// {
+	// 	if (row[i] && is_player(row[i]))
+	// 		*count++;
+	// 	i++;
+	// }
+	// if (!is_space(row[i - 1]) && row[i - 1] != '1')
+	// 	return (0);
+	return (1);
 }
 
-int	parse_map(char ***map)
+int	parse_map(t_lst *rows)
 {
-	//map_parsing
+	int	count = 0;
+	t_lst	*curr = rows;
+	while (curr)
+	{
+		if (!check_row(curr->row, &count))
+			return (0);
+		curr = curr->next;
+	}
+	return (1);
 }
 int	check_textures(t_textures *textures)
 {
@@ -299,40 +339,47 @@ int	check_textures(t_textures *textures)
 	return (1);
 }
 
-void	free_textures(t_textures *textures)
+void	free_textures(t_textures **textures)
 {
-	if (textures->ceiling)
+	if ((*textures)->ceiling)
 	{
-		textures->ceiling = NULL;
-		free(textures->ceiling);
+		(*textures)->ceiling = NULL;
+		free((*textures)->ceiling);
 	}
-	if (textures->floor)
+	if ((*textures)->floor)
 	{
-		textures->floor = NULL;
-		free(textures->floor);
+		(*textures)->floor = NULL;
+		free((*textures)->floor);
 	}
-	if (textures->north)
+	if ((*textures)->north)
 	{
-		textures->north = NULL;
-		free(textures->north);
+		(*textures)->north = NULL;
+		free((*textures)->north);
 	}
-	if (textures->south)
+	if ((*textures)->south)
 	{
-		textures->south = NULL;
-		free(textures->south);
+		(*textures)->south = NULL;
+		free((*textures)->south);
 	}
-	if (textures->west)
+	if ((*textures)->west)
 	{
-		textures->west = NULL;
-		free(textures->west);
+		(*textures)->west = NULL;
+		free((*textures)->west);
 	}
-	if (textures->east)
+	if ((*textures)->east)
 	{
-		textures->east = NULL;
-		free(textures->east);
+		(*textures)->east = NULL;
+		free((*textures)->east);
 	}
-	textures = NULL;
-	free(textures);
+	(*textures) = NULL;
+	free((*textures));
+}
+
+void	free_map(t_map2 **map)
+{
+	if ((*map)->rows)
+		ft_lstclear(&(*map)->rows);
+	free((*map));
 }
 
 void	init_textures(t_textures **textures)
@@ -347,9 +394,31 @@ void	init_textures(t_textures **textures)
 
 void	init_map(t_map2 **map)
 {
-	(*map)->map = NULL;
+	(*map)->rows = NULL;
 	(*map)->width = -1;
 	(*map)->height = -1;
+}
+
+void	print_textures(t_textures *textures)
+{
+	printf("C => R : %d, G : %d, B : %d\n", textures->ceiling->r, textures->ceiling->g, textures->ceiling->b);
+	printf("F => R : %d, G : %d, B : %d\n", textures->floor->r, textures->floor->g, textures->floor->b);
+	printf("NO => %s\n", textures->north);
+	printf("SO => %s\n", textures->south);
+	printf("EA => %s\n", textures->east);
+	printf("WE => %s\n", textures->west);
+}
+
+void	print_map(t_lst *lst)
+{
+	printf("\n-------------UNPARSED MAP----------\n");
+	t_lst	*current = lst;
+	while (current)
+	{
+		printf("%s", current->row);
+		current = current->next;
+	}
+	printf("\n-------------UNPARSED MAP----------\n");
 }
 int	process_map_and_textures(int fd, t_cub3d *cub3d)
 {
@@ -365,7 +434,7 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 	init_textures(&textures);
 	map = (t_map2 *)malloc(sizeof(t_map2));
 	if (!map)
-		return (free_textures(textures), 0);
+		return (free_textures(&textures), 0);
 	init_map(&map);
 	line = get_next_line(fd);
 	while (line && i < 6)
@@ -373,24 +442,28 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 		if (is_identifier(line) == 1)
 		{
 			if (!parse_texture(&line, &textures, &i))
-				return (free(map), free_textures(textures), 0);
+				return (free_map(&map), free_textures(&textures), 0);
 		}
 		else if (is_identifier(line) == -1)
-			return (free(map), free_textures(textures), 0);
+			return (free_map(&map), free_textures(&textures), 0);
 		else
 			free(line);
 		line = get_next_line(fd);
 	}
 	if (!check_textures(textures))
-		return (free(map) ,free_textures(textures), 0);
-	i = 0;
+		return (free_map(&map) ,free_textures(&textures), 0);
+	print_textures(textures);
 	line = get_next_line(fd);
 	while (line)
 	{
-		fill_map(&map, &line, &i);
+		if (!full_realloc(&map, line))
+			return (free(line), free_textures(&textures), free_map(&map), 0);
+		free(line);
 		line = get_next_line(fd);
 	}
-	// parse_map(&map->map);
+	print_map(map->rows);
+	if (!parse_map(map->rows))
+		return (free_map(&map), free_textures(&textures), 0);
 	cub3d->textures = textures;
 	cub3d->map2 = map;
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/09 14:44:14 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:05:28 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@
 #define S_KEY 115
 #define A_KEY 97
 #define D_KEY 100
+
+typedef struct s_lst
+{
+	char			*row;
+	int				row_len;
+	struct s_lst	*next;
+}	t_lst;
 
 typedef struct	s_color
 {
@@ -96,7 +103,7 @@ typedef struct s_map
 
 typedef struct	s_map2
 {
-	char	**map;
+	t_lst	*rows;
 	int		width;
 	int		height;
 }	t_map2;
@@ -128,6 +135,10 @@ char	**ft_split(char *s, char *set);
 char	*ft_strtrim(char *s, char *set);
 int	ft_strcmp(char *s1, char *s2);
 int get_rgb(int t, int r, int g, int b);
-
+t_lst	*lst_new(char *row);
+void	ft_lstadd_back(t_lst **lst, t_lst *new);
+int	ft_lstsize(t_lst *lst);
+void	ft_lstclear(t_lst **lst);
+char	*ft_strdup(char *str);
 
 #endif
