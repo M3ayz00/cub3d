@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: m3ayz00 <m3ayz00@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/10 19:33:39 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/11 01:12:03 by m3ayz00          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,6 @@ void	ft_lst_remove(t_lst	**lst, t_lst *to_rem);
 int	ft_lstsize(t_lst *lst);
 void	ft_lstclear(t_lst **lst);
 char	*ft_strdup(char *str);
+t_lst	*ft_lstlast(t_lst *lst);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: m3ayz00 <m3ayz00@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/10 20:12:56 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/11 01:13:08 by m3ayz00          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*ft_strdup(char *str)
 
 int	is_player(char c)
 {
-	return (c == 'N' || c == 'W' || c == 'N'
+	return (c == 'N' || c == 'W' || c == 'S'
 		|| c == 'E');
 }
 
@@ -108,7 +108,7 @@ int	is_valid_elem(char *element)
 	}
 	return (1);
 }
-int   full_realloc(t_map2 **map, char *element)
+int   add_map_line(t_map2 **map, char *element)
 {
 	if (!is_valid_elem(element))
 		return (0);
@@ -287,6 +287,17 @@ int	parse_texture(char **line, t_textures **textures, int *counter)
 	return (free(*line), free_strs(splitted), status);
 }
 
+void	is_there_player(char *row, int *count)
+{
+	int i = 0;
+	while (row[i])
+	{
+		if (is_player(row[i]))
+			(*count)++;
+		i++;
+	}
+}
+
 int	check_row(char *row, int *count)
 {
 	char	*trimmed;
@@ -294,25 +305,13 @@ int	check_row(char *row, int *count)
 
 	trimmed = ft_strtrim(row, " \t\n\v\r");
 	if (!trimmed)
-		return (0);
-	size = ft_strlen(row);
-	if (trimmed[0] != '1' && trimmed[size - 1] != '1')
-		return (0);
-	// int i = 0;
-	// while (row[i] && is_space(row[i]))
-	// 	i++;
-	// if (row[i] && row[i] != '1')
-	// 	return (0);
-	// // printf("ROW : %s\n", row);
-	// while (row[i])
-	// {
-	// 	if (row[i] && is_player(row[i]))
-	// 		*count++;
-	// 	i++;
-	// }
-	// if (!is_space(row[i - 1]) && row[i - 1] != '1')
-	// 	return (0);
-	return (1);
+		return (-1);
+	printf("==>%s\n", trimmed);
+	size = ft_strlen(trimmed);
+	is_there_player(trimmed, count);
+	if (trimmed[0] != '1' || trimmed[size - 1] != '1')
+		return (free(trimmed) ,0);
+	return (free(trimmed) ,1);
 }
 
 int	check_empty_row(t_lst **rows, t_lst **curr, int *before)
@@ -321,13 +320,39 @@ int	check_empty_row(t_lst **rows, t_lst **curr, int *before)
 	int		size;
 	t_lst	*sacrifice;
 
-	sacrifice = (*curr);
-	*curr = (*curr)->next;
-	trimmed = ft_strtrim(sacrifice->row, " \t\n\v\r");
-	if (!trimmed)
-		return (printf("HEEEREE\n"),ft_lst_remove(rows, sacrifice), 1);
-	*before = 1;
+	trimmed = NULL;
+	if (!(*before))
+	{
+		sacrifice = (*curr);
+		*curr = (*curr)->next;
+		trimmed = ft_strtrim(sacrifice->row, " \t\n\v\r");
+		if (!trimmed)
+		{
+			*rows = *curr;
+			return (ft_lst_remove(rows, sacrifice), 1);
+		}
+		size = ft_strlen(trimmed);
+		printf("PROOOF1\n%c - %c\n", trimmed[0], trimmed[size - 1]);
+		if (trimmed[0] != '1' || trimmed[size - 1] != '1')
+			return (free(trimmed) ,-1);
+		printf("-->%s\n", trimmed);
+		*before = 1;
+	}
+	if (trimmed)
+		free(trimmed);
 	return (0);
+}
+
+int	is_it_all_ones(char *row)
+{
+	int i = 0;
+	while (row[i])
+	{
+		if (!is_space(row[i]) && row[i] != '1')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int	parse_map(t_lst **rows)
@@ -335,16 +360,29 @@ int	parse_map(t_lst **rows)
 	int		count = 0;
 	int		before = 0;
 	t_lst	*curr = *rows;
+	int		res;
+
+	while (!before && curr)
+	{
+		if (check_empty_row(rows, &curr, &before) == -1)
+			return (0);
+	}
 	while (curr)
 	{
-		while (!before && curr && check_empty_row(rows, &curr, &before))
-			continue ;
-		if (curr && !check_row(curr->row, &count))
+		res = check_row(curr->row, &count);
+		if (res == 0)
 			return (0);
-		printf("HEEELLLOOO\n");
+		else if (res == -1)
+			break ;
 		curr = curr->next;
 	}
-	return (1);
+	curr = *rows;
+	t_lst	*last = ft_lstlast(*rows);
+	if (!is_it_all_ones(curr->row) || !is_it_all_ones(last->row))
+		return (0);
+	if (count == 1)
+		return (1);
+	return (0);
 }
 int	check_textures(t_textures *textures)
 {
@@ -475,7 +513,7 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (!full_realloc(&map, line))
+		if (!add_map_line(&map, line))
 			return (free(line), free_textures(&textures), free_map(&map), 0);
 		free(line);
 		line = get_next_line(fd);
