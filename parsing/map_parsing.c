@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: m3ayz00 <m3ayz00@student.42.fr>            +#+  +:+       +#+        */
+/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/11 01:13:08 by m3ayz00          ###   ########.fr       */
+/*   Updated: 2024/08/11 18:59:38 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	is_identifier(char *line)
 {
 	char	**splitted;
 
-	splitted = ft_split(line, "\n\t\v\r ");
+	splitted = ft_split(line, "\a\b\f\n\t\v\r ");
 	if (!splitted)
 		return (0);
 	if (is_color(splitted[0])
@@ -262,13 +262,13 @@ int	count_commas(char *str)
 }
 int	based_split(char *line, char ***splitted)
 {
-	(*splitted) = ft_split(line, "\t\v\r\n ");
+	(*splitted) = ft_split(line, "\a\b\f\t\v\r\n ");
 	if (is_color((*splitted)[0]))
 	{
 		if (count_commas(line) != 2)
 			return (free_strs(*splitted), 0);
 		free_strs(*splitted);
-		*splitted = ft_split(line, "\t\v\r\n ,");
+		*splitted = ft_split(line, "\a\b\f\t\v\r\n ,");
 	}
 	return (1);
 }
@@ -298,14 +298,31 @@ void	is_there_player(char *row, int *count)
 	}
 }
 
-int	check_row(char *row, int *count)
+int	is_it_all_spaces(char *row)
+{
+	int i = 0;
+
+	while (row[i] && is_space(row[i]))
+		i++;
+	if (!row[i])
+		return (1);
+	return (0);
+}
+
+int	check_row(t_lst **curr, t_lst **rows,int *count)
 {
 	char	*trimmed;
 	int		size;
+	t_lst	*sacrifice;
 
-	trimmed = ft_strtrim(row, " \t\n\v\r");
+	sacrifice = (*curr);
+	*curr = (*curr)->next;
+	trimmed = ft_strtrim(sacrifice->row, " \t\n\v\r\f\a\b");
 	if (!trimmed)
-		return (-1);
+	{
+		*rows = *curr;
+		return (ft_lst_remove(rows, sacrifice), 1);
+	}
 	printf("==>%s\n", trimmed);
 	size = ft_strlen(trimmed);
 	is_there_player(trimmed, count);
@@ -325,14 +342,13 @@ int	check_empty_row(t_lst **rows, t_lst **curr, int *before)
 	{
 		sacrifice = (*curr);
 		*curr = (*curr)->next;
-		trimmed = ft_strtrim(sacrifice->row, " \t\n\v\r");
+		trimmed = ft_strtrim(sacrifice->row, " \t\n\v\r\a\b\f");
 		if (!trimmed)
 		{
 			*rows = *curr;
 			return (ft_lst_remove(rows, sacrifice), 1);
 		}
 		size = ft_strlen(trimmed);
-		printf("PROOOF1\n%c - %c\n", trimmed[0], trimmed[size - 1]);
 		if (trimmed[0] != '1' || trimmed[size - 1] != '1')
 			return (free(trimmed) ,-1);
 		printf("-->%s\n", trimmed);
@@ -346,11 +362,55 @@ int	check_empty_row(t_lst **rows, t_lst **curr, int *before)
 int	is_it_all_ones(char *row)
 {
 	int i = 0;
-	while (row[i])
+	int	ones_count = 0;
+
+	while (row && row[i])
 	{
-		if (!is_space(row[i]) && row[i] != '1')
-			return (0);
+		if (!is_space(row[i]))
+		{
+			if (row[i] == '1')
+				ones_count++;
+			else
+				return (0);
+		}
 		i++;
+	}
+	if (!ones_count)
+		return (0);
+	return (1);
+}
+
+int	is_map_valid(t_lst **rows)
+{
+	t_lst	*curr;
+	t_lst	*checkpoint;
+	curr = *rows;
+	while (curr)
+	{
+		if (!is_it_all_spaces(curr->row))
+			break ;
+		else
+		{
+			ft_lst_remove(rows, curr);
+			curr = *rows;
+		}
+	}
+	while (curr)
+	{
+		if (is_it_all_spaces(curr->row))
+			break ;
+		curr = curr->next;
+	}
+	checkpoint = ft_lst_before(*rows, curr);
+	while (curr)
+	{
+		if (!is_it_all_spaces(curr->row))
+			return (0);
+		else
+		{
+			ft_lst_remove(rows, curr);
+			curr = checkpoint->next;
+		}
 	}
 	return (1);
 }
@@ -360,29 +420,29 @@ int	parse_map(t_lst **rows)
 	int		count = 0;
 	int		before = 0;
 	t_lst	*curr = *rows;
-	int		res;
 
-	while (!before && curr)
-	{
-		if (check_empty_row(rows, &curr, &before) == -1)
-			return (0);
-	}
-	while (curr)
-	{
-		res = check_row(curr->row, &count);
-		if (res == 0)
-			return (0);
-		else if (res == -1)
-			break ;
-		curr = curr->next;
-	}
-	curr = *rows;
-	t_lst	*last = ft_lstlast(*rows);
-	if (!is_it_all_ones(curr->row) || !is_it_all_ones(last->row))
+	if (!is_map_valid(rows))
 		return (0);
-	if (count == 1)
-		return (1);
-	return (0);
+	return (1);
+	// while (!before && curr)
+	// {
+	// 	if (check_empty_row(&rows, &curr, &before) == -1)
+	// 		return (0);
+	// }
+	// curr = rows;
+	// while (curr)
+	// {
+	// 	// printf("CURR->ROW : %s", curr->row);
+	// 	if (!check_row(&rows, &curr, &count))
+	// 		return (0);
+	// }
+	// curr = rows;
+	// t_lst	*last = ft_lstlast(rows);
+	// if (!is_it_all_ones(curr->row) || !is_it_all_ones(last->row))
+	// 	return (0);
+	// if (count == 1)
+	// 	return (1);
+	// return (0);
 }
 int	check_textures(t_textures *textures)
 {
@@ -475,7 +535,7 @@ void	print_map(t_lst *lst)
 		printf("%s", current->row);
 		current = current->next;
 	}
-	printf("\n-------------UNPARSED MAP----------\n");
+	printf("-------------UNPARSED MAP----------\n");
 }
 int	process_map_and_textures(int fd, t_cub3d *cub3d)
 {
@@ -515,12 +575,14 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 	{
 		if (!add_map_line(&map, line))
 			return (free(line), free_textures(&textures), free_map(&map), 0);
+		// printf("OOOF : %s\n", map->rows->row);
 		free(line);
 		line = get_next_line(fd);
 	}
 	print_map(map->rows);
 	if (!parse_map(&map->rows))
 		return (free_map(&map), free_textures(&textures), 0);
+	print_map(map->rows);
 	cub3d->textures = textures;
 	cub3d->map2 = map;
 	return (1);
