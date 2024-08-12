@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/11 17:31:24 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:43:29 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_lst
 	char			*row;
 	int				row_len;
 	struct s_lst	*next;
+	struct s_lst	*prev;
 }	t_lst;
 
 typedef struct	s_color

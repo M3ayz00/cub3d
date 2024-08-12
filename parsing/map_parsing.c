@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/11 18:59:38 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:34:21 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	is_identifier(char *line)
 {
 	char	**splitted;
 
-	splitted = ft_split(line, "\a\b\f\n\t\v\r ");
+	splitted = ft_split(line, "\f\n\t\v\r ");
 	if (!splitted)
 		return (0);
 	if (is_color(splitted[0])
@@ -262,13 +262,13 @@ int	count_commas(char *str)
 }
 int	based_split(char *line, char ***splitted)
 {
-	(*splitted) = ft_split(line, "\a\b\f\t\v\r\n ");
+	(*splitted) = ft_split(line, "\f\t\v\r\n ");
 	if (is_color((*splitted)[0]))
 	{
 		if (count_commas(line) != 2)
 			return (free_strs(*splitted), 0);
 		free_strs(*splitted);
-		*splitted = ft_split(line, "\a\b\f\t\v\r\n ,");
+		*splitted = ft_split(line, "\f\t\v\r\n ,");
 	}
 	return (1);
 }
@@ -285,6 +285,51 @@ int	parse_texture(char **line, t_textures **textures, int *counter)
 	if (status == 1)
 		(*counter)++;
 	return (free(*line), free_strs(splitted), status);
+}
+
+int	is_one_or_player(char c)
+{
+	return (c == '1' || c == '0' || is_player(c));
+}
+
+int	is_valid_zero(t_lst *row, int i)
+{
+	if ((i > 0 && !is_one_or_player(row->row[i - 1]))
+		|| (row->row[i + 1] && !is_one_or_player(row->row[i + 1])))
+		return (0);
+	if (row->prev)
+	{
+		if ((row->prev->row[i] && !is_one_or_player(row->prev->row[i])))
+			return (0);
+	}
+	if (row->next)
+	{
+		if ((row->next->row[i] && !is_one_or_player(row->next->row[i])))
+			return (0);
+	}
+	return (1);
+}
+
+int	check_zeros(t_lst **rows)
+{
+	t_lst	*curr = *rows;
+	int i;
+
+	while (curr)
+	{
+		i = 0;
+		while (curr->row[i])
+		{
+			if (curr->row[i] == '0')
+			{
+				if (!is_valid_zero(curr, i))
+					return (0);
+			}
+			i++;
+		}
+		curr = curr->next;
+	}
+	return (1);
 }
 
 void	is_there_player(char *row, int *count)
@@ -309,55 +354,7 @@ int	is_it_all_spaces(char *row)
 	return (0);
 }
 
-int	check_row(t_lst **curr, t_lst **rows,int *count)
-{
-	char	*trimmed;
-	int		size;
-	t_lst	*sacrifice;
 
-	sacrifice = (*curr);
-	*curr = (*curr)->next;
-	trimmed = ft_strtrim(sacrifice->row, " \t\n\v\r\f\a\b");
-	if (!trimmed)
-	{
-		*rows = *curr;
-		return (ft_lst_remove(rows, sacrifice), 1);
-	}
-	printf("==>%s\n", trimmed);
-	size = ft_strlen(trimmed);
-	is_there_player(trimmed, count);
-	if (trimmed[0] != '1' || trimmed[size - 1] != '1')
-		return (free(trimmed) ,0);
-	return (free(trimmed) ,1);
-}
-
-int	check_empty_row(t_lst **rows, t_lst **curr, int *before)
-{
-	char	*trimmed;
-	int		size;
-	t_lst	*sacrifice;
-
-	trimmed = NULL;
-	if (!(*before))
-	{
-		sacrifice = (*curr);
-		*curr = (*curr)->next;
-		trimmed = ft_strtrim(sacrifice->row, " \t\n\v\r\a\b\f");
-		if (!trimmed)
-		{
-			*rows = *curr;
-			return (ft_lst_remove(rows, sacrifice), 1);
-		}
-		size = ft_strlen(trimmed);
-		if (trimmed[0] != '1' || trimmed[size - 1] != '1')
-			return (free(trimmed) ,-1);
-		printf("-->%s\n", trimmed);
-		*before = 1;
-	}
-	if (trimmed)
-		free(trimmed);
-	return (0);
-}
 
 int	is_it_all_ones(char *row)
 {
@@ -380,6 +377,25 @@ int	is_it_all_ones(char *row)
 	return (1);
 }
 
+int	check_first_last_rows(t_lst *rows)
+{
+	if (!is_it_all_ones(rows->row)
+		|| !is_it_all_ones(ft_lstlast(rows)->row))
+		return (0);
+	return (1);
+}
+
+int	check_sides(char *row)
+{
+	char *trimmed = ft_strtrim(row, "\n\t\f\r\v ");
+	if (!trimmed)
+		return (0);
+	int size = ft_strlen(trimmed);
+	if (trimmed[0] != '1' || trimmed[size - 1] != '1')
+		return (free(trimmed), 0);
+	return (free(trimmed), 1);
+}
+
 int	is_map_valid(t_lst **rows)
 {
 	t_lst	*curr;
@@ -397,7 +413,7 @@ int	is_map_valid(t_lst **rows)
 	}
 	while (curr)
 	{
-		if (is_it_all_spaces(curr->row))
+		if (!check_sides(curr->row) || is_it_all_spaces(curr->row))
 			break ;
 		curr = curr->next;
 	}
@@ -415,6 +431,74 @@ int	is_map_valid(t_lst **rows)
 	return (1);
 }
 
+int	is_space2(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\f'
+		|| c == '\r' || c == '\v');
+}
+
+int	check_row(char *row, int prev_len, int next_len)
+{
+	int	curr_len = ft_strlen(row);
+	int i = 0;
+	while (row[i] && is_space(row[i]))
+		i++;
+	while (row[i])
+	{
+		if (curr_len > prev_len - 2 && i > prev_len - 2)
+		{
+			if (!is_space(row[i]))
+			{
+				if (row[i] != '1')
+				{
+					printf("PREV\n");
+					printf("ROW[%d] : %c\n", i, row[i]);
+					return (0);
+				}
+			}
+		}
+		if (curr_len > next_len - 2 && i > next_len - 2)
+		{
+			if (!is_space(row[i]))
+			{
+				if (row[i] != '1')
+				{
+					printf("NEXT\n");
+					printf("ROW[%d] : %c\n", i, row[i]);
+					return (0);
+				}
+			}
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	check_each_row(t_lst **rows)
+{
+	t_lst	*curr = (*rows)->next;
+	int		prev_len;
+	int		next_len;
+	int		count = 0;
+
+	while (curr->next)
+	{
+		prev_len = 0;
+		next_len = 0;
+		is_there_player(curr->row, &count);
+		if (curr->next)
+			next_len = ft_strlen(curr->next->row);
+		if (curr->prev)
+			prev_len = ft_strlen(curr->prev->row);
+		if (!check_row(curr->row, prev_len, next_len))
+			return (0);
+		curr = curr->next;
+	}
+	if (count != 1)
+		return (0);
+	return (1);
+}
+
 int	parse_map(t_lst **rows)
 {
 	int		count = 0;
@@ -423,26 +507,14 @@ int	parse_map(t_lst **rows)
 
 	if (!is_map_valid(rows))
 		return (0);
+	if (!check_first_last_rows(*rows))
+		return (0);
+	if (!check_each_row(rows))
+		return (0);
+	if (!check_zeros(rows))
+		return (0);
 	return (1);
-	// while (!before && curr)
-	// {
-	// 	if (check_empty_row(&rows, &curr, &before) == -1)
-	// 		return (0);
-	// }
-	// curr = rows;
-	// while (curr)
-	// {
-	// 	// printf("CURR->ROW : %s", curr->row);
-	// 	if (!check_row(&rows, &curr, &count))
-	// 		return (0);
-	// }
-	// curr = rows;
-	// t_lst	*last = ft_lstlast(rows);
-	// if (!is_it_all_ones(curr->row) || !is_it_all_ones(last->row))
-	// 	return (0);
-	// if (count == 1)
-	// 	return (1);
-	// return (0);
+
 }
 int	check_textures(t_textures *textures)
 {
