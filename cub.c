@@ -68,74 +68,76 @@ void draw_player(t_image *image, int xc, int yc, int radius, int color)
     }
 }
 
-void cast_ray(t_cub3d *data, double ray_angle)
+void dda(t_cub3d *data)
 {
-    int mapX, mapY;
-    double sideDistX, sideDistY;
-    double deltaDistX, deltaDistY;
-    double perpDistWall;
-    int stepX, stepY;
     int hit = 0;
-    int side;
-
-    mapX = (int)data->player->posX;
-    mapY = (int)data->player->posY;
-
-    double rayDirX = cos(ray_angle);
-    double rayDirY = sin(ray_angle);
-
-    deltaDistX = fabs(1 / rayDirX);
-    deltaDistY = fabs(1 / rayDirY);
-
-    if (rayDirX < 0)
-    {
-        stepX = -1;
-        sideDistX = (data->player->posX - mapX) * deltaDistX;
-    }
-    else
-    {
-        stepX = 1;
-        sideDistX = (mapX + 1.0 - data->player->posX) * deltaDistX;
-    }
-    if (rayDirY < 0)
-    {
-        stepY = -1;
-        sideDistY = (data->player->posY - mapY) * deltaDistY;
-    }
-    else
-    {
-        stepY = 1;
-        sideDistY = (mapY + 1.0 - data->player->posY) * deltaDistY;
-    }
-
     while (hit == 0)
     {
-        if (sideDistX < sideDistY)
+        if (data->ray->sideDistX < data->ray->sideDistY)
         {
-            sideDistX += deltaDistX;
-            mapX += stepX;
-            side = 0;
+            data->ray->sideDistX += data->ray->deltaDistX;
+            data->map2->mapX += data->ray->stepX;
+            data->ray->side = 0;
         }
         else
         {
-            sideDistY += deltaDistY;
-            mapY += stepY;
-            side = 1;
+            data->ray->sideDistY += data->ray->deltaDistY;
+            data->map2->mapY += data->ray->stepY;
+            data->ray->side = 1;
         }
 
-        if (data->map2->map[mapY][mapX] == '1')
+        if (data->map2->map[data->map2->mapY][data->map2->mapX] == '1')
             hit = 1;
     }
-
-    if (side == 0)
-        perpDistWall = (sideDistX - deltaDistX);
+    if (data->ray->side == 0)
+        data->ray->hit_distance = (data->ray->sideDistX - data->ray->deltaDistX);
     else
-        perpDistWall = (sideDistY - deltaDistY);
+        data->ray->hit_distance = (data->ray->sideDistY - data->ray->deltaDistY);
+}
 
-    data->ray->hitX = data->player->posX + perpDistWall * rayDirX;
-    data->ray->hitY = data->player->posY + perpDistWall * rayDirY;
-    data->ray->hit_distance = perpDistWall;
-    data->ray->is_vertical = (side == 0);
+void get_delta_distance(t_cub3d *data, double rayDirX, double rayDirY)
+{
+    data->ray->deltaDistX = fabs(1 / rayDirX);
+    data->ray->deltaDistY = fabs(1 / rayDirY);
+
+    if (rayDirX < 0)
+    {
+        data->ray->stepX = -1;
+        data->ray->sideDistX = (data->player->posX - data->map2->mapX) * data->ray->deltaDistX;
+    }
+    else
+    {
+        data->ray->stepX = 1;
+        data->ray->sideDistX = (data->map2->mapX + 1.0 - data->player->posX) * data->ray->deltaDistX;
+    }
+    if (rayDirY < 0)
+    {
+        data->ray->stepY = -1;
+        data->ray->sideDistY = (data->player->posY - data->map2->mapY) * data->ray->deltaDistY;
+    }
+    else
+    {
+        data->ray->stepY = 1;
+        data->ray->sideDistY = (data->map2->mapY + 1.0 - data->player->posY) * data->ray->deltaDistY;
+    }
+}
+
+void cast_ray(t_cub3d *data, double ray_angle)
+{
+    double perpDistWall;
+    data->map2->mapX = (int)data->player->posX;
+    data->map2->mapY = (int)data->player->posY;
+
+    double rayDirX = cos(ray_angle);
+    double rayDirY = sin(ray_angle);
+    // get delta distance
+    get_delta_distance(data, rayDirX, rayDirY);
+    dda(data);
+
+    // data->ray->hitX = data->player->posX + perpDistWall * rayDirX;
+    // data->ray->hitY = data->player->posY + perpDistWall * rayDirY;
+    // data->ray->hit_distance = perpDistWall;
+    data->ray->is_vertical = (data->ray->side == 0);
 }
 
 int calc_height(double distance, int screen_height)
@@ -277,15 +279,15 @@ int key_press(int key, t_cub3d *data)
     //     newPosY >= margin && newPosY <= 10 - margin )
     // {
     //     printf("newPosX: %d, newPosY: %d\n", (int)floor(newPosX), (int)floor(newPosY));
-        // Check for collisions with walls, considering the margin
-        if (data->map2->map[(int)floor(newPosY - margin)][(int)floor(newPosX - margin)] != '1' &&
-            data->map2->map[(int)floor(newPosY - margin)][(int)floor(newPosX + margin)] != '1' &&
-            data->map2->map[(int)floor(newPosY + margin)][(int)floor(newPosX - margin)] != '1')
-        {
-            data->player->posX = newPosX;
-            data->player->posY = newPosY;
-            render(data);
-        }
+    // Check for collisions with walls, considering the margin
+    if (data->map2->map[(int)floor(newPosY - margin)][(int)floor(newPosX - margin)] != '1' &&
+        data->map2->map[(int)floor(newPosY - margin)][(int)floor(newPosX + margin)] != '1' &&
+        data->map2->map[(int)floor(newPosY + margin)][(int)floor(newPosX - margin)] != '1')
+    {
+        data->player->posX = newPosX;
+        data->player->posY = newPosY;
+        render(data);
+    }
     // }
     return (0);
 }

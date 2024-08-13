@@ -36,41 +36,45 @@
 #define LEFT_KEY 65361
 #define RIGHT_KEY 65363
 
-typedef struct	s_color
+typedef struct s_color
 {
-	int	t;
-	int	r;
-	int	g;
-	int	b;
-}	t_color;
+    int t;
+    int r;
+    int g;
+    int b;
+} t_color;
 
 typedef struct s_lst
 {
-	char			*row;
-	int				row_len;
-	struct s_lst	*next;
-	struct s_lst	*prev;
-}	t_lst;
+    char *row;
+    int row_len;
+    struct s_lst *next;
+    struct s_lst *prev;
+} t_lst;
 
 typedef struct s_textures
 {
-	t_color	*floor;
-	t_color	*ceiling;
-	char	*north;
-	char	*south;
-	char	*east;
-	char	*west;
-}	t_textures;
-
+    t_color *floor;
+    t_color *ceiling;
+    char *north;
+    char *south;
+    char *east;
+    char *west;
+} t_textures;
 
 typedef struct s_ray
 {
     double angle;
     double hitX;
     double hitY;
+    double deltaDistX;
+    double deltaDistY;
+    double sideDistX;
+    double sideDistY;
     double rayDirX;
     double rayDirY;
-    int texture_id;
+    int stepX;
+    int stepY;
     int side;
     int is_vertical;
     double hit_distance;
@@ -85,14 +89,15 @@ typedef struct s_player
     double angle;
 } t_player;
 
-
-typedef struct	s_map2
+typedef struct s_map2
 {
-	t_lst	*rows;
+    t_lst *rows;
     char **map;
-	int		width;
-	int		height;
-}	t_map2;
+    int width;
+    int height;
+    int mapX;
+    int mapY;
+} t_map2;
 
 typedef struct s_image
 {
@@ -101,33 +106,33 @@ typedef struct s_image
     int bits_per_pixel;
     int line_length;
     int endian;
-}	t_image;
+} t_image;
 
 typedef struct s_cub3d
 {
-    void 		*mlx;
-    void 		*win;
-    t_image 	*image;
-    t_ray 		*ray;
-    t_player 	*player;
-	t_map2		*map2;
-	t_textures	*textures;
-}	t_cub3d;
+    void *mlx;
+    void *win;
+    t_image *image;
+    t_ray *ray;
+    t_player *player;
+    t_map2 *map2;
+    t_textures *textures;
+} t_cub3d;
 
-int	open_file(char *path);
-void	free_strs(char **strs);
-char	**ft_split(char *s, char *set);
-char	*ft_strtrim(char *s, char *set);
-int	ft_strcmp(char *s1, char *s2);
+int open_file(char *path);
+void free_strs(char **strs);
+char **ft_split(char *s, char *set);
+char *ft_strtrim(char *s, char *set);
+int ft_strcmp(char *s1, char *s2);
 int get_rgb(int t, int r, int g, int b);
-t_lst	*lst_new(char *row);
-void	ft_lstadd_back(t_lst **lst, t_lst *new);
-t_lst	*ft_lst_before(t_lst *lst, t_lst *curr);
-void	ft_lst_remove(t_lst	**lst, t_lst *to_rem);
-int	ft_lstsize(t_lst *lst);
-void	ft_lstclear(t_lst **lst);
-char	*ft_strdup(char *str);
-t_lst	*ft_lstlast(t_lst *lst);
-int	parse_data(t_cub3d *cub3d ,char *path);
+t_lst *lst_new(char *row);
+void ft_lstadd_back(t_lst **lst, t_lst *new);
+t_lst *ft_lst_before(t_lst *lst, t_lst *curr);
+void ft_lst_remove(t_lst **lst, t_lst *to_rem);
+int ft_lstsize(t_lst *lst);
+void ft_lstclear(t_lst **lst);
+char *ft_strdup(char *str);
+t_lst *ft_lstlast(t_lst *lst);
+int parse_data(t_cub3d *cub3d, char *path);
 
 #endif
