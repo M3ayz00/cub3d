@@ -6,7 +6,11 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:16:50 by msaadidi          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/08/07 17:20:36 by msaadidi         ###   ########.fr       */
+=======
+/*   Updated: 2024/08/09 13:35:23 by msaadidi         ###   ########.fr       */
+>>>>>>> e102c643e502dcf3e98090669cb46aeb0f602c7e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +20,10 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdint.h>
+<<<<<<< HEAD
+=======
+# include "../../cub3d.h"
+>>>>>>> e102c643e502dcf3e98090669cb46aeb0f602c7e
 
 #ifndef	BUFFER_SIZE
 # define BUFFER_SIZE 1000

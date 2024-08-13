@@ -12,7 +12,12 @@ int map[10][10] = {
     {1, 0, 0, 0, 0, 0, 0, 0, 2, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 };
+<<<<<<< HEAD
 void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
+=======
+
+void draw_line(t_cub3d *data, int x0, int y0, int x1, int y1, int color)
+>>>>>>> e102c643e502dcf3e98090669cb46aeb0f602c7e
 {
     int dx = abs(x1 - x0);
     int dy = abs(y1 - y0);
@@ -40,14 +45,14 @@ void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
     }
 }
 
-void draw_direction_line(t_data *data, int x, int y, double angle, int length, int color)
+void draw_direction_line(t_cub3d *data, int x, int y, double angle, int length, int color)
 {
     int end_x = x + cos(angle) * length;
     int end_y = y + sin(angle) * length;
     draw_line(data, x, y, end_x, end_y, color);
 }
 
-void draw_horizontal_line(t_data *data, int x_start, int x_end, int y, int color)
+void draw_horizontal_line(t_cub3d *data, int x_start, int x_end, int y, int color)
 {
     for (int x = x_start; x <= x_end; x++)
     {
@@ -55,7 +60,7 @@ void draw_horizontal_line(t_data *data, int x_start, int x_end, int y, int color
     }
 }
 
-void draw_player(t_data *data, int xc, int yc, int radius, int color)
+void draw_player(t_cub3d *data, int xc, int yc, int radius, int color)
 {
     int x = 0;
     int y = radius;
@@ -82,7 +87,7 @@ void draw_player(t_data *data, int xc, int yc, int radius, int color)
     }
 }
 
-void draw_cub(t_data *data, int x, int y, int size_h, int size_w, int color)
+void draw_cub(t_cub3d *data, int x, int y, int size_h, int size_w, int color)
 {
     for (int i = 0; i < size_h; i++)
     {
@@ -93,7 +98,7 @@ void draw_cub(t_data *data, int x, int y, int size_h, int size_w, int color)
     }
 }
 
-void cast_ray(t_data *data, double ray_angle)
+void cast_ray(t_cub3d *data, double ray_angle)
 {
    int mapX, mapY;
     double sideDistX, sideDistY;
@@ -163,7 +168,7 @@ void cast_ray(t_data *data, double ray_angle)
     data->ray->is_vertical = (side == 0);
 }
 
-void cast_all_rays(t_data *data)
+void cast_all_rays(t_cub3d *data)
 {
     int num_rays = WIDTH / 10;
 
@@ -171,6 +176,10 @@ void cast_all_rays(t_data *data)
 
     for (int i = 0; i < num_rays; i++)
     {
+<<<<<<< HEAD
+=======
+
+>>>>>>> e102c643e502dcf3e98090669cb46aeb0f602c7e
         double ray_angle = data->player->angle - (FOV / 2) + (i * angle_step);
         cast_ray(data, ray_angle);
 
@@ -181,8 +190,12 @@ void cast_all_rays(t_data *data)
         draw_line(data,player_x,player_y,ray_x,ray_y, 0xff0fff);
     }
 }
+<<<<<<< HEAD
 
 void render(t_data *data)
+=======
+void render(t_cub3d *data)
+>>>>>>> e102c643e502dcf3e98090669cb46aeb0f602c7e
 {
     int i = 0;
     int cub_size_width = 32;
@@ -206,7 +219,7 @@ void render(t_data *data)
     cast_all_rays(data);
 }
 
-void get_player_pos(t_data *data)
+void get_player_pos(t_cub3d *data)
 {
     for (int i = 0; i < 10; i++)
     {
@@ -222,7 +235,7 @@ void get_player_pos(t_data *data)
     }
 }
 
-int key_press(int key, t_data *data)
+int key_press(int key, t_cub3d *data)
 {
     double newPosX = data->player->posX;
     double newPosY = data->player->posY;
@@ -257,9 +270,9 @@ int key_press(int key, t_data *data)
 
 int main()
 {
-    t_data *data;
+    t_cub3d *data;
 
-    data = malloc(sizeof(t_data));
+    data = malloc(sizeof(t_cub3d));
     data->player = malloc(sizeof(t_player));
     data->map = malloc(sizeof(t_map));
     data->image = malloc(sizeof(t_image));

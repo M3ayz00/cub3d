@@ -297,7 +297,7 @@ int main()
     data.mlx = mlx_init();
     data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "cub3d");
     data.image->img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
-    data.image->addr = mlx_get_data_addr(data.image->img, &data.image->bits_per_pixel, &data.image->line_length, &data.image->endian);
+    data.image->addr = mlx_get_cub3d_addr(data.image->img, &data.image->bits_per_pixel, &data.image->line_length, &data.image->endian);
     get_player_pos(&data);
     data.tex_width = 64;
     data.tex_height = 64;
