@@ -32,6 +32,8 @@
 #define S_KEY 115
 #define A_KEY 97
 #define D_KEY 100
+#define LEFT_KEY 65361
+#define RIGHT_KEY 65363
 
 typedef struct	s_color
 {
@@ -103,7 +105,7 @@ typedef struct s_data
     int tex_width;
     int tex_height;
     t_player *player;
-	t_map2	*map;
+	// t_map2	*map;
 	t_flr_cln	floor_ceil;
 } t_data;
 
