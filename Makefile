@@ -1,16 +1,17 @@
 NAME = cub3d
-SRCS = minimap.c
+SRCS = cub.c
 INCLUDES = -I/usr/include -Imlx
 MLX_FLAGS = -L./minilibx-linux -lmlx -lX11 -lXext -lm
 CFLAGS= -g3 -fsanitize=address #-Wall -Werror -Wextra 
 OBJS = $(SRCS:.c=.o)
 GREEN = \033[0;32m
+RESET = \033[0m
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 		cc  $(CFLAGS) -o $(NAME) $(OBJS) $(MLX_FLAGS)
-		@echo "$(GREEN)Ready to play 🕹️ ✅"
+		@echo "$(GREEN)Ready to play 🕹️ ✅ $(RESET)"
  
 .c.o:
 		cc $(CFLAGS) -c -o $@ $< $(INCLUDES)

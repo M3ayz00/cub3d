@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void my_mlx_pixel_put(t_cub3d *data, int x, int y, int color)
 {
     char *dst;
 
@@ -13,14 +13,14 @@ int get_rgb(int t, int r, int g, int b)
     return (t << 24 | r << 16 | g << 8 | b);
 }
 
-void calculate_ray_direction(t_data *data, int x, t_ray *ray)
+void calculate_ray_direction(t_cub3d *data, int x, t_ray *ray)
 {
     double cameraX = 2 * x / (double)WIDTH - 1;
     ray->rayDirX = data->player->dirX + data->player->planeX * cameraX;
     ray->rayDirY = data->player->dirY + data->player->planeY * cameraX;
 }
 
-void initialize_step_and_sideDist(t_data *data, t_ray *ray)
+void initialize_step_and_sideDist(t_cub3d *data, t_ray *ray)
 {
     ray->mapX = (int)data->player->posX;
     ray->mapY = (int)data->player->posY;
@@ -34,7 +34,7 @@ void initialize_step_and_sideDist(t_data *data, t_ray *ray)
     ray->stepY = (ray->rayDirY < 0) ? -1 : 1;
 }
 
-void perform_dda(t_data *data, t_ray *ray)
+void perform_dda(t_cub3d *data, t_ray *ray)
 {
     while (ray->hit == 0)
     {
@@ -55,7 +55,7 @@ void perform_dda(t_data *data, t_ray *ray)
     }
 }
 
-void calculate_wall_distance(t_data *data, t_ray *ray, double *perpWallDist)
+void calculate_wall_distance(t_cub3d *data, t_ray *ray, double *perpWallDist)
 {
     if (ray->side == 0)
         *perpWallDist = (ray->mapX - data->player->posX + (1 - ray->stepX) / 2) / ray->rayDirX;
@@ -63,13 +63,13 @@ void calculate_wall_distance(t_data *data, t_ray *ray, double *perpWallDist)
         *perpWallDist = (ray->mapY - data->player->posY + (1 - ray->stepY) / 2) / ray->rayDirY;
 }
 
-void draw_vertical_stripe(t_data *data, int x, int drawStart, int drawEnd, int color)
+void draw_vertical_stripe(t_cub3d *data, int x, int drawStart, int drawEnd, int color)
 {
     for (int y = drawStart; y < drawEnd; y++)
         my_mlx_pixel_put(data, x, y, color);
 }
 
-int draw(t_data *data)
+int draw(t_cub3d *data)
 {
     t_ray ray;
     for (int x = 0; x < WIDTH; x++)
@@ -106,7 +106,7 @@ int draw(t_data *data)
     return (0);
 }
 
-int key_press(int keycode, t_data *data)
+int key_press(int keycode, t_cub3d *data)
 {
     if (keycode == 65307) // Escape key
         exit(0);
@@ -150,7 +150,7 @@ int key_press(int keycode, t_data *data)
     if (data->image->img)
         mlx_destroy_image(data->mlx, data->image->img);
     data->image->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-    data->image->addr = mlx_get_data_addr(data->image->img, &data->image->bits_per_pixel, &data->image->line_length, &data->image->endian);
+    data->image->addr = mlx_get_cub3d_addr(data->image->img, &data->image->bits_per_pixel, &data->image->line_length, &data->image->endian);
     draw(data);
     mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
     return (0);
@@ -158,7 +158,7 @@ int key_press(int keycode, t_data *data)
 
 int main(void)
 {
-    t_data data;
+    t_cub3d data;
     t_image image;
     t_map map;
     t_player player;
@@ -169,7 +169,7 @@ int main(void)
     // Create an image
     data.image = &image;
     data.image->img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
-    data.image->addr = mlx_get_data_addr(data.image->img, &data.image->bits_per_pixel, &data.image->line_length, &data.image->endian);
+    data.image->addr = mlx_get_cub3d_addr(data.image->img, &data.image->bits_per_pixel, &data.image->line_length, &data.image->endian);
 
     // Initialize map
     data.map = &map;

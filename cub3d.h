@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/07 17:53:29 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:43:29 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "parsing/gnl/get_next_line.h"
 #include <stdio.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -32,6 +33,8 @@
 #define S_KEY 115
 #define A_KEY 97
 #define D_KEY 100
+#define LEFT_KEY 65361
+#define RIGHT_KEY 65363
 
 typedef struct	s_color
 {
@@ -40,6 +43,33 @@ typedef struct	s_color
 	int	b;
 	int	t;
 }	t_color;
+
+typedef struct s_lst
+{
+	char			*row;
+	int				row_len;
+	struct s_lst	*next;
+	struct s_lst	*prev;
+}	t_lst;
+
+typedef struct	s_color
+{
+	int	r;
+	int	g;
+	int	b;
+	int	t;
+}	t_color;
+
+typedef struct s_textures
+{
+	t_color	*floor;
+	t_color	*ceiling;
+	char	*north;
+	char	*south;
+	char	*east;
+	char	*west;
+}	t_textures;
+
 
 typedef struct s_ray
 {
@@ -70,17 +100,11 @@ typedef struct s_map
     int map[10][10];
 } t_map;
 
-typedef struct s_flr_cln
-{
-	t_color	floor;
-	t_color ceiling;
-}	t_flr_cln;
-
 typedef struct	s_map2
 {
-	char	**map;
-
-
+	t_lst	*rows;
+	int		width;
+	int		height;
 }	t_map2;
 
 typedef struct s_image
@@ -90,21 +114,33 @@ typedef struct s_image
     int bits_per_pixel;
     int line_length;
     int endian;
-} t_image;
+}	t_image;
 
-typedef struct s_data
+typedef struct s_cub3d
 {
-    void *mlx;
-    void *win;
-    t_image *image;
-    t_map *map;
-    t_ray *ray;
-    void *textures[10];
-    int tex_width;
-    int tex_height;
-    t_player *player;
-	t_map2	*map;
-	t_flr_cln	floor_ceil;
-} t_data;
+    void 		*mlx;
+    void 		*win;
+    t_image 	*image;
+    t_map 		*map;//to_rem
+    t_ray 		*ray;
+    t_player 	*player;
+	t_map2		*map2;
+	t_textures	*textures;
+}	t_cub3d;
+
+int	open_file(char *path);
+void	free_strs(char **strs);
+char	**ft_split(char *s, char *set);
+char	*ft_strtrim(char *s, char *set);
+int	ft_strcmp(char *s1, char *s2);
+int get_rgb(int t, int r, int g, int b);
+t_lst	*lst_new(char *row);
+void	ft_lstadd_back(t_lst **lst, t_lst *new);
+t_lst	*ft_lst_before(t_lst *lst, t_lst *curr);
+void	ft_lst_remove(t_lst	**lst, t_lst *to_rem);
+int	ft_lstsize(t_lst *lst);
+void	ft_lstclear(t_lst **lst);
+char	*ft_strdup(char *str);
+t_lst	*ft_lstlast(t_lst *lst);
 
 #endif

@@ -233,7 +233,7 @@ int key_press(int key, t_data *data)
     double rot_speed = 0.09;
     double newPosX = data->player->posX;
     double newPosY = data->player->posY;
-    double margin = 0.1; // Margin value
+    double margin = 0.05; // Margin value
 
     if (key == W_KEY)
     {
@@ -246,17 +246,28 @@ int key_press(int key, t_data *data)
         newPosY -= sin(data->player->angle) * move_speed;
     }
 
-    else if (key == A_KEY)
+    else if (key == A_KEY) // Move left (strafe left)
+    {
+        newPosX += sin(data->player->angle) * move_speed;
+        newPosY -= cos(data->player->angle) * move_speed;
+    }
+    else if (key == D_KEY) // Move right (strafe right)
+    {
+        newPosX -= sin(data->player->angle) * move_speed;
+        newPosY += cos(data->player->angle) * move_speed;
+    }
+    else if (key == LEFT_KEY)
     {
         data->player->angle -= rot_speed;
     }
-    else if (key == D_KEY)
+    else if (key == RIGHT_KEY)
     {
         data->player->angle += rot_speed;
     }
-    if (newPosX >= margin && newPosX <= 10 - margin &&
-        newPosY >= margin && newPosY <= 10 - margin)
+    if (newPosX >= margin && newPosX <= 10 &&
+        newPosY >= margin && newPosY <= 10)
     {
+        printf("newPosX: %d, newPosY: %d\n", (int)floor(newPosX), (int)floor(newPosY));
         // Check for collisions with walls, considering the margin
         if (map[(int)floor(newPosY - margin)][(int)floor(newPosX - margin)] != 1 &&
             map[(int)floor(newPosY + margin)][(int)floor(newPosX + margin)] != 1 &&
@@ -286,7 +297,7 @@ int main()
     data.mlx = mlx_init();
     data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "cub3d");
     data.image->img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
-    data.image->addr = mlx_get_data_addr(data.image->img, &data.image->bits_per_pixel, &data.image->line_length, &data.image->endian);
+    data.image->addr = mlx_get_cub3d_addr(data.image->img, &data.image->bits_per_pixel, &data.image->line_length, &data.image->endian);
     get_player_pos(&data);
     data.tex_width = 64;
     data.tex_height = 64;
