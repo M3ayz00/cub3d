@@ -2,7 +2,7 @@ NAME = cub3d
 SRCS = cub.c
 INCLUDES = -I/usr/include -Imlx
 MLX_FLAGS = -L./minilibx-linux -lmlx -lX11 -lXext -lm
-CFLAGS= -g3 -fsanitize=address#-Wall -Werror -Wextra 
+CFLAGS= -g3 -fsanitize=address #-Wall -Werror -Wextra 
 OBJS = $(SRCS:.c=.o)
 GREEN = \033[0;32m
 

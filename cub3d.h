@@ -7,14 +7,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <sys/time.h>
 
 #define FOV (M_PI / 3) // Field of View (60 degrees)
 
 #define WIDTH 1080
 #define HEIGHT 720
-#define NUM_ROWS 6
-#define NUM_COLS 10
-#define TILE_SIZE 64
+#define TILE_SIZE 32
 
 #define W_KEY 119
 #define S_KEY 115
@@ -28,17 +27,8 @@ typedef struct s_ray
     double hitY;
     double rayDirX;
     double rayDirY;
-    int mapX;
-    int mapY;
-    double deltaDistX;
-    double deltaDistY;
-    double sideDistX;
-    double sideDistY;
+    int texture_id;
     int side;
-    int hit;
-    int stepX;
-    int stepY;
-
     int is_vertical;
     double hit_distance;
 } t_ray;
@@ -49,8 +39,6 @@ typedef struct s_player
     double posY;
     double dirX;
     double dirY;
-    double planeX;
-    double planeY;
     double angle;
 } t_player;
 
@@ -77,6 +65,9 @@ typedef struct s_data
     t_image *image;
     t_map *map;
     t_ray *ray;
+    void *textures[10];
+    int tex_width;
+    int tex_height;
     t_player *player;
 } t_data;
 

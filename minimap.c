@@ -3,16 +3,15 @@
 int map[10][10] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 1, 1, 1, 1, 0, 0, 1},
+    {1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
     {1, 0, 0, 0, 1, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 2, 0, 1, 0, 0, 1},
+    {1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
     {1, 0, 0, 0, 1, 0, 1, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+    {1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 2, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 };
-
 void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
 {
     int dx = abs(x1 - x0);
@@ -96,27 +95,23 @@ void draw_cub(t_data *data, int x, int y, int size_h, int size_w, int color)
 
 void cast_ray(t_data *data, double ray_angle)
 {
-    int mapX, mapY;
+   int mapX, mapY;
     double sideDistX, sideDistY;
     double deltaDistX, deltaDistY;
-    double perpWallDist;
+    double perpDistWall;
     int stepX, stepY;
     int hit = 0;
-    int side; // 0 for vertical, 1 for horizontal
+    int side;
 
-    // Initial position in the map
     mapX = (int)data->player->posX;
     mapY = (int)data->player->posY;
 
-    // Calculate ray direction and deltas
     double rayDirX = cos(ray_angle);
     double rayDirY = sin(ray_angle);
 
-    // Calculate delta distances
     deltaDistX = fabs(1 / rayDirX);
     deltaDistY = fabs(1 / rayDirY);
 
-    // Calculate step and initial side distances
     if (rayDirX < 0)
     {
         stepX = -1;
@@ -138,10 +133,8 @@ void cast_ray(t_data *data, double ray_angle)
         sideDistY = (mapY + 1.0 - data->player->posY) * deltaDistY;
     }
 
-    // Perform DDA
     while (hit == 0)
     {
-        // Jump to next map square in X or Y direction
         if (sideDistX < sideDistY)
         {
             sideDistX += deltaDistX;
@@ -155,49 +148,45 @@ void cast_ray(t_data *data, double ray_angle)
             side = 1;
         }
 
-        // Check if ray has hit a wall
-        if (map[mapY][mapX] == 1)
+        if (map[mapY][mapX] > 0)
             hit = 1;
     }
 
-    // Calculate distance to the point of impact
-  if (side == 0)
-        perpWallDist = (sideDistX - deltaDistX);
+    if (side == 0)
+        perpDistWall = (sideDistX - deltaDistX);
     else
-        perpWallDist = (sideDistY - deltaDistY);
+        perpDistWall = (sideDistY - deltaDistY);
 
-    // Store the results in the ray structure
-    data->ray->hitX = data->player->posX + perpWallDist * rayDirX;
-    data->ray->hitY = data->player->posY + perpWallDist * rayDirY;
-    data->ray->hit_distance = perpWallDist;
+    data->ray->hitX = data->player->posX + perpDistWall * rayDirX;
+    data->ray->hitY = data->player->posY + perpDistWall * rayDirY;
+    data->ray->hit_distance = perpDistWall;
     data->ray->is_vertical = (side == 0);
 }
 
 void cast_all_rays(t_data *data)
 {
-    int num_rays = WIDTH;
+    int num_rays = WIDTH / 10;
 
     double angle_step = FOV / num_rays;
 
     for (int i = 0; i < num_rays; i++)
     {
-      
         double ray_angle = data->player->angle - (FOV / 2) + (i * angle_step);
         cast_ray(data, ray_angle);
 
-        // draw_ray
         int player_x = data->player->posX * TILE_SIZE;
         int player_y = data->player->posY * TILE_SIZE;
         int ray_x = data->ray->hitX * TILE_SIZE;
         int ray_y = data->ray->hitY * TILE_SIZE;
-        draw_line(data,player_x,player_y,ray_x,ray_y,0xff0fff);
+        draw_line(data,player_x,player_y,ray_x,ray_y, 0xff0fff);
     }
 }
+
 void render(t_data *data)
 {
     int i = 0;
-    int cub_size_width = WIDTH / 10;
-    int cub_size_height = HEIGHT / 10;
+    int cub_size_width = 32;
+    int cub_size_height = 32;
     while (i < 10)
     {
         int j = 0;
@@ -212,7 +201,7 @@ void render(t_data *data)
         }
         i++;
     }
-    draw_player(data, data->player->posX * cub_size_width, data->player->posY * cub_size_height, 15, 0x00ffff);
+    draw_player(data, data->player->posX * cub_size_width, data->player->posY * cub_size_height, 5, 0x00ffff);
     // draw_direction_line(data, data->player->posX * cub_size_width, data->player->posY * cub_size_height, data->player->angle, 30, 0xff00ff);
     cast_all_rays(data);
 }
@@ -276,10 +265,18 @@ int main()
     data->image = malloc(sizeof(t_image));
     data->ray = malloc(sizeof(t_ray));
     data->mlx = mlx_init();
-    data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3d");
+    data->win = mlx_new_window(data->mlx, 320, 320, "cub3d");
     get_player_pos(data);
     render(data);
     mlx_hook(data->win, 2, 1L << 0, key_press, data);
     mlx_loop(data->mlx);
+
+    // Free allocated memory
+    free(data->player);
+    free(data->map);
+    free(data->image);
+    free(data->ray);
+    free(data);
+    
     return (0);
 }
