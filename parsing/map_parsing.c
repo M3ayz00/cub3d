@@ -480,6 +480,7 @@ int	check_each_row(t_lst **rows)
 	int		prev_len;
 	int		next_len;
 	int		count = 0;
+	int		rowc = 0;
 
 	while (curr->next)
 	{
@@ -490,9 +491,11 @@ int	check_each_row(t_lst **rows)
 			next_len = ft_strlen(curr->next->row);
 		if (curr->prev)
 			prev_len = ft_strlen(curr->prev->row);
+		printf("ROW NUMBER : %d\n", rowc);
 		if (!check_row(curr->row, prev_len, next_len))
 			return (0);
 		curr = curr->next;
+		rowc++;
 	}
 	if (count != 1)
 		return (0);
@@ -641,7 +644,7 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 	}
 	if (!check_textures(textures))
 		return (free_map(&map) ,free_textures(&textures), 0);
-	print_textures(textures);
+	// print_textures(textures);
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -651,10 +654,10 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 		free(line);
 		line = get_next_line(fd);
 	}
-	print_map(map->rows);
+	// print_map(map->rows);
 	if (!parse_map(&map->rows))
 		return (free_map(&map), free_textures(&textures), 0);
-	print_map(map->rows);
+	// print_map(map->rows);
 	cub3d->textures = textures;
 	cub3d->map2 = map;
 	return (1);
@@ -672,15 +675,4 @@ int	parse_data(t_cub3d *cub3d ,char *path)
 	if (process_map_and_textures(fd, cub3d))
 		return (close(fd), 1);
 	return (close(fd), 0);
-}
-int main(int ac, char **av)
-{
-	t_cub3d	cub3d;
-
-	if (ac == 2)
-	{
-		if (!parse_data(&cub3d, av[1]))
-			write(2, "error\n", 6);
-
-	}
 }

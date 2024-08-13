@@ -12,12 +12,7 @@ int map[10][10] = {
     {1, 0, 0, 0, 0, 0, 0, 0, 2, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 };
-<<<<<<< HEAD
 void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
-=======
-
-void draw_line(t_cub3d *data, int x0, int y0, int x1, int y1, int color)
->>>>>>> e102c643e502dcf3e98090669cb46aeb0f602c7e
 {
     int dx = abs(x1 - x0);
     int dy = abs(y1 - y0);

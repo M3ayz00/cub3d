@@ -38,10 +38,10 @@
 
 typedef struct	s_color
 {
+	int	t;
 	int	r;
 	int	g;
 	int	b;
-	int	t;
 }	t_color;
 
 typedef struct s_lst
@@ -51,14 +51,6 @@ typedef struct s_lst
 	struct s_lst	*next;
 	struct s_lst	*prev;
 }	t_lst;
-
-typedef struct	s_color
-{
-	int	r;
-	int	g;
-	int	b;
-	int	t;
-}	t_color;
 
 typedef struct s_textures
 {
@@ -93,16 +85,11 @@ typedef struct s_player
     double angle;
 } t_player;
 
-typedef struct s_map
-{
-    int mapWidth;
-    int mapHeight;
-    int map[10][10];
-} t_map;
 
 typedef struct	s_map2
 {
 	t_lst	*rows;
+    char **map;
 	int		width;
 	int		height;
 }	t_map2;
@@ -121,7 +108,6 @@ typedef struct s_cub3d
     void 		*mlx;
     void 		*win;
     t_image 	*image;
-    t_map 		*map;//to_rem
     t_ray 		*ray;
     t_player 	*player;
 	t_map2		*map2;
@@ -142,5 +128,6 @@ int	ft_lstsize(t_lst *lst);
 void	ft_lstclear(t_lst **lst);
 char	*ft_strdup(char *str);
 t_lst	*ft_lstlast(t_lst *lst);
+int	parse_data(t_cub3d *cub3d ,char *path);
 
 #endif

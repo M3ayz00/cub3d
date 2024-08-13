@@ -1,18 +1,5 @@
 #include "cub3d.h"
 
-int map[10][10] = {
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 1, 0, 1, 0, 0, 1},
-    {1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 1, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 2, 1},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-};
-
 int get_rgb(int t, int r, int g, int b)
 {
     return (t << 24 | r << 16 | g << 8 | b);
@@ -81,7 +68,7 @@ void draw_player(t_image *image, int xc, int yc, int radius, int color)
     }
 }
 
-void cast_ray(t_data *data, double ray_angle)
+void cast_ray(t_cub3d *data, double ray_angle)
 {
     int mapX, mapY;
     double sideDistX, sideDistY;
@@ -136,7 +123,7 @@ void cast_ray(t_data *data, double ray_angle)
             side = 1;
         }
 
-        if (map[mapY][mapX] > 0)
+        if (data->map2->map[mapY][mapX] == '1')
             hit = 1;
     }
 
@@ -158,7 +145,7 @@ int calc_height(double distance, int screen_height)
     return (int)(screen_height / distance);
 }
 
-void cast_all_rays(t_data *data)
+void cast_all_rays(t_cub3d *data)
 {
     int num_rays = WIDTH;
     double angle_step = FOV / num_rays;
@@ -197,43 +184,65 @@ void cast_all_rays(t_data *data)
     }
 }
 
-void render(t_data *data)
+void render(t_cub3d *data)
 {
     cast_all_rays(data);
     mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
 }
 
-void get_player_pos(t_data *data)
+char **get_arr(t_lst *lst)
 {
-    int i;
-    int j;
+    t_lst *tmp = lst;
 
-    i = 0;
-    while (i < 10)
+    int size = ft_lstsize(lst);
+
+    int i = 0;
+
+    char **arr;
+    arr = malloc((sizeof(char *) * size) + 1);
+    while (i < size)
+    {
+        arr[i] = ft_strdup(tmp->row);
+        i++;
+        tmp = tmp->next;
+    }
+    arr[i] = NULL;
+    return (arr);
+}
+
+void get_player_pos(t_cub3d *data)
+{
+    char **map = get_arr(data->map2->rows);
+    int i = 0;
+    int j = 0;
+    while (map[i])
     {
         j = 0;
-        while (j < 10)
+        while (map[i][j])
         {
-            if (map[i][j] == 2)
+            if (map[i][j] == 'N')
             {
                 data->player->posX = j;
                 data->player->posY = i;
-                data->player->angle = 0.5;
-                return;
+                data->player->angle = 0.0;
             }
+            write(1, &map[i][j], 1);
             j++;
         }
         i++;
     }
+    data->map2->map = map;
+
+    // printf("map width: %d \n map height: %d\n",data->map2->height,data->map2->height);
 }
 
-int key_press(int key, t_data *data)
+int key_press(int key, t_cub3d *data)
 {
     double move_speed = 0.09;
     double rot_speed = 0.09;
     double newPosX = data->player->posX;
     double newPosY = data->player->posY;
-    double margin = 0.05; // Margin value
+    double margin = 0.01; // Margin value
 
     if (key == W_KEY)
     {
@@ -264,21 +273,20 @@ int key_press(int key, t_data *data)
     {
         data->player->angle += rot_speed;
     }
-    if (newPosX >= margin && newPosX <= 10 &&
-        newPosY >= margin && newPosY <= 10)
-    {
-        printf("newPosX: %d, newPosY: %d\n", (int)floor(newPosX), (int)floor(newPosY));
+    // if (newPosX >= margin && newPosX <= 10 - margin &&
+    //     newPosY >= margin && newPosY <= 10 - margin )
+    // {
+    //     printf("newPosX: %d, newPosY: %d\n", (int)floor(newPosX), (int)floor(newPosY));
         // Check for collisions with walls, considering the margin
-        if (map[(int)floor(newPosY - margin)][(int)floor(newPosX - margin)] != 1 &&
-            map[(int)floor(newPosY + margin)][(int)floor(newPosX + margin)] != 1 &&
-            map[(int)floor(newPosY - margin)][(int)floor(newPosX + margin)] != 1 &&
-            map[(int)floor(newPosY + margin)][(int)floor(newPosX - margin)] != 1)
+        if (data->map2->map[(int)floor(newPosY - margin)][(int)floor(newPosX - margin)] != '1' &&
+            data->map2->map[(int)floor(newPosY - margin)][(int)floor(newPosX + margin)] != '1' &&
+            data->map2->map[(int)floor(newPosY + margin)][(int)floor(newPosX - margin)] != '1')
         {
             data->player->posX = newPosX;
             data->player->posY = newPosY;
             render(data);
         }
-    }
+    // }
     return (0);
 }
 int ft_exit()
@@ -287,23 +295,30 @@ int ft_exit()
     return (0);
 }
 
-int main()
+int main(int ac, char **av)
 {
-    t_data data;
+    t_cub3d data;
 
-    data.player = malloc(sizeof(t_player));
-    data.ray = malloc(sizeof(t_ray));
-    data.image = malloc(sizeof(t_image));
-    data.mlx = mlx_init();
-    data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "cub3d");
-    data.image->img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
-    data.image->addr = mlx_get_cub3d_addr(data.image->img, &data.image->bits_per_pixel, &data.image->line_length, &data.image->endian);
-    get_player_pos(&data);
-    data.tex_width = 64;
-    data.tex_height = 64;
-    render(&data);
-    mlx_hook(data.win, 2, 1L << 0, key_press, &data);
-    mlx_hook(data.win, 17, 1L << 17, &ft_exit, NULL);
-    mlx_loop(data.mlx);
+    if (ac == 2)
+    {
+        if (!parse_data(&data, av[1]))
+        {
+            write(2, "error\n", 6);
+            exit(1);
+        }
+        data.player = malloc(sizeof(t_player));
+        data.ray = malloc(sizeof(t_ray));
+        data.image = malloc(sizeof(t_image));
+        data.mlx = mlx_init();
+        data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "cub3d");
+        data.image->img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
+        data.image->addr = mlx_get_data_addr(data.image->img, &data.image->bits_per_pixel, &data.image->line_length, &data.image->endian);
+        get_player_pos(&data);
+        render(&data);
+        mlx_hook(data.win, 2, 1L << 0, key_press, &data);
+        mlx_hook(data.win, 17, 1L << 17, &ft_exit, NULL);
+        mlx_loop(data.mlx);
+    }
+
     return (0);
 }
