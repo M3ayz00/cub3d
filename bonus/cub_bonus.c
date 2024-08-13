@@ -1,8 +1,9 @@
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void render(t_cub3d *data)
 {
     cast_all_rays(data);
+    render_map(data);
     mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
 }
 void init(t_cub3d *data)
@@ -10,6 +11,7 @@ void init(t_cub3d *data)
     data->player = malloc(sizeof(t_player));
     data->ray = malloc(sizeof(t_ray));
     data->image = malloc(sizeof(t_image));
+    data->minimap = malloc(sizeof(t_image));
     data->mlx = mlx_init();
     data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3d");
     data->image->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);

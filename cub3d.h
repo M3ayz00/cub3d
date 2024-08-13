@@ -25,9 +25,13 @@
 
 #define FOV (M_PI / 3) // Field of View (60 degrees)
 
-#define WIDTH 1080
-#define HEIGHT 720
-#define TILE_SIZE 32
+#define WIDTH 1920
+#define HEIGHT 1080
+#define TILE_SIZE 5
+
+#define MOVE_SPEED 0.09
+#define ROT_SPEED 0.09
+#define MARGIN 0.05
 
 #define W_KEY 119
 #define S_KEY 115
@@ -35,6 +39,15 @@
 #define D_KEY 100
 #define LEFT_KEY 65361
 #define RIGHT_KEY 65363
+#define ESC_KEY 65307
+
+typedef enum t_dir
+{
+    FORWARD,
+    BACKWARD,
+    LEFT,
+    RIGHT,
+} t_direction;
 
 typedef struct s_color
 {
@@ -113,6 +126,7 @@ typedef struct s_cub3d
     void *mlx;
     void *win;
     t_image *image;
+    t_image *minimap;
     t_ray *ray;
     t_player *player;
     t_map2 *map2;
@@ -135,4 +149,29 @@ char *ft_strdup(char *str);
 t_lst *ft_lstlast(t_lst *lst);
 int parse_data(t_cub3d *cub3d, char *path);
 
+// raycasting prototypes
+void my_mlx_pixel_put(t_image *image, int x, int y, int color);
+void my_mlx_pixel_put2(t_image *image, int x, int y, int color);
+void render_ceil(t_cub3d *data, int i, int end);
+void render_walls(t_cub3d *data, int i, int start, int end);
+void render_floor(t_cub3d *data, int i, int start, int end);
+int key_press(int key, t_cub3d *data);
+void get_player_pos(t_cub3d *data);
+void dda(t_cub3d *data);
+void get_delta_distance(t_cub3d *data, double rayDirX, double rayDirY);
+void cast_ray(t_cub3d *data, double ray_angle);
+void cast_all_rays(t_cub3d *data);
+int calc_height(double distance, int screen_height);
+char **get_arr(t_lst *lst);
+int get_rgb(int t, int r, int g, int b);
+void render(t_cub3d *data);
+int ft_exit();
+
+// bonus
+void draw_line(t_cub3d *data, int x0, int y0, int x1, int y1, int color);
+void draw_direction_line(t_cub3d *data, int x, int y, double angle, int length, int color);
+void draw_player(t_cub3d *data, int xc, int yc, int radius, int color);
+void draw_cub(t_cub3d *data, int x, int y, int size_h, int size_w, int color);
+void cast_map_rays(t_cub3d *data);
+void render_map(t_cub3d *data);
 #endif
