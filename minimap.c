@@ -193,15 +193,15 @@ void render(t_data *data)
         while (j < 10)
         {
             if (map[i][j] == 1)
-                draw_cub(data, j * cub_size_width, i * cub_size_height, cub_size_height, cub_size_width, 0xf0f0ff);
+                draw_cub(data, j * cub_size_width, i * cub_size_height, cub_size_height, cub_size_width, 0xf0ffff);
             else
-                draw_cub(data, j * cub_size_width, i * cub_size_height, cub_size_height, cub_size_width, 0x0f00ff);
+                draw_cub(data, j * cub_size_width, i * cub_size_height, cub_size_height, cub_size_width, 0x0ff0ff);
 
             j++;
         }
         i++;
     }
-    draw_player(data, data->player->posX * cub_size_width, data->player->posY * cub_size_height, 5, 0x00ffff);
+    draw_player(data, data->player->posX * cub_size_width, data->player->posY * cub_size_height, 5, 0xf0ffff);
     // draw_direction_line(data, data->player->posX * cub_size_width, data->player->posY * cub_size_height, data->player->angle, 30, 0xff00ff);
     cast_all_rays(data);
 }

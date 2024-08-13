@@ -1,5 +1,5 @@
 NAME = cub3d
-SRCS = cub.c
+SRCS = minimap.c
 INCLUDES = -I/usr/include -Imlx
 MLX_FLAGS = -L./minilibx-linux -lmlx -lX11 -lXext -lm
 CFLAGS= -g3 -fsanitize=address #-Wall -Werror -Wextra 
