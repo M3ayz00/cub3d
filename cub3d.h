@@ -27,11 +27,11 @@
 
 #define WIDTH 1920
 #define HEIGHT 1080
-#define TILE_SIZE 5
+#define TILE_SIZE 12
 
 #define MOVE_SPEED 0.09
-#define ROT_SPEED 0.09
-#define MARGIN 0.05
+#define ROT_SPEED 0.03
+#define MARGIN 0.1
 
 #define W_KEY 119
 #define S_KEY 115
@@ -114,6 +114,8 @@ typedef struct s_map2
 
 typedef struct s_image
 {
+    int width;
+    int height;
     void *img;
     char *addr;
     int bits_per_pixel;
@@ -127,6 +129,7 @@ typedef struct s_cub3d
     void *win;
     t_image *image;
     t_image *minimap;
+    t_image *weapon;
     t_ray *ray;
     t_player *player;
     t_map2 *map2;
@@ -174,4 +177,5 @@ void draw_player(t_cub3d *data, int xc, int yc, int radius, int color);
 void draw_cub(t_cub3d *data, int x, int y, int size_h, int size_w, int color);
 void cast_map_rays(t_cub3d *data);
 void render_map(t_cub3d *data);
+int    get_texel(t_image texture, int x, int y);
 #endif

@@ -8,7 +8,7 @@ SRCS = cub.c ./parsing/gnl/get_next_line.c ./parsing/gnl/get_next_line_utils.c \
 SRCS_BONUS = ./bonus/cub_bonus.c ./parsing/gnl/get_next_line.c ./parsing/gnl/get_next_line_utils.c \
 		./parsing/file_parsing.c ./parsing/ft_split.c ./parsing/ft_strtrim.c \
 		./parsing/lst_management.c ./parsing/map_parsing.c ./raycasting/raycasting.c \
-		./raycasting/player.c ./raycasting/move.c ./raycasting/draw_env.c ./raycasting/utils.c \
+		./raycasting/player.c ./bonus/move_bonus.c ./raycasting/draw_env.c ./raycasting/utils.c \
 		./bonus/minimap_bonus.c
 		
 INCLUDES = -I/usr/include -Imlx
