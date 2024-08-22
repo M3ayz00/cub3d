@@ -1,9 +1,14 @@
 #include "cub3d.h"
 
-void render(t_cub3d *data)
+
+
+int render(void *cub)
 {
+    t_cub3d *data = (t_cub3d *)cub;
+    handle_movement(data);
     cast_all_rays(data);
     mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
+    return (0);
 }
 void init(t_cub3d *data)
 {
@@ -29,12 +34,22 @@ int main(int ac, char **av)
         }
         init(&data);
         get_player_pos(&data);
-        render(&data);
+
+        // Initialize key states
+        init_key_state(&data.keys);
+
+        // Hook the key press and release events
         mlx_hook(data.win, 2, 1L << 0, key_press, &data);
+        mlx_hook(data.win, 3, 1L << 1, key_release, &data);
         mlx_hook(data.win, 17, 1L << 17, &ft_exit, NULL);
+
+        // Set up the main loop to handle movement and rendering
+        mlx_loop_hook(data.mlx, render, &data);
+
         mlx_loop(data.mlx);
     }
     else
         write(1, "USAGE ./cube3d [map]\n", 22);
     return (0);
 }
+

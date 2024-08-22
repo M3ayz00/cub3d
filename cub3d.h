@@ -25,13 +25,13 @@
 
 #define FOV (M_PI / 3) // Field of View (60 degrees)
 
-#define WIDTH 1920
-#define HEIGHT 1080
+#define WIDTH 900
+#define HEIGHT 650
 #define TILE_SIZE 12
 
-#define MOVE_SPEED 0.09
-#define ROT_SPEED 0.03
-#define MARGIN 0.1
+#define MOVE_SPEED 0.004
+#define ROT_SPEED 0.005
+#define MARGIN 0.02
 
 #define W_KEY 119
 #define S_KEY 115
@@ -48,6 +48,16 @@ typedef enum t_dir
     LEFT,
     RIGHT,
 } t_direction;
+
+typedef struct s_key_state {
+    int forward;
+    int backward;
+    int left;
+    int right;
+    int rotate_left;
+    int rotate_right;
+} t_key_state;
+
 
 typedef struct s_color
 {
@@ -133,6 +143,7 @@ typedef struct s_cub3d
     t_ray *ray;
     t_player *player;
     t_map2 *map2;
+    t_key_state keys;
     t_textures *textures;
 } t_cub3d;
 
@@ -167,7 +178,7 @@ void cast_all_rays(t_cub3d *data);
 int calc_height(double distance, int screen_height);
 char **get_arr(t_lst *lst);
 int get_rgb(int t, int r, int g, int b);
-void render(t_cub3d *data);
+int render(void *cub);
 int ft_exit();
 
 // bonus
@@ -178,4 +189,8 @@ void draw_cub(t_cub3d *data, int x, int y, int size_h, int size_w, int color);
 void cast_map_rays(t_cub3d *data);
 void render_map(t_cub3d *data);
 int    get_texel(t_image texture, int x, int y);
+void init_key_state(t_key_state *keys) ;
+int key_release(int key, t_cub3d *data);
+void handle_movement(t_cub3d *data);
+void check_wall_colision(t_cub3d *data, double newPosX, double newPosY);
 #endif
