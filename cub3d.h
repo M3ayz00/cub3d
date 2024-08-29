@@ -25,12 +25,12 @@
 
 #define FOV (M_PI / 3) // Field of View (60 degrees)
 
-#define WIDTH 900
-#define HEIGHT 650
+#define WIDTH (1080)
+#define HEIGHT (800)
 #define TILE_SIZE 12
 
-#define MOVE_SPEED 0.004
-#define ROT_SPEED 0.005
+#define MOVE_SPEED 0.04
+#define ROT_SPEED 0.05
 #define MARGIN 0.02
 
 #define W_KEY 119

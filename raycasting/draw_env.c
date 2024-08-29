@@ -26,7 +26,7 @@ void render_ceil(t_cub3d *data, int i, int end)
     j = 0;
     while (j < end)
     {
-        my_mlx_pixel_put(data->image, i, j, get_rgb(255, 135, 206, 235));
+        my_mlx_pixel_put(data->image, i, j,0); //get_rgb(255, 135, 206, 235));
         j++;
     }
 }
