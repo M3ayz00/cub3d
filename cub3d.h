@@ -145,6 +145,8 @@ typedef struct s_cub3d
     t_map2 *map2;
     t_key_state keys;
     t_textures *textures;
+    t_image wall_textures[4];
+    int wall_height;
 } t_cub3d;
 
 int open_file(char *path);

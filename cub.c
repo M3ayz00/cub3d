@@ -21,6 +21,19 @@ void init(t_cub3d *data)
     data->image->addr = mlx_get_data_addr(data->image->img, &data->image->bits_per_pixel, &data->image->line_length, &data->image->endian);
 }
 
+void load_images(t_cub3d *data)
+{
+    int  i = 0;
+    char *textures[4] = {data->textures->north,data->textures->west,data->textures->east,data->textures->south};
+    while (i < 4)
+    {
+        data->wall_textures[i].img = mlx_xpm_file_to_image(data->mlx,textures[i],&data->wall_textures[i].width,&data->wall_textures[i].height);
+        data->wall_textures[i].addr = mlx_get_data_addr(data->wall_textures[i].img,&data->wall_textures[i].bits_per_pixel,&data->wall_textures[i].line_length,&data->wall_textures[i].endian);
+        i++;
+    }
+    
+}
+
 int main(int ac, char **av)
 {
     t_cub3d data;
@@ -37,6 +50,8 @@ int main(int ac, char **av)
 
         // Initialize key states
         init_key_state(&data.keys);
+
+        load_images(&data);
 
         // Hook the key press and release events
         mlx_hook(data.win, 2, 1L << 0, key_press, &data);

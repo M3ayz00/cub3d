@@ -1,15 +1,6 @@
 #include "../cub3d.h"
 
-int get_texel(t_image texture, int x, int y)
-{
-    char *pixel;
 
-    if (x < 0 || y < 0 || x >= texture.width || y >= texture.height)
-        return (0);
-    pixel = texture.addr + (y * texture.line_length + x *
-                                                          (texture.bits_per_pixel / 8));
-    return (*(unsigned int *)pixel);
-}
 
 void weapon_puts(t_cub3d *data, int up)
 {
