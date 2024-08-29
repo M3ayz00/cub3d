@@ -1,7 +1,5 @@
 #include "cub3d.h"
 
-
-
 int render(void *cub)
 {
     t_cub3d *data = (t_cub3d *)cub;
@@ -23,15 +21,22 @@ void init(t_cub3d *data)
 
 void load_images(t_cub3d *data)
 {
-    int  i = 0;
-    char *textures[4] = {data->textures->north,data->textures->west,data->textures->east,data->textures->south};
+    int i = 0;
+    char *textures[4] = {data->textures->north, data->textures->west, data->textures->east, data->textures->south};
     while (i < 4)
     {
-        data->wall_textures[i].img = mlx_xpm_file_to_image(data->mlx,textures[i],&data->wall_textures[i].width,&data->wall_textures[i].height);
-        data->wall_textures[i].addr = mlx_get_data_addr(data->wall_textures[i].img,&data->wall_textures[i].bits_per_pixel,&data->wall_textures[i].line_length,&data->wall_textures[i].endian);
+        data->wall_textures[i].img = mlx_xpm_file_to_image(data->mlx, textures[i], &data->wall_textures[i].width, &data->wall_textures[i].height);
+        data->wall_textures[i].addr = mlx_get_data_addr(data->wall_textures[i].img, &data->wall_textures[i].bits_per_pixel, &data->wall_textures[i].line_length, &data->wall_textures[i].endian);
         i++;
     }
-    
+
+    data->textures->ceil_tex.img = mlx_xpm_file_to_image(data->mlx, "textures/sky2.xpm", &data->textures->ceil_tex.width, &data->textures->ceil_tex.height);
+    // if (!data->textures->ceil_tex->img)
+    // {
+    //     printf("failed \n");
+    // return;
+    // }
+    data->textures->ceil_tex.addr = mlx_get_data_addr(data->textures->ceil_tex.img, &data->textures->ceil_tex.bits_per_pixel, &data->textures->ceil_tex.line_length, &data->textures->ceil_tex.endian);
 }
 
 int main(int ac, char **av)
@@ -50,7 +55,7 @@ int main(int ac, char **av)
 
         // Initialize key states
         init_key_state(&data.keys);
-
+        // data.textures->ceil_tex = malloc(sizeof(t_image *));
         load_images(&data);
 
         // Hook the key press and release events
@@ -67,4 +72,3 @@ int main(int ac, char **av)
         write(1, "USAGE ./cube3d [map]\n", 22);
     return (0);
 }
-

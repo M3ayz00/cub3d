@@ -1,7 +1,7 @@
-NO efwefwef
-SO ergergerg
-EA egergerg
-WE WE
+NO ./textures/wall1.xpm
+SO ./textures/wall2.xpm
+WE ./textures/wall_metal2.xpm
+EA ./textures/wall_metal1.xpm
 
 
 C 123,123,123

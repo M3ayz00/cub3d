@@ -25,13 +25,13 @@
 
 #define FOV (M_PI / 3) // Field of View (60 degrees)
 
-#define WIDTH (1080)
-#define HEIGHT (800)
+#define WIDTH 1920
+#define HEIGHT 1000
 #define TILE_SIZE 12
 
 #define MOVE_SPEED 0.04
-#define ROT_SPEED 0.05
-#define MARGIN 0.02
+#define ROT_SPEED 0.02
+#define MARGIN 0.1
 
 #define W_KEY 119
 #define S_KEY 115
@@ -75,15 +75,7 @@ typedef struct s_lst
     struct s_lst *prev;
 } t_lst;
 
-typedef struct s_textures
-{
-    t_color *floor;
-    t_color *ceiling;
-    char *north;
-    char *south;
-    char *east;
-    char *west;
-} t_textures;
+
 
 typedef struct s_ray
 {
@@ -132,6 +124,18 @@ typedef struct s_image
     int line_length;
     int endian;
 } t_image;
+
+typedef struct s_textures
+{
+    t_color *floor;
+    t_color *ceiling;
+    t_image ceil_tex;
+    t_image *floor_tex;
+    char *north;
+    char *south;
+    char *east;
+    char *west;
+} t_textures;
 
 typedef struct s_cub3d
 {

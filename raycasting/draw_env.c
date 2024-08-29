@@ -18,19 +18,6 @@ void my_mlx_pixel_put2(t_image *image, int x, int y, int color)
     *(unsigned int *)dst = color;
 }
 
-
-void render_ceil(t_cub3d *data, int i, int end)
-{
-    int j;
-
-    j = 0;
-    while (j < end)
-    {
-        my_mlx_pixel_put(data->image, i, j,0); //get_rgb(255, 135, 206, 235));
-        j++;
-    }
-}
-
 // Function to get the color from a texture at a specific coordinate
 uint32_t get_texture_color(t_image *texture, int x, int y) {
     // Ensure coordinates are within bounds
@@ -42,6 +29,34 @@ uint32_t get_texture_color(t_image *texture, int x, int y) {
     char *pixel = texture->addr + (y * texture->line_length + x * (texture->bits_per_pixel / 8));
     return *(uint32_t *)pixel;
 }
+
+
+void render_ceil(t_cub3d *data, int i, int end)
+{
+        int j;
+        int texture_x, texture_y;
+        t_image *ceiling_texture = &data->textures->ceil_tex;
+
+        j = 0;
+        while (j < end)
+        {
+            // Calculate texture coordinates
+            // Example: Simple mapping based on screen coordinates
+            texture_x = (i * ceiling_texture->width) / WIDTH;
+            texture_y = (j * ceiling_texture->height) / HEIGHT;
+
+            // Get the color from the ceiling texture
+            uint32_t color = get_texture_color(ceiling_texture, texture_x, texture_y);
+
+            // Draw the pixel with the texture color
+            my_mlx_pixel_put(data->image, i, j, color);
+
+            j++;
+        }
+}
+
+
+
 
 // Function to render walls with full texture mapping
 void render_walls(t_cub3d *data, int i, int start, int end) {
@@ -97,7 +112,7 @@ void render_floor(t_cub3d *data, int i, int start, int end)
     int l = start;
     while (l < end)
     {
-        my_mlx_pixel_put(data->image, i, l, get_rgb(255, 54, 69, 79));
+        my_mlx_pixel_put(data->image, i, l, get_rgb(255,data->textures->floor->r,data->textures->floor->g,data->textures->floor->b));
         l++;
     }
 }
