@@ -30,7 +30,7 @@ void load_images(t_cub3d *data)
         i++;
     }
 
-    data->textures->ceil_tex.img = mlx_xpm_file_to_image(data->mlx, "textures/sky2.xpm", &data->textures->ceil_tex.width, &data->textures->ceil_tex.height);
+    data->textures->ceil_tex.img = mlx_xpm_file_to_image(data->mlx, "textures/sky_dark.xpm", &data->textures->ceil_tex.width, &data->textures->ceil_tex.height);
     // if (!data->textures->ceil_tex->img)
     // {
     //     printf("failed \n");

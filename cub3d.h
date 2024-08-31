@@ -199,4 +199,5 @@ void init_key_state(t_key_state *keys) ;
 int key_release(int key, t_cub3d *data);
 void handle_movement(t_cub3d *data);
 void check_wall_colision(t_cub3d *data, double newPosX, double newPosY);
+void render_ceil_bonus(t_cub3d *data, int i, int end);
 #endif

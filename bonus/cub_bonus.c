@@ -1,6 +1,17 @@
 #include "../cub3d.h"
 
 
+int get_texel(t_image weapon, int x, int y) {
+    // Ensure coordinates are within the texture bounds
+    if (x < 0 || x >= weapon.width || y < 0 || y >= weapon.height) {
+        return 0; // Return black or transparent color for out-of-bounds
+    }
+    // Calculate the address of the pixel in the texture's data
+    char *pixel = weapon.addr + (y * weapon.line_length + x * (weapon.bits_per_pixel / 8));
+
+    // Return the color of the pixel as an int
+    return *(int *)pixel;
+}
 
 void weapon_puts(t_cub3d *data, int up)
 {
@@ -37,7 +48,7 @@ void render_weapon(t_cub3d *data)
 {
     int width;
     int height;
-    data->weapon->img = mlx_xpm_file_to_image(data->mlx, "bonus/textures/hk53_idle1.xpm", &width, &height);
+    data->weapon->img = mlx_xpm_file_to_image(data->mlx, "bonus/textures/knife2.xpm", &width, &height);
     data->weapon->width = width;
     data->weapon->height = height;
     if (!data->weapon->img)
@@ -53,10 +64,13 @@ void render_weapon(t_cub3d *data)
 int render(void *cub)
 {
     t_cub3d *data = (t_cub3d *)cub;
+    handle_movement(data);
+
     cast_all_rays(data);
     render_map(data);
     render_weapon(data);
     mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
+    return (0);
 }
 void init(t_cub3d *data)
 {
@@ -70,7 +84,25 @@ void init(t_cub3d *data)
     data->image->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
     data->image->addr = mlx_get_data_addr(data->image->img, &data->image->bits_per_pixel, &data->image->line_length, &data->image->endian);
 }
+void load_images(t_cub3d *data)
+{
+    int i = 0;
+    char *textures[4] = {data->textures->north, data->textures->west, data->textures->east, data->textures->south};
+    while (i < 4)
+    {
+        data->wall_textures[i].img = mlx_xpm_file_to_image(data->mlx, textures[i], &data->wall_textures[i].width, &data->wall_textures[i].height);
+        data->wall_textures[i].addr = mlx_get_data_addr(data->wall_textures[i].img, &data->wall_textures[i].bits_per_pixel, &data->wall_textures[i].line_length, &data->wall_textures[i].endian);
+        i++;
+    }
 
+    data->textures->ceil_tex.img = mlx_xpm_file_to_image(data->mlx, "textures/sky_dark.xpm", &data->textures->ceil_tex.width, &data->textures->ceil_tex.height);
+    // if (!data->textures->ceil_tex->img)
+    // {
+    //     printf("failed \n");
+    // return;
+    // }
+    data->textures->ceil_tex.addr = mlx_get_data_addr(data->textures->ceil_tex.img, &data->textures->ceil_tex.bits_per_pixel, &data->textures->ceil_tex.line_length, &data->textures->ceil_tex.endian);
+}
 int main(int ac, char **av)
 {
     t_cub3d data;
@@ -85,6 +117,7 @@ int main(int ac, char **av)
         init(&data);
         get_player_pos(&data);
          init_key_state(&data.keys);
+          load_images(&data);
 
         // Hook the key press and release events
         mlx_hook(data.win, 2, 1L << 0, key_press, &data);

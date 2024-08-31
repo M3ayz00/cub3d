@@ -29,9 +29,19 @@ uint32_t get_texture_color(t_image *texture, int x, int y) {
     char *pixel = texture->addr + (y * texture->line_length + x * (texture->bits_per_pixel / 8));
     return *(uint32_t *)pixel;
 }
-
-
 void render_ceil(t_cub3d *data, int i, int end)
+{
+     int l = 0;
+    while (l < end)
+    {
+        my_mlx_pixel_put(data->image, i, l, get_rgb(255,data->textures->ceiling->r,data->textures->ceiling->g,data->textures->ceiling->b));
+        l++;
+    }
+}
+ 
+
+
+void render_ceil_bonus(t_cub3d *data, int i, int end)
 {
         int j;
         int texture_x, texture_y;
