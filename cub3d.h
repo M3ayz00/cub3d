@@ -23,10 +23,11 @@
 #include <math.h>
 #include <sys/time.h>
 
+
 #define FOV (M_PI / 3) // Field of View (60 degrees)
 
-#define WIDTH 1920
-#define HEIGHT 1000
+#define WIDTH 1224
+#define HEIGHT 920
 #define TILE_SIZE 12
 
 #define MOVE_SPEED 0.04
@@ -50,6 +51,7 @@ typedef enum t_dir
 } t_direction;
 
 typedef struct s_key_state {
+    int delta_x;
     int forward;
     int backward;
     int left;
@@ -200,4 +202,5 @@ int key_release(int key, t_cub3d *data);
 void handle_movement(t_cub3d *data);
 void check_wall_colision(t_cub3d *data, double newPosX, double newPosY);
 void render_ceil_bonus(t_cub3d *data, int i, int end);
+int mouse_move(int x, int y, t_cub3d *data);
 #endif

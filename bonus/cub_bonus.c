@@ -1,9 +1,10 @@
 #include "../cub3d.h"
 
-
-int get_texel(t_image weapon, int x, int y) {
+int get_texel(t_image weapon, int x, int y)
+{
     // Ensure coordinates are within the texture bounds
-    if (x < 0 || x >= weapon.width || y < 0 || y >= weapon.height) {
+    if (x < 0 || x >= weapon.width || y < 0 || y >= weapon.height)
+    {
         return 0; // Return black or transparent color for out-of-bounds
     }
     // Calculate the address of the pixel in the texture's data
@@ -106,6 +107,7 @@ void load_images(t_cub3d *data)
 int main(int ac, char **av)
 {
     t_cub3d data;
+    Display *display;
 
     if (ac == 2)
     {
@@ -115,19 +117,22 @@ int main(int ac, char **av)
             exit(1);
         }
         init(&data);
+        display = XOpenDisplay(NULL);
         get_player_pos(&data);
-         init_key_state(&data.keys);
-          load_images(&data);
+        init_key_state(&data.keys);
+        load_images(&data);
 
         // Hook the key press and release events
-        mlx_hook(data.win, 2, 1L << 0, key_press, &data);
-        mlx_hook(data.win, 3, 1L << 1, key_release, &data);
+        mlx_hook(data.win, 2, 1L << 0, key_press, &data);   // Key press
+        mlx_hook(data.win, 3, 1L << 1, key_release, &data); // Key release
+        mlx_hook(data.win, 6, 1L << 6, mouse_move, &data);  // Mouse movement
         mlx_hook(data.win, 17, 1L << 17, &ft_exit, NULL);
 
         // Set up the main loop to handle movement and rendering
         mlx_loop_hook(data.mlx, render, &data);
 
         mlx_loop(data.mlx);
+        // show_cursor(display, (Window)data.win);
     }
     else
         write(1, "USAGE ./cube3d [map]\n", 22);
