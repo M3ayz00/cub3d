@@ -107,7 +107,7 @@ void load_images(t_cub3d *data)
 int main(int ac, char **av)
 {
     t_cub3d data;
-    Display *display;
+
 
     if (ac == 2)
     {
@@ -117,10 +117,10 @@ int main(int ac, char **av)
             exit(1);
         }
         init(&data);
-        display = XOpenDisplay(NULL);
         get_player_pos(&data);
         init_key_state(&data.keys);
         load_images(&data);
+                mlx_mouse_hide(data.mlx,data.win);
 
         // Hook the key press and release events
         mlx_hook(data.win, 2, 1L << 0, key_press, &data);   // Key press
