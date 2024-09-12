@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/12 15:43:29 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:47:11 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,8 @@ void ft_lstclear(t_lst **lst);
 char *ft_strdup(char *str);
 t_lst *ft_lstlast(t_lst *lst);
 int parse_data(t_cub3d *cub3d, char *path);
+void	free_textures(t_textures **textures);
+void	free_map(t_map2 **map);
 
 // raycasting prototypes
 void my_mlx_pixel_put(t_image *image, int x, int y, int color);
@@ -187,7 +189,7 @@ int calc_height(double distance, int screen_height);
 char **get_arr(t_lst *lst);
 int get_rgb(int t, int r, int g, int b);
 int render(void *cub);
-int ft_exit();
+int ft_exit(t_cub3d *cub3d);
 
 // bonus
 void draw_line(t_cub3d *data, int x0, int y0, int x1, int y1, int color);
@@ -203,4 +205,5 @@ void handle_movement(t_cub3d *data);
 void check_wall_colision(t_cub3d *data, double newPosX, double newPosY);
 void render_ceil_bonus(t_cub3d *data, int i, int end);
 int mouse_move(int x, int y, t_cub3d *data);
+
 #endif

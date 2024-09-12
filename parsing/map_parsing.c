@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/12 18:34:21 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:54:40 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,31 +192,43 @@ t_color	*split_color(char **color)
 	return (actual_col);
 }
 
+int	check_texture_file(char *file, char **texture)
+{
+	if (ft_strcmp(file + ft_strlen(file) - 4, ".xpm"))
+		return (0);
+	(*texture) = ft_strdup(file);
+	return (1);
+}
+
 int	process_texture(t_textures **textures, char **splitted)
 {
 	if (!ft_strcmp(splitted[0], "NO"))
 	{
 		if ((*textures)->north)
 			return (0);
-		(*textures)->north = ft_strdup(splitted[1]);
+		if (!check_texture_file(splitted[1], &(*textures)->north))
+			return (0);
 	}
 	else if (!ft_strcmp(splitted[0], "SO"))
 	{
 		if ((*textures)->south)
 			return (0);
-		(*textures)->south = ft_strdup(splitted[1]);
+		if (!check_texture_file(splitted[1], &(*textures)->south))
+			return (0);
 	}
 	else if (!ft_strcmp(splitted[0], "EA"))
 	{
 		if ((*textures)->east)
 			return (0);
-		(*textures)->east = ft_strdup(splitted[1]);
+		if (!check_texture_file(splitted[1], &(*textures)->east))
+			return (0);
 	}
 	else if (!ft_strcmp(splitted[0], "WE"))
 	{
 		if ((*textures)->west)
 			return (0);
-		(*textures)->west = ft_strdup(splitted[1]);
+		if (!check_texture_file(splitted[1], &(*textures)->west))
+			return (0);
 	}
 	else if (!ft_strcmp(splitted[0], "F"))
 	{
@@ -266,7 +278,7 @@ int	based_split(char *line, char ***splitted)
 	if (is_color((*splitted)[0]))
 	{
 		if (count_commas(line) != 2)
-			return (free_strs(*splitted), 0);
+			return (0);
 		free_strs(*splitted);
 		*splitted = ft_split(line, "\f\t\v\r\n ,");
 	}
@@ -278,7 +290,7 @@ int	parse_texture(char **line, t_textures **textures, int *counter)
 	int		status;
 
 	if (!based_split(*line, &splitted))
-		return (free(*line), 0);
+		return (free(*line), free_strs(splitted),0);
 	if (!is_count_valid(splitted[0], count_rows(splitted)))
 		return (free(*line), free_strs(splitted), 0);
 	status = process_texture(textures, splitted);
@@ -645,7 +657,7 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 	if (!check_textures(textures))
 		return (free_map(&map) ,free_textures(&textures), 0);
 	// print_textures(textures);
-	line = get_next_line(fd);
+	// line = get_next_line(fd);
 	while (line)
 	{
 		if (!add_map_line(&map, line))

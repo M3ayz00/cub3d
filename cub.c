@@ -29,14 +29,14 @@ void load_images(t_cub3d *data)
         data->wall_textures[i].addr = mlx_get_data_addr(data->wall_textures[i].img, &data->wall_textures[i].bits_per_pixel, &data->wall_textures[i].line_length, &data->wall_textures[i].endian);
         i++;
     }
-
     data->textures->ceil_tex.img = mlx_xpm_file_to_image(data->mlx, "textures/sky_dark.xpm", &data->textures->ceil_tex.width, &data->textures->ceil_tex.height);
-    // if (!data->textures->ceil_tex->img)
-    // {
-    //     printf("failed \n");
-    // return;
-    // }
     data->textures->ceil_tex.addr = mlx_get_data_addr(data->textures->ceil_tex.img, &data->textures->ceil_tex.bits_per_pixel, &data->textures->ceil_tex.line_length, &data->textures->ceil_tex.endian);
+}
+
+void	free_all(t_cub3d *cub3d)
+{
+	free_map(&cub3d->map2);
+	free_textures(&cub3d->textures);
 }
 
 int main(int ac, char **av)
@@ -61,12 +61,12 @@ int main(int ac, char **av)
         // Hook the key press and release events
         mlx_hook(data.win, 2, 1L << 0, key_press, &data);
         mlx_hook(data.win, 3, 1L << 1, key_release, &data);
-        mlx_hook(data.win, 17, 1L << 17, &ft_exit, NULL);
+        mlx_hook(data.win, 17, 1L << 17, &ft_exit, &data);
 
         // Set up the main loop to handle movement and rendering
         mlx_loop_hook(data.mlx, render, &data);
-
         mlx_loop(data.mlx);
+		free_all(&data);
     }
     else
         write(1, "USAGE ./cube3d [map]\n", 22);

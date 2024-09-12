@@ -10,10 +10,10 @@ SRCS_BONUS = ./bonus/cub_bonus.c ./parsing/gnl/get_next_line.c ./parsing/gnl/get
 		./parsing/lst_management.c ./parsing/map_parsing.c ./raycasting/raycasting.c \
 		./raycasting/player.c ./bonus/move_bonus.c ./raycasting/draw_env.c ./raycasting/utils.c \
 		./bonus/minimap_bonus.c
-		
+
 INCLUDES = -I/usr/include -Imlx
 MLX_FLAGS = -L./minilibx-linux -lmlx -lX11 -lXext -lm
-CFLAGS= -g3 -fsanitize=address #-Wall -Werror -Wextra 
+CFLAGS= #-g3 -fsanitize=address #-Wall -Werror -Wextra
 OBJS = $(SRCS:.c=.o)
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 GREEN = \033[0;32m
@@ -30,7 +30,7 @@ $(NAME): $(OBJS)
 $(BONUS): $(OBJS_BONUS)
 		cc  $(CFLAGS) -o $(BONUS) $(OBJS_BONUS) $(MLX_FLAGS)
 		@echo "$(GREEN)Ready to play 🕹️ ✅ $(RESET)"
- 
+
 .c.o:
 		cc $(CFLAGS) -c -o $@ $< $(INCLUDES)
 
