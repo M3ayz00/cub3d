@@ -57,7 +57,7 @@ void handle_movement(t_cub3d *data)
     double newPosX = data->player->posX;
     double newPosY = data->player->posY;
 
-    float sensitivity = 0.5; 
+    float sensitivity = 0.5;
 
     if (data->keys.forward)
         ft_move(data, &newPosX, &newPosY, FORWARD);
@@ -80,7 +80,7 @@ void handle_movement(t_cub3d *data)
 
     check_wall_colision(data, newPosX, newPosY);
 
-   
+
     data->keys.rotate_left = 0;
     data->keys.rotate_right = 0;
     data->keys.delta_x = 0;
@@ -91,22 +91,23 @@ int mouse_move(int x, int y, t_cub3d *data)
 {
     static int last_x = -1;
     int window_center_x = WIDTH / 2;
+	int window_center_y = HEIGHT / 2;
 
-    if (last_x != -1) 
+    if (last_x != -1)
     {
         data->keys.delta_x = (x - window_center_x);
 
-        if (data->keys.delta_x != 0) 
+        if (data->keys.delta_x != 0)
         {
             if (data->keys.delta_x > 0)
-                data->keys.rotate_right = 2; 
+                data->keys.rotate_right = 5;
             else if (data->keys.delta_x < 0)
-                data->keys.rotate_left = 2;  
+                data->keys.rotate_left = 5;
         }
 
-       
+
         if (x != window_center_x)
-            mlx_mouse_move(data->mlx, data->win, window_center_x, y);
+            mlx_mouse_move(data->mlx, data->win, window_center_x, window_center_y);
     }
 
     last_x = x;

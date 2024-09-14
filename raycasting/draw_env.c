@@ -31,14 +31,17 @@ uint32_t get_texture_color(t_image *texture, int x, int y) {
 }
 void render_ceil(t_cub3d *data, int i, int end)
 {
-     int l = 0;
+	int l = 0;
+	uint32_t	color;
+
+	color = get_rgb(255,data->textures->ceiling->r,data->textures->ceiling->g,data->textures->ceiling->b);
     while (l < end)
     {
-        my_mlx_pixel_put(data->image, i, l, get_rgb(255,data->textures->ceiling->r,data->textures->ceiling->g,data->textures->ceiling->b));
+        my_mlx_pixel_put(data->image, i, l, color);
         l++;
     }
 }
- 
+
 
 
 void render_ceil_bonus(t_cub3d *data, int i, int end)
@@ -120,9 +123,12 @@ void render_walls(t_cub3d *data, int i, int start, int end) {
 void render_floor(t_cub3d *data, int i, int start, int end)
 {
     int l = start;
+	uint32_t	color;
+
+	color = get_rgb(255, data->textures->floor->r, data->textures->floor->g, data->textures->floor->b);
     while (l < end)
     {
-        my_mlx_pixel_put(data->image, i, l, get_rgb(255,data->textures->floor->r,data->textures->floor->g,data->textures->floor->b));
+        my_mlx_pixel_put(data->image, i, l, color);
         l++;
     }
 }

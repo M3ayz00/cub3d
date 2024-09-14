@@ -14,7 +14,7 @@ int get_texel(t_image weapon, int x, int y)
     return *(int *)pixel;
 }
 
-void weapon_puts(t_cub3d *data, int up)
+void weapon_puts(t_cub3d *data)
 {
     int i;
     int x;
@@ -26,7 +26,7 @@ void weapon_puts(t_cub3d *data, int up)
 
     // Calculate the position to center the image horizontally
     int start_x = (screen_width - image_width) / 2;
-    int start_y = screen_height - image_height - up;
+    int start_y = screen_height - image_height;
 
     i = 0;
     while (i < image_height)
@@ -50,15 +50,15 @@ void render_weapon(t_cub3d *data)
     int width;
     int height;
     data->weapon->img = mlx_xpm_file_to_image(data->mlx, "bonus/textures/knife2.xpm", &width, &height);
-    data->weapon->width = width;
-    data->weapon->height = height;
     if (!data->weapon->img)
     {
         write(2, "error\n", 6);
         exit(1);
     }
+    data->weapon->width = width;
+    data->weapon->height = height;
     data->weapon->addr = mlx_get_data_addr(data->weapon->img, &data->weapon->bits_per_pixel, &data->weapon->line_length, &data->weapon->endian);
-    weapon_puts(data, 80);
+    weapon_puts(data);
     mlx_destroy_image(data->mlx, data->weapon->img);
 }
 

@@ -4,11 +4,10 @@ void get_player_pos(t_cub3d *data)
 {
     char **map = get_arr(data->map2->rows);
     int i = 0;
-    int j = 0;
     data->map2->map = map;
     while (map[i])
     {
-        j = 0;
+        int j = 0;
         while (map[i][j])
         {
             if (map[i][j] == 'N')

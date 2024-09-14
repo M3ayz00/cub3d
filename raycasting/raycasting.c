@@ -18,7 +18,6 @@ void dda(t_cub3d *data)
             data->map2->mapY += data->ray->stepY;
             data->ray->side = 1;
         }
-
         if (data->map2->map[data->map2->mapY][data->map2->mapX] == '1')
             hit = 1;
     }
@@ -57,7 +56,6 @@ void get_delta_distance(t_cub3d *data, double rayDirX, double rayDirY)
 
 void cast_ray(t_cub3d *data, double ray_angle)
 {
-    double perpDistWall;
     data->map2->mapX = (int)data->player->posX;
     data->map2->mapY = (int)data->player->posY;
 
