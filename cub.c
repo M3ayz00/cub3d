@@ -22,7 +22,7 @@ void init(t_cub3d *data)
 void load_images(t_cub3d *data)
 {
     int i = 0;
-    char *textures[4] = {data->textures->north, data->textures->west, data->textures->east, data->textures->south};
+    char *textures[4] = {data->textures->north, data->textures->south, data->textures->east, data->textures->west};
     while (i < 4)
     {
         data->wall_textures[i].img = mlx_xpm_file_to_image(data->mlx, textures[i], &data->wall_textures[i].width, &data->wall_textures[i].height);
@@ -31,11 +31,7 @@ void load_images(t_cub3d *data)
     }
 
     data->textures->ceil_tex.img = mlx_xpm_file_to_image(data->mlx, "textures/sky_dark.xpm", &data->textures->ceil_tex.width, &data->textures->ceil_tex.height);
-    // if (!data->textures->ceil_tex->img)
-    // {
-    //     printf("failed \n");
-    // return;
-    // }
+  
     data->textures->ceil_tex.addr = mlx_get_data_addr(data->textures->ceil_tex.img, &data->textures->ceil_tex.bits_per_pixel, &data->textures->ceil_tex.line_length, &data->textures->ceil_tex.endian);
 }
 

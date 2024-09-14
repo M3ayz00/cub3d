@@ -40,24 +40,22 @@ void strafing(t_cub3d *data, double *newPosX, double *newPosY, t_direction dir)
 
 void check_wall_colision(t_cub3d *data, double newPosX, double newPosY)
 {
-    if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&
-        data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' &&
-        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1')
+     if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&  // top-left corner
+        data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' &&  // top-right corner
+        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&  // bottom-left corner
+        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1'
+        )    // bottom-right corner
     {
+        // If no collisions, update the player's position
         data->player->posX = newPosX;
         data->player->posY = newPosY;
-        // render(data);
     }
 }
-
-
 
 void handle_movement(t_cub3d *data)
 {
     double newPosX = data->player->posX;
     double newPosY = data->player->posY;
-
-    float sensitivity = 0.5; 
 
     if (data->keys.forward)
         ft_move(data, &newPosX, &newPosY, FORWARD);
@@ -68,52 +66,43 @@ void handle_movement(t_cub3d *data)
     if (data->keys.right)
         strafing(data, &newPosX, &newPosY, RIGHT);
 
-    if (data->keys.rotate_left)
+    if (data->keys.rotate_left == 1)
         data->player->angle -= ROT_SPEED;
-    else if (data->keys.rotate_left == 2)
-        data->player->angle -= data->keys.delta_x * sensitivity;
+    if (data->keys.rotate_left == 2)
+        data->player->angle -= abs(data->keys.delta_x) * SENSITIVITY;
 
-    if (data->keys.rotate_right)
+    if (data->keys.rotate_right == 1)
         data->player->angle += ROT_SPEED;
-    else if (data->keys.rotate_right == 2)
-        data->player->angle += data->keys.delta_x * sensitivity;
-
+    if (data->keys.rotate_right == 2)
+        data->player->angle += abs(data->keys.delta_x) * SENSITIVITY;
     check_wall_colision(data, newPosX, newPosY);
-
-   
-    data->keys.rotate_left = 0;
-    data->keys.rotate_right = 0;
-    data->keys.delta_x = 0;
+    if (data->keys.rotate_left == 2 || data->keys.rotate_right == 2)
+        data->keys.rotate_left = 0,data->keys.rotate_right = 0,data->keys.delta_x = 0;
 }
-
 
 int mouse_move(int x, int y, t_cub3d *data)
 {
     static int last_x = -1;
     int window_center_x = WIDTH / 2;
+    int widow_center_y = HEIGHT / 2;
 
-    if (last_x != -1) 
+    if (last_x != -1)
     {
         data->keys.delta_x = (x - window_center_x);
 
-        if (data->keys.delta_x != 0) 
+        if (data->keys.delta_x != 0)
         {
             if (data->keys.delta_x > 0)
-                data->keys.rotate_right = 2; 
+                data->keys.rotate_right = 2;
             else if (data->keys.delta_x < 0)
-                data->keys.rotate_left = 2;  
+                data->keys.rotate_left = 2;
         }
-
-       
-        if (x != window_center_x)
-            mlx_mouse_move(data->mlx, data->win, window_center_x, y);
+        if (x != window_center_x || y != widow_center_y)
+            mlx_mouse_move(data->mlx, data->win, window_center_x, widow_center_y);
     }
-
     last_x = x;
-
     return (0);
 }
-
 
 int key_press(int key, t_cub3d *data)
 {

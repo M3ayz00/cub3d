@@ -64,51 +64,9 @@ void render_weapon(t_cub3d *data, int current_frame)
 void load_weapon_frames(t_cub3d *data)
 {
     int width, height;
+  
+
     char *filenames[FRAME_COUNT] = {
-        "bonus/textures/shoot/tile000.xpm",
-        "bonus/textures/shoot/tile001.xpm",
-        "bonus/textures/shoot/tile002.xpm",
-        "bonus/textures/shoot/tile003.xpm",
-        "bonus/textures/shoot/tile004.xpm",
-        "bonus/textures/shoot/tile005.xpm",
-        "bonus/textures/shoot/tile006.xpm",
-        "bonus/textures/shoot/tile007.xpm",
-        "bonus/textures/shoot/tile008.xpm",
-        "bonus/textures/shoot/tile009.xpm",
-        "bonus/textures/shoot/tile010.xpm",
-        "bonus/textures/shoot/tile011.xpm",
-        "bonus/textures/shoot/tile012.xpm",
-        "bonus/textures/shoot/tile013.xpm",
-        "bonus/textures/shoot/tile014.xpm",
-        "bonus/textures/shoot/tile015.xpm",
-        "bonus/textures/shoot/tile016.xpm",
-        "bonus/textures/shoot/tile017.xpm",
-        "bonus/textures/shoot/tile018.xpm",
-        "bonus/textures/shoot/tile019.xpm",
-        "bonus/textures/shoot/tile020.xpm",
-        "bonus/textures/shoot/tile021.xpm",
-        "bonus/textures/shoot/tile022.xpm",
-        "bonus/textures/shoot/tile023.xpm",
-        "bonus/textures/shoot/tile024.xpm",
-        "bonus/textures/shoot/tile025.xpm",
-        "bonus/textures/shoot/tile026.xpm",
-        "bonus/textures/shoot/tile027.xpm",
-        "bonus/textures/shoot/tile028.xpm",
-        "bonus/textures/shoot/tile029.xpm",
-        "bonus/textures/shoot/tile030.xpm",
-        "bonus/textures/shoot/tile031.xpm",
-        "bonus/textures/shoot/tile032.xpm",
-        "bonus/textures/shoot/tile033.xpm",
-        "bonus/textures/shoot/tile034.xpm",
-        "bonus/textures/shoot/tile035.xpm",
-        "bonus/textures/shoot/tile036.xpm",
-        "bonus/textures/shoot/tile037.xpm",
-        "bonus/textures/shoot/tile038.xpm",
-        "bonus/textures/shoot/tile039.xpm",
-
-    };
-
-    char *filenames2[FRAME_COUNT] = {
         "bonus/textures/idle/tile000.xpm",
         "bonus/textures/idle/tile001.xpm",
         "bonus/textures/idle/tile002.xpm",
@@ -136,7 +94,7 @@ void load_weapon_frames(t_cub3d *data)
     };
 
     data->frames->img = malloc(sizeof(t_image) * FRAME_COUNT); // Allocate memory for frames
-    if (!data->frames)
+    if (!data->frames->img)
     {
         write(2, "error allocating frames\n", 24);
         exit(1);
