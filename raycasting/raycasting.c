@@ -88,7 +88,7 @@ void cast_all_rays(t_cub3d *data)
         wall_start = (HEIGHT / 2) - (calc_height((data->ray->hit_distance * cos(ray_angle - data->player->angle)), HEIGHT) / 2);
         wall_end = (HEIGHT / 2) + (calc_height((data->ray->hit_distance * cos(ray_angle - data->player->angle)), HEIGHT) / 2);
         data->wall_height = wall_end - wall_start;
-        render_ceil_bonus(data, i, wall_start);
+        render_ceil(data, i, wall_start);
         render_walls(data, i, wall_start, wall_end);
         render_floor(data, i, wall_end, HEIGHT);
         i++;

@@ -24,15 +24,17 @@
 #include <sys/time.h>
 
 
+#define FRAME_COUNT 23
 #define FOV (M_PI / 3) // Field of View (60 degrees)
 
-#define WIDTH 1224
-#define HEIGHT 920
+#define WIDTH 1280
+#define HEIGHT 900
 #define TILE_SIZE 12
+#define SENSITIVITY 0.0005
 
 #define MOVE_SPEED 0.04
-#define ROT_SPEED 0.02
-#define MARGIN 0.1
+#define ROT_SPEED 0.03
+#define MARGIN 0.05
 
 #define W_KEY 119
 #define S_KEY 115
@@ -150,8 +152,10 @@ typedef struct s_cub3d
     t_player *player;
     t_map2 *map2;
     t_key_state keys;
+
     t_textures *textures;
     t_image wall_textures[4];
+    t_image frames[FRAME_COUNT];
     int wall_height;
 } t_cub3d;
 
