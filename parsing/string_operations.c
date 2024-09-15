@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:53:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/13 15:54:29 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/15 19:00:51 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strdup(char *str)
 	return (new_str);
 }
 
-int   add_map_line(t_map2 **map, char *element)
+int   add_map_line(t_map2 **map, char *element, int nb_textures)
 {
 	if (!is_valid_elem(element))
 		return (0);

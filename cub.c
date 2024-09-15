@@ -31,7 +31,6 @@ void load_images(t_cub3d *data)
     }
 
     data->textures->ceil_tex.img = mlx_xpm_file_to_image(data->mlx, "textures/sky_dark.xpm", &data->textures->ceil_tex.width, &data->textures->ceil_tex.height);
-
     data->textures->ceil_tex.addr = mlx_get_data_addr(data->textures->ceil_tex.img, &data->textures->ceil_tex.bits_per_pixel, &data->textures->ceil_tex.line_length, &data->textures->ceil_tex.endian);
 }
 
@@ -41,7 +40,7 @@ int main(int ac, char **av)
 
     if (ac == 2)
     {
-        if (!parse_data(&data, av[1]))
+        if (!parse_data(&data, av[1], 6))
         {
             write(2, "error\n", 6);
             exit(1);

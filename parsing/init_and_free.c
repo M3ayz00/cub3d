@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:47:37 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/13 16:04:41 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/15 18:15:25 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_textures(t_textures **textures)
 	(*textures)->south = NULL;
 	(*textures)->east = NULL;
 	(*textures)->west = NULL;
+	(*textures)->door = NULL;
 }
 
 void	init_map(t_map2 **map)
@@ -74,6 +75,11 @@ void	free_textures(t_textures **textures)
 	{
 		(*textures)->east = NULL;
 		free((*textures)->east);
+	}
+	if ((*textures)->door)
+	{
+		(*textures)->door = NULL;
+		free((*textures)->door);
 	}
 	(*textures) = NULL;
 	free((*textures));

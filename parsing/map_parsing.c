@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/12 19:54:40 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/15 19:22:17 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	is_texture(char *element)
 	return  (!ft_strcmp(element, "NO")
 		|| !ft_strcmp(element, "SO")
 		|| !ft_strcmp(element, "EA")
-		|| !ft_strcmp(element, "WE"));
+		|| !ft_strcmp(element, "WE")
+		|| !ft_strcmp(element, "D"));
 }
 
 int	is_identifier(char *line)
@@ -86,7 +87,7 @@ int	is_player(char c)
 
 int	is_plane(char c)
 {
-	return (c == '0' || c == '1');
+		return (c == '0' || c == '1' || c == 'D');
 }
 
 
@@ -230,6 +231,13 @@ int	process_texture(t_textures **textures, char **splitted)
 		if (!check_texture_file(splitted[1], &(*textures)->west))
 			return (0);
 	}
+	else if (!ft_strcmp(splitted[0], "D"))
+	{
+		if ((*textures)->door)
+			return (0);
+		if (!check_texture_file(splitted[1], &(*textures)->door))
+			return (0);
+	}
 	else if (!ft_strcmp(splitted[0], "F"))
 	{
 		if ((*textures)->floor)
@@ -299,24 +307,24 @@ int	parse_texture(char **line, t_textures **textures, int *counter)
 	return (free(*line), free_strs(splitted), status);
 }
 
-int	is_one_or_player(char c)
+int	is_plane_or_player(char c)
 {
-	return (c == '1' || c == '0' || is_player(c));
+	return (is_plane(c) || is_player(c));
 }
 
 int	is_valid_zero(t_lst *row, int i)
 {
-	if ((i > 0 && !is_one_or_player(row->row[i - 1]))
-		|| (row->row[i + 1] && !is_one_or_player(row->row[i + 1])))
+	if ((i > 0 && !is_plane_or_player(row->row[i - 1]))
+		|| (row->row[i + 1] && !is_plane_or_player(row->row[i + 1])))
 		return (0);
 	if (row->prev)
 	{
-		if ((row->prev->row[i] && !is_one_or_player(row->prev->row[i])))
+		if ((row->prev->row[i] && !is_plane_or_player(row->prev->row[i])))
 			return (0);
 	}
 	if (row->next)
 	{
-		if ((row->next->row[i] && !is_one_or_player(row->next->row[i])))
+		if ((row->next->row[i] && !is_plane_or_player(row->next->row[i])))
 			return (0);
 	}
 	return (1);
@@ -533,12 +541,12 @@ int	parse_map(t_lst **rows)
 }
 int	check_textures(t_textures *textures)
 {
-	if (!textures->ceiling
+	if ((!textures->ceiling
 		|| !textures->floor
 		|| !textures->east
 		|| !textures->west
 		|| !textures->north
-		|| !textures->south)
+		|| !textures->south))
 		return (0);
 	return (1);
 }
@@ -575,6 +583,11 @@ void	free_textures(t_textures **textures)
 		(*textures)->east = NULL;
 		free((*textures)->east);
 	}
+	if ((*textures)->door)
+	{
+		(*textures)->door = NULL;
+		free((*textures)->door);
+	}
 	(*textures) = NULL;
 	free((*textures));
 }
@@ -594,6 +607,7 @@ void	init_textures(t_textures **textures)
 	(*textures)->south = NULL;
 	(*textures)->east = NULL;
 	(*textures)->west = NULL;
+	(*textures)->door = NULL;
 }
 
 void	init_map(t_map2 **map)
@@ -624,7 +638,26 @@ void	print_map(t_lst *lst)
 	}
 	printf("-------------UNPARSED MAP----------\n");
 }
-int	process_map_and_textures(int fd, t_cub3d *cub3d)
+
+int	check_door_texture(char **line, t_textures **textures, int *i, int fd)
+{
+	while (*line)
+	{
+		if (is_identifier((*line)) == 1)
+		{
+			if (!parse_texture(&(*line), textures, i))
+				return (0);
+		}
+		else if (!is_identifier((*line)))
+			free((*line));
+		else
+			return (1);
+		(*line) = get_next_line(fd);
+	}
+	return (0);
+}
+
+int	process_map_and_textures(int fd, t_cub3d *cub3d, int nb_textures)
 {
 	t_textures	*textures;
 	t_map2		*map;
@@ -654,6 +687,8 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 			free(line);
 		line = get_next_line(fd);
 	}
+	if (nb_textures == 7 && !check_door_texture(&line, &textures, &i, fd))
+		return (free_map(&map), free_textures(&textures), 0);
 	if (!check_textures(textures))
 		return (free_map(&map) ,free_textures(&textures), 0);
 	// print_textures(textures);
@@ -677,14 +712,14 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d)
 
 
 
-int	parse_data(t_cub3d *cub3d ,char *path)
+int	parse_data(t_cub3d *cub3d ,char *path, int nb_textures)
 {
 	int		fd;
 
 	fd = open_file(path);
 	if (fd == -1)
 		return (0);
-	if (process_map_and_textures(fd, cub3d))
+	if (process_map_and_textures(fd, cub3d, nb_textures))
 		return (close(fd), 1);
 	return (close(fd), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/14 13:41:04 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/15 18:47:10 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 
 #define FRAME_COUNT 23
+#define DOOR_FRAMES 9
 #define FOV (M_PI / 3) // Field of View (60 degrees)
 
 #define WIDTH 1280
@@ -51,6 +52,24 @@ typedef enum t_dir
     LEFT,
     RIGHT,
 } t_direction;
+
+typedef struct s_image
+{
+    int width;
+    int height;
+    void *img;
+    char *addr;
+    int bits_per_pixel;
+    int line_length;
+    int endian;
+} t_image;
+
+typedef struct s_door
+{
+	int		**door_state;
+	double	**door_timer;
+	t_image	door_frames[DOOR_FRAMES];
+} t_door;
 
 typedef struct s_key_state {
     int delta_x;
@@ -118,16 +137,6 @@ typedef struct s_map2
     int mapY;
 } t_map2;
 
-typedef struct s_image
-{
-    int width;
-    int height;
-    void *img;
-    char *addr;
-    int bits_per_pixel;
-    int line_length;
-    int endian;
-} t_image;
 
 typedef struct s_textures
 {
@@ -135,10 +144,12 @@ typedef struct s_textures
     t_color *ceiling;
     t_image ceil_tex;
     t_image *floor_tex;
+	t_image door_tex;
     char *north;
     char *south;
     char *east;
     char *west;
+	char	*door;
 } t_textures;
 
 typedef struct s_cub3d
@@ -152,7 +163,7 @@ typedef struct s_cub3d
     t_player *player;
     t_map2 *map2;
     t_key_state keys;
-
+	t_door		*doors;
     t_textures *textures;
     t_image wall_textures[4];
     t_image frames[FRAME_COUNT];
@@ -173,7 +184,7 @@ int ft_lstsize(t_lst *lst);
 void ft_lstclear(t_lst **lst);
 char *ft_strdup(char *str);
 t_lst *ft_lstlast(t_lst *lst);
-int parse_data(t_cub3d *cub3d, char *path);
+int parse_data(t_cub3d *cub3d, char *path, int nb_textures);
 void	free_textures(t_textures **textures);
 void	free_map(t_map2 **map);
 

@@ -136,6 +136,29 @@ int render(void *cub)
     return 0;
 }
 
+void	init_doors(t_door **doors)
+{
+	int y;
+	int x;
+
+	y = 0;
+	(*doors)->door_state = malloc(sizeof(int *) * HEIGHT);
+	(*doors)->door_timer = malloc(sizeof(double *) * HEIGHT);
+	while (y < HEIGHT)
+	{
+		(*doors)->door_state[y] = malloc(sizeof(int) * WIDTH);
+		(*doors)->door_timer[y] = malloc(sizeof(double) * WIDTH);
+		x = 0;
+		while (x < WIDTH)
+		{
+			(*doors)->door_state[y][x] = 0;
+			(*doors)->door_timer[y][x] = 0.0;
+			x++;
+		}
+		y++;
+	}
+}
+
 void init(t_cub3d *data)
 {
     data->player = malloc(sizeof(t_player));
@@ -143,13 +166,14 @@ void init(t_cub3d *data)
     data->image = malloc(sizeof(t_image));
     data->minimap = malloc(sizeof(t_image));
     data->weapon = malloc(sizeof(t_image));
-
-    if (!data->player || !data->ray || !data->image || !data->minimap || !data->weapon)
+	data->doors = malloc(sizeof(t_door));
+	//check each on its own for better memory management
+    if (!data->player || !data->ray || !data->image || !data->minimap || !data->weapon || !data->doors)
     {
         write(2, "error allocating memory\n", 25);
         exit(1);
     }
-
+	init_doors(&data->doors);
     data->mlx = mlx_init();
     data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3d");
     data->image->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
@@ -178,6 +202,17 @@ void load_images(t_cub3d *data)
         exit(1);
     }
     data->textures->ceil_tex.addr = mlx_get_data_addr(data->textures->ceil_tex.img, &data->textures->ceil_tex.bits_per_pixel, &data->textures->ceil_tex.line_length, &data->textures->ceil_tex.endian);
+	if (data->textures->door)
+	{
+		data->textures->door_tex.img = mlx_xpm_file_to_image(data->mlx, data->textures->door, &data->textures->door_tex.width, &data->textures->door_tex.height);
+		if (!data->textures->door_tex.img)
+		
+		{
+			write(2, "error loading door texture\n", 26);
+			exit(1);
+		}
+		data->textures->door_tex.addr = mlx_get_data_addr(data->textures->door_tex.img, &data->textures->door_tex.bits_per_pixel, &data->textures->door_tex.line_length, &data->textures->door_tex.endian);
+	}
 }
 
 int main(int ac, char **av)
@@ -186,7 +221,7 @@ int main(int ac, char **av)
 
     if (ac == 2)
     {
-        if (!parse_data(&data, av[1]))
+        if (!parse_data(&data, av[1], 7))
         {
             write(2, "error\n", 6);
             exit(1);
