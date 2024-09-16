@@ -40,16 +40,15 @@ void strafing(t_cub3d *data, double *newPosX, double *newPosY, t_direction dir)
 
 void check_wall_colision(t_cub3d *data, double newPosX, double newPosY)
 {
-     if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&  // top-left corner
-        data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' &&  // top-right corner
-        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&  // bottom-left corner
-        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1'
-        )    // bottom-right corner
-    {
-        // If no collisions, update the player's position
-        data->player->posX = newPosX;
-        data->player->posY = newPosY;
-    }
+	if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1'// top-left corner
+		&&  data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' // top-right corner
+		&& data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1' // bottom-left corner
+		&& data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1')    // bottom-right corner
+	{
+		// If no collisions, update the player's position
+		data->player->posX = newPosX;
+		data->player->posY = newPosY;
+	}
 }
 
 void handle_movement(t_cub3d *data)
@@ -58,15 +57,14 @@ void handle_movement(t_cub3d *data)
     double newPosY = data->player->posY;
 
     float sensitivity = 0.5;
-
-    if (data->keys.forward)
-        ft_move(data, &newPosX, &newPosY, FORWARD);
-    if (data->keys.backward)
-        ft_move(data, &newPosX, &newPosY, BACKWARD);
-    if (data->keys.left)
-        strafing(data, &newPosX, &newPosY, LEFT);
-    if (data->keys.right)
-        strafing(data, &newPosX, &newPosY, RIGHT);
+	if (data->keys.forward)
+		ft_move(data, &newPosX, &newPosY, FORWARD);
+	if (data->keys.backward)
+		ft_move(data, &newPosX, &newPosY, BACKWARD);
+	if (data->keys.left)
+		strafing(data, &newPosX, &newPosY, LEFT);
+	if (data->keys.right)
+		strafing(data, &newPosX, &newPosY, RIGHT);
 
     if (data->keys.rotate_left == 1)
         data->player->angle -= ROT_SPEED;
@@ -78,7 +76,6 @@ void handle_movement(t_cub3d *data)
     if (data->keys.rotate_right == 2)
         data->player->angle += abs(data->keys.delta_x) * SENSITIVITY;
     check_wall_colision(data, newPosX, newPosY);
-
 
     data->keys.rotate_left = 0;
     data->keys.rotate_right = 0;
@@ -111,6 +108,14 @@ int mouse_move(int x, int y, t_cub3d *data)
     return (0);
 }
 
+void toggle_door(t_cub3d *data, int door_x, int door_y)
+{
+    if (data->doors->state[door_y][door_x] == 0)
+        data->doors->state[door_y][door_x] = 1;
+    else if (data->doors->state[door_y][door_x] == 2)
+        data->doors->state[door_y][door_x] = 3;
+}
+
 int key_press(int key, t_cub3d *data)
 {
     if (key == ESC_KEY)
@@ -127,6 +132,20 @@ int key_press(int key, t_cub3d *data)
         data->keys.rotate_left = 1;
     else if (key == RIGHT_KEY)
         data->keys.rotate_right = 1;
+	else if (key == E_KEY)
+	{
+		int x = (int)data->player->posX;
+        int y = (int)data->player->posY;
+
+        if (data->map2->map[y + 1][x] == 'D')
+            toggle_door(data, x, y + 1);
+		if (data->map2->map[y][x + 1] == 'D')
+            toggle_door(data, x + 1, y);
+		if (data->map2->map[y - 1][x] == 'D')
+            toggle_door(data, x, y - 1);
+		if (data->map2->map[y][x - 1] == 'D')
+            toggle_door(data, x - 1, y);
+	}
     return (0);
 }
 

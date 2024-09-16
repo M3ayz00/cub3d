@@ -48,7 +48,7 @@ void draw_player(t_cub3d *data, int xc, int yc, int radius, int color)
     int y = radius;
     int d = 3 - 2 * radius;
 
-    
+
 
     while (y >= x)
     {
@@ -117,6 +117,8 @@ void render_map(t_cub3d *data)
                 draw_cub(data, j * cub_size_width, i * cub_size_height, cub_size_height, cub_size_width, get_rgb(100,44,16,16));
             else if (data->map2->map[i][j] == '0' || data->map2->map[i][j] == 'S' || data->map2->map[i][j] == 'N' || data->map2->map[i][j] == 'E' || data->map2->map[i][j] == 'W')
                 draw_cub(data, j * cub_size_width, i * cub_size_height, cub_size_height, cub_size_width, get_rgb(100,118,115,165));
+			else if (data->map2->map[i][j] == 'D')
+				draw_cub(data, j * cub_size_width, i * cub_size_height, cub_size_height, cub_size_width, get_rgb(100,255,255,16));
             j++;
         }
         i++;

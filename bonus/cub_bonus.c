@@ -114,12 +114,82 @@ void load_weapon_frames(t_cub3d *data)
     }
 }
 
+void	load_door_frames(t_cub3d *data)
+{
+	char *filenames[DOOR_FRAMES] = {
+		"bonus/textures/door/door_frame_1.xpm",
+		"bonus/textures/door/door_frame_2.xpm",
+		"bonus/textures/door/door_frame_3.xpm",
+		"bonus/textures/door/door_frame_4.xpm",
+		"bonus/textures/door/door_frame_5.xpm",
+		"bonus/textures/door/door_frame_6.xpm",
+		"bonus/textures/door/door_frame_7.xpm",
+		"bonus/textures/door/door_frame_8.xpm",
+		"bonus/textures/door/door_frame_9.xpm",
+	};
+	data->doors->door_frames = malloc(sizeof(t_image) * DOOR_FRAMES);
+	if (!data->doors->door_frames)
+	{
+		write(2, "door frames allocation error\n", 29);
+		exit(1);
+	}
+	for (int i = 0; i < DOOR_FRAMES; i++)
+	{
+		data->doors->door_frames[i].img = mlx_xpm_file_to_image(data->mlx,
+			filenames[i], &data->doors->door_frames[i].width,
+			&data->doors->door_frames[i].height);
+		if (!data->doors->door_frames[i].img)
+		{
+			write(2, "door frames loading error\n", 28);
+			exit(1);
+		}
+		data->doors->door_frames[i].addr = mlx_get_data_addr(data->doors->door_frames[i].img,
+			&data->doors->door_frames[i].bits_per_pixel,
+			&data->doors->door_frames[i].line_length,
+			&data->doors->door_frames[i].endian);
+	}
+}
+
+void	update_doors(t_cub3d *cub3d)
+{
+	int y = 0;
+	double delta_time = 1.0 / 60.0;
+	while (y < HEIGHT)
+	{
+		int x = 0;
+		while (x < WIDTH)
+		{
+			if (cub3d->doors->state[y][x] == 1) //opening
+			{
+				cub3d->doors->timer[y][x] += delta_time;
+				if (cub3d->doors->timer[y][x] >= 1.0)
+				{
+					cub3d->doors->timer[y][x] = 1.0;
+					cub3d->doors->state[y][x] = 2; // open
+				}
+			}
+			else if (cub3d->doors->state[y][x] == 3) // closing
+			{
+				cub3d->doors->timer[y][x] -= delta_time;
+				if (cub3d->doors->timer[y][x] <= 0.0)
+				{
+					cub3d->doors->timer[y][x] = 0.0;
+					cub3d->doors->state[y][x] = 0; // open
+				}
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
 int render(void *cub)
 {
     t_cub3d *data = (t_cub3d *)cub;
     handle_movement(data);
     cast_all_rays(data);
     render_map(data);
+	update_doors(data);
 
     static int current_frame = 0;
     static int frame_count = 0;
@@ -142,17 +212,17 @@ void	init_doors(t_door **doors)
 	int x;
 
 	y = 0;
-	(*doors)->door_state = malloc(sizeof(int *) * HEIGHT);
-	(*doors)->door_timer = malloc(sizeof(double *) * HEIGHT);
+	(*doors)->state = malloc(sizeof(int *) * HEIGHT);
+	(*doors)->timer = malloc(sizeof(double *) * HEIGHT);
 	while (y < HEIGHT)
 	{
-		(*doors)->door_state[y] = malloc(sizeof(int) * WIDTH);
-		(*doors)->door_timer[y] = malloc(sizeof(double) * WIDTH);
+		(*doors)->state[y] = malloc(sizeof(int) * WIDTH);
+		(*doors)->timer[y] = malloc(sizeof(double) * WIDTH);
 		x = 0;
 		while (x < WIDTH)
 		{
-			(*doors)->door_state[y][x] = 0;
-			(*doors)->door_timer[y][x] = 0.0;
+			(*doors)->state[y][x] = 0;
+			(*doors)->timer[y][x] = 0.0;
 			x++;
 		}
 		y++;
@@ -206,7 +276,7 @@ void load_images(t_cub3d *data)
 	{
 		data->textures->door_tex.img = mlx_xpm_file_to_image(data->mlx, data->textures->door, &data->textures->door_tex.width, &data->textures->door_tex.height);
 		if (!data->textures->door_tex.img)
-		
+
 		{
 			write(2, "error loading door texture\n", 26);
 			exit(1);
@@ -231,6 +301,7 @@ int main(int ac, char **av)
         get_player_pos(&data);
         init_key_state(&data.keys);
         load_images(&data);
+		load_door_frames(&data);
         load_weapon_frames(&data); // Load weapon frames
 
         mlx_mouse_hide(data.mlx, data.win); // Hide the mouse

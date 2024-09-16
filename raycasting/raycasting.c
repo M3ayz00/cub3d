@@ -4,6 +4,7 @@ void dda(t_cub3d *data)
 {
     int hit = 0;
 
+	data->ray->hit_door = 0;
     while (hit == 0)
     {
         if (data->ray->sideDistX < data->ray->sideDistY)
@@ -18,8 +19,11 @@ void dda(t_cub3d *data)
             data->map2->mapY += data->ray->stepY;
             data->ray->side = 1;
         }
-        if (data->map2->map[data->map2->mapY][data->map2->mapX] == '1')
+		char tile = data->map2->map[data->map2->mapY][data->map2->mapX];
+        if (tile == '1' || (tile == 'D' && data->doors->state[data->map2->mapY][data->map2->mapX] != 2))
             hit = 1;
+		if (tile == 'D')
+			data->ray->hit_door = 1;
     }
     if (data->ray->side == 0)
         data->ray->hit_distance = (data->ray->sideDistX - data->ray->deltaDistX);
@@ -56,17 +60,14 @@ void get_delta_distance(t_cub3d *data, double rayDirX, double rayDirY)
 
 void cast_ray(t_cub3d *data, double ray_angle)
 {
-    data->map2->mapX = (int)data->player->posX;
-    data->map2->mapY = (int)data->player->posY;
-
-    double rayDirX = cos(ray_angle);
-    double rayDirY = sin(ray_angle);
-    // get delta distance
-    get_delta_distance(data, rayDirX, rayDirY);
-    dda(data);
-
-    data->ray->hitX = data->player->posX + data->ray->hit_distance * rayDirX;
-    data->ray->hitY = data->player->posY + data->ray->hit_distance * rayDirY;
+	data->map2->mapX = (int)data->player->posX;
+	data->map2->mapY = (int)data->player->posY;
+	double rayDirX = cos(ray_angle);
+	double rayDirY = sin(ray_angle);
+	get_delta_distance(data, rayDirX, rayDirY);
+	dda(data);
+	data->ray->hitX = data->player->posX + data->ray->hit_distance * rayDirX;
+	data->ray->hitY = data->player->posY + data->ray->hit_distance * rayDirY;
     data->ray->is_vertical = (data->ray->side == 0);
 }
 
@@ -89,7 +90,10 @@ void cast_all_rays(t_cub3d *data)
         wall_end = (HEIGHT / 2) + (calc_height((data->ray->hit_distance * cos(ray_angle - data->player->angle)), HEIGHT) / 2);
         data->wall_height = wall_end - wall_start;
         render_ceil(data, i, wall_start);
-        render_walls(data, i, wall_start, wall_end);
+		if (data->ray->hit_door)
+			render_door(data, i, wall_start, wall_end);
+		else
+        	render_walls(data, i, wall_start, wall_end);
         render_floor(data, i, wall_end, HEIGHT);
         i++;
     }

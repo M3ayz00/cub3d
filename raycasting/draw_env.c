@@ -132,3 +132,34 @@ void render_floor(t_cub3d *data, int i, int start, int end)
         l++;
     }
 }
+
+
+void	render_door(t_cub3d *data, int i, int start, int end)
+{
+	t_image		*door;
+	t_render	tools;
+	int			y;
+	int			frame_index;
+
+	door = &data->doors->door_frames[0];
+    if (data->ray->hit_door)
+    {
+        frame_index = (int)(data->doors->timer[data->map2->mapY][data->map2->mapX] * (DOOR_FRAMES - 1));
+        door = &data->doors->door_frames[frame_index];
+    }
+	tools.x = data->ray->hitX - floor(data->ray->hitX);
+	if (data->ray->is_vertical)
+		tools.x = data->ray->hitY - floor(data->ray->hitY);
+	tools.column = (int)(tools.x * door->width);
+	if (tools.column >= door->width)
+		tools.column = door->width - 1;
+	tools.slice_height = end - start;
+	tools.scale = (float)door->height / tools.slice_height;
+	for (y = start; y < end; y++) {
+		tools.y = (int)((y - start) * tools.scale);
+		if (tools.y >= door->height)
+			tools.y = door->height - 1;
+		tools.color = get_texture_color(door, tools.column, tools.y);
+		my_mlx_pixel_put(data->image, i, y, tools.color);
+	}
+}

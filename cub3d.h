@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/15 18:47:10 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:57:26 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <math.h>
 #include <sys/time.h>
 
+#define THIN_WALL_THRESHOLD 0.3
 
 #define FRAME_COUNT 23
 #define DOOR_FRAMES 9
@@ -44,6 +45,7 @@
 #define LEFT_KEY 65361
 #define RIGHT_KEY 65363
 #define ESC_KEY 65307
+#define E_KEY 101
 
 typedef enum t_dir
 {
@@ -52,6 +54,7 @@ typedef enum t_dir
     LEFT,
     RIGHT,
 } t_direction;
+
 
 typedef struct s_image
 {
@@ -66,13 +69,22 @@ typedef struct s_image
 
 typedef struct s_door
 {
-	int		**door_state;
-	double	**door_timer;
-	t_image	door_frames[DOOR_FRAMES];
+	int		**state;
+	double	**timer;
+	t_image	*door_frames;
 } t_door;
 
+typedef struct s_rendering_tools
+{
+	double		x;
+	int			y;
+	int			column;
+	int			slice_height;
+	float		scale;
+	uint32_t	color;
+}	t_render;
 typedef struct s_key_state {
-    int delta_x;
+	int delta_x;
     int forward;
     int backward;
     int left;
@@ -115,6 +127,7 @@ typedef struct s_ray
     int stepY;
     int side;
     int is_vertical;
+	int	hit_door;
     double hit_distance;
 } t_ray;
 
@@ -187,6 +200,7 @@ t_lst *ft_lstlast(t_lst *lst);
 int parse_data(t_cub3d *cub3d, char *path, int nb_textures);
 void	free_textures(t_textures **textures);
 void	free_map(t_map2 **map);
+void	render_door(t_cub3d *data, int i, int start, int end);
 
 // raycasting prototypes
 void my_mlx_pixel_put(t_image *image, int x, int y, int color);
