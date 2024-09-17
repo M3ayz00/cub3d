@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/15 19:22:17 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:43:06 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -522,7 +522,19 @@ int	check_each_row(t_lst **rows)
 	return (1);
 }
 
-int	parse_map(t_lst **rows)
+int	get_longest_line(t_lst *rows)
+{
+	int max_size = ft_strlen(rows->row);
+	while (rows)
+	{
+		if (ft_strlen(rows->row) > max_size)
+			max_size = ft_strlen(rows->row);
+		rows = rows->next;
+	}
+	return (max_size);
+}
+
+int	parse_map(t_lst **rows, t_cub3d *cub3d)
 {
 	int		count = 0;
 	int		before = 0;
@@ -536,6 +548,8 @@ int	parse_map(t_lst **rows)
 		return (0);
 	if (!check_zeros(rows))
 		return (0);
+	// cub3d->map2->height = ft_lstsize(*rows);
+	// cub3d->map2->width = get_longest_line(*rows);
 	return (1);
 
 }
@@ -702,7 +716,7 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d, int nb_textures)
 		line = get_next_line(fd);
 	}
 	// print_map(map->rows);
-	if (!parse_map(&map->rows))
+	if (!parse_map(&map->rows, cub3d))
 		return (free_map(&map), free_textures(&textures), 0);
 	// print_map(map->rows);
 	cub3d->textures = textures;

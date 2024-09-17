@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/17 17:59:39 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:57:10 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ int parse_data(t_cub3d *cub3d, char *path, int nb_textures);
 void	free_textures(t_textures **textures);
 void	free_map(t_map2 **map);
 void	render_door(t_cub3d *data, int i, int start, int end);
+uint32_t get_texture_color(t_image *texture, int x, int y);
 
 // raycasting prototypes
 void my_mlx_pixel_put(t_image *image, int x, int y, int color);
