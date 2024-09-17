@@ -1,5 +1,34 @@
 #include "../cub3d.h"
 
+int is_near_door(t_cub3d *cub3d)
+{
+	int x = (int)cub3d->player->posX;
+	int y = (int)cub3d->player->posY;
+	return ( cub3d->map2->map[y + 1][x] == 'D'
+		|| cub3d->map2->map[y][x + 1] == 'D'
+		|| cub3d->map2->map[y - 1][x] == 'D'
+		|| cub3d->map2->map[y][x - 1] == 'D');
+}
+
+void	door_interaction(t_cub3d *cub3d)
+{
+	int y = 0;
+	while (cub3d->map2->map[y])
+	{
+		int x = 0;
+		while (cub3d->map2->map[y][x])
+		{
+			if (cub3d->map2->map[y][x] == 'D')
+			{
+				if (is_near_door(cub3d))
+					mlx_string_put(cub3d->mlx, cub3d->win, WIDTH / 2, HEIGHT / 2, get_rgb(0, 255, 255, 255), "Press [E] to interact");
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
 void init_key_state(t_key_state *keys)
 {
     keys->forward = 0;
@@ -116,6 +145,7 @@ void toggle_door(t_cub3d *data, int door_x, int door_y)
         data->doors->state[door_y][door_x] = 3;
 }
 
+
 int key_press(int key, t_cub3d *data)
 {
     if (key == ESC_KEY)
@@ -136,15 +166,14 @@ int key_press(int key, t_cub3d *data)
 	{
 		int x = (int)data->player->posX;
         int y = (int)data->player->posY;
-
-        if (data->map2->map[y + 1][x] == 'D')
-            toggle_door(data, x, y + 1);
+		if (data->map2->map[y + 1][x] == 'D')
+			toggle_door(data, x, y + 1);
 		if (data->map2->map[y][x + 1] == 'D')
-            toggle_door(data, x + 1, y);
+			toggle_door(data, x + 1, y);
 		if (data->map2->map[y - 1][x] == 'D')
-            toggle_door(data, x, y - 1);
+			toggle_door(data, x, y - 1);
 		if (data->map2->map[y][x - 1] == 'D')
-            toggle_door(data, x - 1, y);
+			toggle_door(data, x - 1, y);
 	}
     return (0);
 }

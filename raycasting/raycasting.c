@@ -22,7 +22,7 @@ void dda(t_cub3d *data)
 		char tile = data->map2->map[data->map2->mapY][data->map2->mapX];
         if (tile == '1' || (tile == 'D' && data->doors->state[data->map2->mapY][data->map2->mapX] != 2))
             hit = 1;
-		if (tile == 'D')
+		if (tile == 'D' && data->doors->state[data->map2->mapY][data->map2->mapX] != 2)
 			data->ray->hit_door = 1;
     }
     if (data->ray->side == 0)

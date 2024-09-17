@@ -160,6 +160,21 @@ void	render_door(t_cub3d *data, int i, int start, int end)
 		if (tools.y >= door->height)
 			tools.y = door->height - 1;
 		tools.color = get_texture_color(door, tools.column, tools.y);
-		my_mlx_pixel_put(data->image, i, y, tools.color);
+		// if (tools.color == 0x000000)
+		// {
+		// 	double ray_angle = data->player->angle - (FOV / 2) + (i * FOV / WIDTH);
+		// 	cast_ray(data, ray_angle);
+		// 	int wall_start = (HEIGHT / 2) - (calc_height((data->ray->hit_distance * cos(ray_angle - data->player->angle)), HEIGHT) / 2);
+		// 	int wall_end = (HEIGHT / 2) + (calc_height((data->ray->hit_distance * cos(ray_angle - data->player->angle)), HEIGHT) / 2);
+		// 	data->wall_height = wall_end - wall_start;
+		// 	render_ceil(data, i, wall_start);
+		// 	if (data->ray->hit_door)
+		// 		render_door(data, i, wall_start, wall_end);
+		// 	else
+		// 		render_walls(data, i, wall_start, wall_end);
+		// 	render_floor(data, i, wall_end, HEIGHT);
+		// }
+		// else
+			my_mlx_pixel_put(data->image, i, y, tools.color);
 	}
 }

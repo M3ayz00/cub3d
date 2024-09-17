@@ -161,7 +161,7 @@ void	update_doors(t_cub3d *cub3d)
 		{
 			if (cub3d->doors->state[y][x] == 1) //opening
 			{
-				cub3d->doors->timer[y][x] += delta_time;
+				cub3d->doors->timer[y][x] += delta_time * 2;
 				if (cub3d->doors->timer[y][x] >= 1.0)
 				{
 					cub3d->doors->timer[y][x] = 1.0;
@@ -170,7 +170,7 @@ void	update_doors(t_cub3d *cub3d)
 			}
 			else if (cub3d->doors->state[y][x] == 3) // closing
 			{
-				cub3d->doors->timer[y][x] -= delta_time;
+				cub3d->doors->timer[y][x] -= delta_time * 2;
 				if (cub3d->doors->timer[y][x] <= 0.0)
 				{
 					cub3d->doors->timer[y][x] = 0.0;
@@ -190,6 +190,8 @@ int render(void *cub)
     cast_all_rays(data);
     render_map(data);
 	update_doors(data);
+	door_interaction(data);
+
 
     static int current_frame = 0;
     static int frame_count = 0;

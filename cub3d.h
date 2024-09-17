@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/16 19:57:26 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:59:39 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,10 @@ void draw_line(t_cub3d *data, int x0, int y0, int x1, int y1, int color);
 void draw_direction_line(t_cub3d *data, int x, int y, double angle, int length, int color);
 void draw_player(t_cub3d *data, int xc, int yc, int radius, int color);
 void draw_cub(t_cub3d *data, int x, int y, int size_h, int size_w, int color);
-void cast_map_rays(t_cub3d *data);
+void cast_map_rays(t_cub3d *data, int offset, double scale);
 void render_map(t_cub3d *data);
+void	door_interaction(t_cub3d *cub3d);
+
 int    get_texel(t_image texture, int x, int y);
 void init_key_state(t_key_state *keys) ;
 int key_release(int key, t_cub3d *data);
