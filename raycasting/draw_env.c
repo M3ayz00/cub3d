@@ -134,6 +134,39 @@ void render_floor(t_cub3d *data, int i, int start, int end)
 }
 
 
+int get_background_color(t_cub3d *data, double start_x, double start_y, double angle)
+{
+    double ray_x = start_x;
+    double ray_y = start_y;
+    double step_size = 0.1; // Adjust based on desired ray resolution
+    int background_color;
+    int color;
+
+    while (1)
+    {
+        // Move the ray forward
+        ray_x += cos(angle) * step_size;
+        ray_y += sin(angle) * step_size;
+        // Ensure (ray_x, ray_y) is within bounds
+        if (ray_x < 0 || ray_x >= WIDTH || ray_y < 0 || ray_y >= HEIGHT)
+            return get_rgb(0, 0, 0, 0); // Return default color if out of bounds
+        // Fetch the color from the scene
+        background_color = get_texture_color(data->image, (int)ray_x, (int)ray_y);
+
+        // Check if the color is non-transparent (not black in this case)
+        if (background_color != -16777216) // Assume black is transparent
+            return background_color;
+
+        // Optionally, break if the ray exceeds a maximum length
+        // Adjust max_length as needed
+        double max_length = 1000.0;
+        double current_length = sqrt(pow(ray_x - start_x, 2) + pow(ray_y - start_y, 2));
+        if (current_length > max_length)
+            return get_rgb(0, 0, 0, 0); // Return default color if max length exceeded
+    }
+}
+
+
 void	render_door(t_cub3d *data, int i, int start, int end)
 {
 	t_image		*door;
@@ -160,21 +193,16 @@ void	render_door(t_cub3d *data, int i, int start, int end)
 		if (tools.y >= door->height)
 			tools.y = door->height - 1;
 		tools.color = get_texture_color(door, tools.column, tools.y);
-		// if (tools.color == 0x000000)
-		// {
-		// 	double ray_angle = data->player->angle - (FOV / 2) + (i * FOV / WIDTH);
-		// 	cast_ray(data, ray_angle);
-		// 	int wall_start = (HEIGHT / 2) - (calc_height((data->ray->hit_distance * cos(ray_angle - data->player->angle)), HEIGHT) / 2);
-		// 	int wall_end = (HEIGHT / 2) + (calc_height((data->ray->hit_distance * cos(ray_angle - data->player->angle)), HEIGHT) / 2);
-		// 	data->wall_height = wall_end - wall_start;
-		// 	render_ceil(data, i, wall_start);
-		// 	if (data->ray->hit_door)
-		// 		render_door(data, i, wall_start, wall_end);
-		// 	else
-		// 		render_walls(data, i, wall_start, wall_end);
-		// 	render_floor(data, i, wall_end, HEIGHT);
-		// }
-		// else
+		if (tools.color == -16777216)
+		{
+			 // Continue raycasting beyond the door
+            double ray_angle = (data->player->angle - (FOV / 2) + (i * (FOV / (WIDTH / 50))));
+            double distance = sqrt(pow(data->ray->hitX - data->player->posX, 2) + pow(data->ray->hitY - data->player->posY, 2));
+            double offset_distance = distance + 1; // Adding some offset to avoid clipping at edge
+            int background_color = get_background_color(data, data->player->posX, data->player->posY, ray_angle);
+            my_mlx_pixel_put(data->image, i, y, background_color);
+		}
+		else if (tools.color !=  -16777216)
 			my_mlx_pixel_put(data->image, i, y, tools.color);
 	}
 }
