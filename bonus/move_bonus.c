@@ -40,15 +40,33 @@ void strafing(t_cub3d *data, double *newPosX, double *newPosY, t_direction dir)
 
 void check_wall_colision(t_cub3d *data, double newPosX, double newPosY)
 {
-     if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&  // top-left corner
+      // Check for diagonal movement (both X and Y axes)
+    if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&  // top-left corner
         data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' &&  // top-right corner
         data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&  // bottom-left corner
-        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1'
-        )    // bottom-right corner
+        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1')    // bottom-right corner
     {
-        // If no collisions, update the player's position
+        // No collisions, update the player's position
         data->player->posX = newPosX;
         data->player->posY = newPosY;
+    }
+    else
+    {
+        // Check for movement only in the X direction (slide along Y axis)
+        if (data->map2->map[(int)floor(data->player->posY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&  // top-left
+            data->map2->map[(int)floor(data->player->posY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1')    // bottom-right
+        {
+            // No collision horizontally, move in X direction
+            data->player->posX = newPosX;
+        }
+
+        // Check for movement only in the Y direction (slide along X axis)
+        if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(data->player->posX - MARGIN)] != '1' &&  // top-left
+            data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(data->player->posX + MARGIN)] != '1')    // bottom-right
+        {
+            // No collision vertically, move in Y direction
+            data->player->posY = newPosY;
+        }
     }
 }
 
