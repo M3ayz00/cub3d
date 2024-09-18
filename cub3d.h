@@ -32,9 +32,9 @@
 #define TILE_SIZE 12
 #define SENSITIVITY 0.0005
 
-#define MOVE_SPEED 0.03
-#define ROT_SPEED 0.02
-#define MARGIN 0.15
+#define MOVE_SPEED 0.06
+#define ROT_SPEED 0.05
+#define MARGIN 0.1
 
 #define W_KEY 119
 #define S_KEY 115

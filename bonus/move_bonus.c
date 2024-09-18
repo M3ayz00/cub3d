@@ -40,34 +40,38 @@ void strafing(t_cub3d *data, double *newPosX, double *newPosY, t_direction dir)
 
 void check_wall_colision(t_cub3d *data, double newPosX, double newPosY)
 {
-      // Check for diagonal movement (both X and Y axes)
-    if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&  // top-left corner
-        data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' &&  // top-right corner
-        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&  // bottom-left corner
-        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1')    // bottom-right corner
+   if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&
+    data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' &&
+    data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&
+    data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1')
+{
+    // No collisions, update both X and Y positions
+    data->player->posX = newPosX;
+    data->player->posY = newPosY;
+}
+else
+{
+    // Check X direction only
+    if (data->map2->map[(int)floor(data->player->posY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&
+        data->map2->map[(int)floor(data->player->posY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&
+        data->map2->map[(int)floor(data->player->posY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' &&
+        data->map2->map[(int)floor(data->player->posY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1')
     {
-        // No collisions, update the player's position
+        // No collision in X direction, allow X movement
         data->player->posX = newPosX;
+    }
+
+    // Check Y direction only
+    if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(data->player->posX - MARGIN)] != '1' &&
+        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(data->player->posX - MARGIN)] != '1' &&
+        data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(data->player->posX + MARGIN)] != '1' &&
+        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(data->player->posX + MARGIN)] != '1')
+    {
+        // No collision in Y direction, allow Y movement
         data->player->posY = newPosY;
     }
-    else
-    {
-        // Check for movement only in the X direction (slide along Y axis)
-        if (data->map2->map[(int)floor(data->player->posY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&  // top-left
-            data->map2->map[(int)floor(data->player->posY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1')    // bottom-right
-        {
-            // No collision horizontally, move in X direction
-            data->player->posX = newPosX;
-        }
+}
 
-        // Check for movement only in the Y direction (slide along X axis)
-        if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(data->player->posX - MARGIN)] != '1' &&  // top-left
-            data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(data->player->posX + MARGIN)] != '1')    // bottom-right
-        {
-            // No collision vertically, move in Y direction
-            data->player->posY = newPosY;
-        }
-    }
 }
 
 void handle_movement(t_cub3d *data)
@@ -95,7 +99,7 @@ void handle_movement(t_cub3d *data)
         data->player->angle += abs(data->keys.delta_x) * SENSITIVITY;
     check_wall_colision(data, newPosX, newPosY);
     if (data->keys.rotate_left == 2 || data->keys.rotate_right == 2)
-        data->keys.rotate_left = 0,data->keys.rotate_right = 0,data->keys.delta_x = 0;
+        data->keys.rotate_left = 0, data->keys.rotate_right = 0, data->keys.delta_x = 0;
 }
 
 int mouse_move(int x, int y, t_cub3d *data)
