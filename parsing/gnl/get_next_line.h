@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:16:50 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/09 13:35:23 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:24:14 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # include <stdint.h>
 # include "../../cub3d.h"
 
-#ifndef	BUFFER_SIZE
-# define BUFFER_SIZE 1000
-#endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000
+# endif
 
 int		ft_strlen(char *str);
 char	*ft_strchr(char *str, int c);

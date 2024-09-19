@@ -6,28 +6,17 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:47:37 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/15 18:15:25 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:09:23 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	init_textures(t_textures **textures)
+void	free_map(t_map2 **map)
 {
-	(*textures)->floor = NULL;
-	(*textures)->ceiling = NULL;
-	(*textures)->north = NULL;
-	(*textures)->south = NULL;
-	(*textures)->east = NULL;
-	(*textures)->west = NULL;
-	(*textures)->door = NULL;
-}
-
-void	init_map(t_map2 **map)
-{
-	(*map)->rows = NULL;
-	(*map)->width = -1;
-	(*map)->height = -1;
+	if ((*map)->rows)
+		ft_lstclear(&(*map)->rows);
+	free((*map));
 }
 
 void	free_strs(char **strs)
@@ -40,54 +29,52 @@ void	free_strs(char **strs)
 		free(strs[i]);
 		i++;
 	}
-	strs = NULL;
 	free(strs);
+	strs = NULL;
+}
+
+void	free_textures2(t_textures **textures)
+{
+	if ((*textures)->ceiling)
+	{
+		free((*textures)->ceiling);
+		(*textures)->ceiling = NULL;
+	}
+	if ((*textures)->floor)
+	{
+		free((*textures)->floor);
+		(*textures)->floor = NULL;
+	}
+	if ((*textures)->north)
+	{
+		free((*textures)->north);
+		(*textures)->north = NULL;
+	}
+	if ((*textures)->south)
+	{
+		free((*textures)->south);
+		(*textures)->south = NULL;
+	}
 }
 
 void	free_textures(t_textures **textures)
 {
-	if ((*textures)->ceiling)
-	{
-		(*textures)->ceiling = NULL;
-		free((*textures)->ceiling);
-	}
-	if ((*textures)->floor)
-	{
-		(*textures)->floor = NULL;
-		free((*textures)->floor);
-	}
-	if ((*textures)->north)
-	{
-		(*textures)->north = NULL;
-		free((*textures)->north);
-	}
-	if ((*textures)->south)
-	{
-		(*textures)->south = NULL;
-		free((*textures)->south);
-	}
+	free_textures2(textures);
 	if ((*textures)->west)
 	{
-		(*textures)->west = NULL;
 		free((*textures)->west);
+		(*textures)->west = NULL;
 	}
 	if ((*textures)->east)
 	{
-		(*textures)->east = NULL;
 		free((*textures)->east);
+		(*textures)->east = NULL;
 	}
 	if ((*textures)->door)
 	{
-		(*textures)->door = NULL;
 		free((*textures)->door);
+		(*textures)->door = NULL;
 	}
-	(*textures) = NULL;
 	free((*textures));
-}
-
-void	free_map(t_map2 **map)
-{
-	if ((*map)->rows)
-		ft_lstclear(&(*map)->rows);
-	free((*map));
+	(*textures) = NULL;
 }

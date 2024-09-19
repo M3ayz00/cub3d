@@ -6,13 +6,13 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:45:43 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/13 16:24:08 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:07:51 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int is_count_valid(char *identifier, int rows)
+int	is_count_valid(char *identifier, int rows)
 {
 	if (is_texture(identifier))
 		return (rows == 2);
@@ -21,28 +21,25 @@ int is_count_valid(char *identifier, int rows)
 	return (0);
 }
 
-int is_valid_zero(t_lst *row, int i)
+int	is_valid_zero(t_lst *row, int i)
 {
 	if ((i > 0 && !is_one_or_player(row->row[i - 1]))
-		|| (row->row[i + 1]
-		&& !is_one_or_player(row->row[i + 1])))
+		|| (row->row[i + 1] && !is_one_or_player(row->row[i + 1])))
 		return (0);
 	if (row->prev)
 	{
-		if ((row->prev->row[i]
-			&& !is_one_or_player(row->prev->row[i])))
+		if ((row->prev->row[i] && !is_one_or_player(row->prev->row[i])))
 			return (0);
 	}
 	if (row->next)
 	{
-		if ((row->next->row[i]
-			&& !is_one_or_player(row->next->row[i])))
+		if ((row->next->row[i] && !is_one_or_player(row->next->row[i])))
 			return (0);
 	}
 	return (1);
 }
 
-void is_there_player(char *row, int *count)
+void	is_there_player(char *row, int *count)
 {
 	int	i;
 
@@ -55,7 +52,7 @@ void is_there_player(char *row, int *count)
 	}
 }
 
-int is_it_all_spaces(char *row)
+int	is_it_all_spaces(char *row)
 {
 	int	i;
 
@@ -67,7 +64,7 @@ int is_it_all_spaces(char *row)
 	return (0);
 }
 
-int is_it_all_ones(char *row)
+	int	is_it_all_ones(char *row)
 {
 	int	i;
 	int	ones_count;

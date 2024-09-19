@@ -40,27 +40,20 @@ int main(int ac, char **av)
 
     if (ac == 2)
     {
-        if (!parse_data(&data, av[1], 6))
+		data.bonus = 6;
+        if (!parse_data(&data, av[1], data.bonus))
         {
             write(2, "error\n", 6);
             exit(1);
         }
         init(&data);
         get_player_pos(&data);
-
-        // Initialize key states
         init_key_state(&data.keys);
-        // data.textures->ceil_tex = malloc(sizeof(t_image *));
         load_images(&data);
-
-        // Hook the key press and release events
         mlx_hook(data.win, 2, 1L << 0, key_press, &data);
         mlx_hook(data.win, 3, 1L << 1, key_release, &data);
         mlx_hook(data.win, 17, 1L << 17, &ft_exit, NULL);
-
-        // Set up the main loop to handle movement and rendering
         mlx_loop_hook(data.mlx, render, &data);
-
         mlx_loop(data.mlx);
     }
     else

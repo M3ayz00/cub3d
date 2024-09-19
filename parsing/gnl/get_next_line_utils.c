@@ -6,15 +6,17 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:18:53 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/12 16:13:20 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:17:57 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (str && str[i])
 		i++;
 	return (i);

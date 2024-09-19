@@ -6,13 +6,13 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:48:50 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/13 16:26:02 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:17:15 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int count_rows(char **map)
+int	count_rows(char **map)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ int count_rows(char **map)
 	return (i);
 }
 
-int count_commas(char *str)
+int	count_commas(char *str)
 {
 	int	i;
 	int	count;
@@ -38,7 +38,7 @@ int count_commas(char *str)
 	return (count);
 }
 
-int based_split(char *line, char ***splitted)
+int	based_split(char *line, char ***splitted)
 {
 	(*splitted) = ft_split(line, "\f\t\v\r\n ");
 	if (is_color((*splitted)[0]))
@@ -51,7 +51,7 @@ int based_split(char *line, char ***splitted)
 	return (1);
 }
 
-t_color *get_color(t_color **actual_color, char ***colors, char *color)
+t_color	*get_color(t_color **actual_color, char ***colors, char *color)
 {
 	(*actual_color)->r = ft_atoi((*colors)[1]);
 	(*actual_color)->g = ft_atoi((*colors)[2]);
@@ -63,7 +63,7 @@ t_color *get_color(t_color **actual_color, char ***colors, char *color)
 	return ((*actual_color));
 }
 
-t_color *split_color(char **color)
+t_color	*split_color(char **color)
 {
 	char	**colors;
 	int		size;

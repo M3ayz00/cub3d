@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 16:30:09 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/08 17:53:49 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:43:43 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,30 +76,27 @@ static void	free_all(char **strs, int i)
 
 char	**ft_split(char *s, char *set)
 {
-	char	**strings;
-	int		i;
-	int		j;
-	int		count;
+	t_split	tools;
 
 	if (!s)
 		return (NULL);
-	count = count_words(s, set);
-	if (count == 0)
+	tools.count = count_words(s, set);
+	if (tools.count == 0)
 		return (NULL);
-	strings = (char **)ft_calloc(count + 1, sizeof(char *));
-	if (!strings)
+	tools.strings = (char **)ft_calloc(tools.count + 1, sizeof(char *));
+	if (!tools.strings)
 		return (NULL);
-	i = 0;
-	j = 0;
-	while (s[i])
+	tools.i = 0;
+	tools.j = 0;
+	while (s[tools.i])
 	{
-		if (is_c_in_str(s[i], set) && s[i++])
+		if (is_c_in_str(s[tools.i], set) && s[tools.i++])
 			continue ;
-		strings[j] = word(s, set, i);
-		if (strings[j] == NULL)
-			return (free_all(strings, j), NULL);
-		i += ft_strlen(strings[j++]);
+		tools.strings[tools.j] = word(s, set, tools.i);
+		if (tools.strings[tools.j] == NULL)
+			return (free_all(tools.strings, tools.j), NULL);
+		tools.i += ft_strlen(tools.strings[tools.j++]);
 	}
-	strings[j] = NULL;
-	return (strings);
+	tools.strings[tools.j] = NULL;
+	return (tools.strings);
 }

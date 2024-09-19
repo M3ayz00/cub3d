@@ -20,9 +20,9 @@ void dda(t_cub3d *data)
             data->ray->side = 1;
         }
 		char tile = data->map2->map[data->map2->mapY][data->map2->mapX];
-        if (tile == '1' || (tile == 'D'))
+        if (tile == '1' || (data->bonus == 7 && tile == 'D'))
             hit = 1;
-		if (tile == 'D')
+		if (data->bonus == 7 && tile == 'D')
 			data->ray->hit_door = 1;
     }
     if (data->ray->side == 0)

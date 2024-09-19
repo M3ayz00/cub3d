@@ -276,6 +276,7 @@ void load_images(t_cub3d *data)
     data->textures->ceil_tex.addr = mlx_get_data_addr(data->textures->ceil_tex.img, &data->textures->ceil_tex.bits_per_pixel, &data->textures->ceil_tex.line_length, &data->textures->ceil_tex.endian);
 	if (data->textures->door)
 	{
+		printf("DOOR_TEXTURE : %s\n", data->textures->door);
 		data->textures->door_tex.img = mlx_xpm_file_to_image(data->mlx, data->textures->door, &data->textures->door_tex.width, &data->textures->door_tex.height);
 		if (!data->textures->door_tex.img)
 
@@ -293,7 +294,8 @@ int main(int ac, char **av)
 
     if (ac == 2)
     {
-        if (!parse_data(&data, av[1], 7))
+		data.bonus = 7;
+        if (!parse_data(&data, av[1], data.bonus))
         {
             write(2, "error\n", 6);
             exit(1);

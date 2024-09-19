@@ -34,7 +34,7 @@ void get_player_pos(t_cub3d *data)
                 data->player->posY = i + 0.3;
                 data->player->angle = M_PI / 2;
             }
-            write(1, &map[i][j], 1);
+            // write(1, &map[i][j], 1);
             j++;
         }
         i++;

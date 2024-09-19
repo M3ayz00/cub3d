@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:47:18 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/17 21:30:40 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:33:28 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,7 @@ void	ft_lst_remove(t_lst	**lst, t_lst *to_rem)
 	}
 	curr = *lst;
 	prev = NULL;
-	while (curr)
-	{
-		if (curr == to_rem)
-		{
-			if (prev)
-				prev->next = curr->next;
-			free(to_rem->row);
-			free(to_rem);
-			return ;
-		}
-		prev = curr;
-		curr = curr->next;
-	}
+	remove_x_node(&curr, &prev, &to_rem);
 }
 
 t_lst	*ft_lstlast(t_lst *lst)
@@ -92,35 +80,4 @@ void	ft_lstadd_back(t_lst **lst, t_lst *new)
 		last->next = new;
 		new->prev = last;
 	}
-}
-
-int	ft_lstsize(t_lst *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst)
-	{
-		i++;
-		lst = lst->next;
-	}
-	return (i);
-}
-
-void	ft_lstclear(t_lst **lst)
-{
-	t_lst	*curr;
-	t_lst	*next;
-
-	if (!lst || !(*lst))
-		return ;
-	curr = *lst;
-	while (curr != NULL)
-	{
-		next = curr->next;
-		free(curr->row);
-		free(curr);
-		curr = next;
-	}
-	*lst = NULL;
 }

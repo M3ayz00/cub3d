@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/17 21:57:10 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:19:39 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,21 @@ typedef enum t_dir
     RIGHT,
 } t_direction;
 
+typedef struct s_checking_tools
+{
+	int	prev_len;
+	int	next_len;
+	int	count;
+	int	rowc;
+}	t_checking;
 
+typedef struct s_split_tools
+{
+	char	**strings;
+	int		i;
+	int		j;
+	int		count;
+}	t_split;
 typedef struct s_image
 {
     int width;
@@ -167,6 +181,7 @@ typedef struct s_textures
 
 typedef struct s_cub3d
 {
+	int		bonus;
     void *mlx;
     void *win;
     t_image *image;
@@ -202,6 +217,42 @@ void	free_textures(t_textures **textures);
 void	free_map(t_map2 **map);
 void	render_door(t_cub3d *data, int i, int start, int end);
 uint32_t get_texture_color(t_image *texture, int x, int y);
+void	init_textures(t_textures **textures);
+void	init_map(t_map2 **map);
+int	init_map_and_textures(t_textures **textures, t_map2 **map);
+int	is_identifier(char *line);
+int	parse_texture(char **line, t_textures **textures, int *counter);
+int   add_map_line(t_map2 **map, char *element);
+int	check_door_texture(char **line, t_textures **textures, int *i, int fd);
+int	check_textures(t_textures *textures);
+t_color	*split_color(char **color);
+int	based_split(char *line, char ***splitted);
+int	is_count_valid(char *identifier, int rows);
+int	count_rows(char **map);
+int	check_texture_file(char *file, char **texture);
+int	parse_map(t_lst **rows, t_cub3d *cub3d);
+int	process_map_and_textures(int fd, t_cub3d *cub3d, int nb_textures);
+int	is_space(char c);
+int	is_texture(char *element);
+int	is_color(char *element);
+int	is_one_or_player(char c);
+int	is_player(char c);
+int	is_plane(char c);
+int	is_it_all_ones(char *row);
+int	is_it_all_spaces(char *row);
+int	is_digit(char c);
+int	is_valid_elem(char *element);
+void	is_there_player(char *row, int *count);
+int	is_valid_zero(t_lst *row, int i);
+int	ft_atoi(char *str);
+int	check_adjacent(int curr_len, int adj_len, char c, int i);
+int	check_zeros(t_lst **rows);
+int	check_first_last_rows(t_lst *rows);
+int	check_sides(char *row);
+int	check_line(char **line, t_textures **textures, t_map2 **map, int *i);
+int	add_map_lines(char **line, t_textures **textures, t_map2 **map, int fd);
+int	check_row(char *row, int prev_len, int next_len);
+void	remove_x_node(t_lst **curr, t_lst **prev, t_lst **to_rem);
 
 // raycasting prototypes
 void my_mlx_pixel_put(t_image *image, int x, int y, int color);

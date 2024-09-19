@@ -1,12 +1,16 @@
 NAME = cub3d
 BONUS = cub3d_bonus
 SRCS = cub.c ./parsing/gnl/get_next_line.c ./parsing/gnl/get_next_line_utils.c \
-		./parsing/file_parsing.c ./parsing/ft_split.c ./parsing/ft_strtrim.c \
+		./parsing/ft_split.c ./parsing/ft_strtrim.c ./parsing/memory_management.c\
+		./parsing/checkers_1.c ./parsing/checkers_2.c ./parsing/checkers_3.c \
+		./parsing/checkers_4.c ./parsing/color_processing.c ./parsing/init_and_free.c \
+		./parsing/map_processing.c ./parsing/map_texture_parsing.c ./parsing/texture_processing.c  \
+		./parsing/parsing_utils.c ./parsing/parsing_utils2.c ./parsing/string_operations.c  \
 		./parsing/lst_management.c ./parsing/map_parsing.c ./raycasting/raycasting.c \
 		./raycasting/player.c ./raycasting/move.c ./raycasting/draw_env.c ./raycasting/utils.c \
 
 SRCS_BONUS = ./bonus/cub_bonus.c ./parsing/gnl/get_next_line.c ./parsing/gnl/get_next_line_utils.c \
-		./parsing/file_parsing.c ./parsing/ft_split.c ./parsing/ft_strtrim.c \
+		./parsing/file_parsing.c ./parsing/ft_split.c ./parsing/ft_strtrim.c ./parsing/map_texture_parsing.c\
 		./parsing/lst_management.c ./parsing/map_parsing.c ./raycasting/raycasting.c \
 		./raycasting/player.c ./bonus/move_bonus.c ./raycasting/draw_env.c ./raycasting/utils.c \
 		./bonus/minimap_bonus.c
