@@ -39,9 +39,10 @@ void strafing(t_cub3d *data, double *newPosX, double *newPosY, t_direction dir)
 }
 void check_wall_colision(t_cub3d *data, double newPosX, double newPosY)
 {
-    if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&
-        data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' &&
-        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1')
+  if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' && // Top-left
+        data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' && // Top-right
+        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1' && // Bottom-left
+        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1')   // Bottom-right
     {
         data->player->posX = newPosX;
         data->player->posY = newPosY;

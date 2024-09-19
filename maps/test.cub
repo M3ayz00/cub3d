@@ -1,11 +1,11 @@
 NO ./textures/wall1.xpm
 SO ./textures/wall2.xpm
-WE ./textures/wall_metal2.xpm
-EA ./textures/wall_metal1.xpm
+WE ./textures/wall3.xpm
+EA ./textures/wall4.xpm
 
 
-C 123,123,123
-F 255,1,0
+F 66,66,66
+C 135,206,235
 
 
 
