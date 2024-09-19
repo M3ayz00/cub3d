@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 19:07:41 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 20:18:55 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ int	is_valid_elem(char *element);
 void	is_there_player(char *row, int *count);
 int	is_valid_zero(t_lst *row, int i);
 int	ft_atoi(char *str);
+int	check_files(t_cub3d *cub3d);
 int	check_adjacent(int curr_len, int adj_len, char c, int i);
 int	check_zeros(t_lst **rows);
 int	check_first_last_rows(t_lst *rows);

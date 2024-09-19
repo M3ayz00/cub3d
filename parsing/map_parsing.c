@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 19:39:50 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 20:37:22 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	parse_map(t_lst **rows, t_cub3d *cub3d)
 		return (0);
 	if (!check_each_row(rows))
 		return (0);
-	printf("hna ? \n");
 	if (!check_zeros(rows))
 		return (0);
 	return (1);
@@ -93,7 +92,10 @@ int	parse_data(t_cub3d *cub3d, char *path, int is_bonus)
 	fd = open_file(path);
 	if (fd == -1)
 		return (0);
-	if (process_map_and_textures(fd, cub3d, is_bonus))
-		return (close(fd), 1);
-	return (close(fd), 0);
+	if (!process_map_and_textures(fd, cub3d, is_bonus))
+		return (close(fd), 0);
+	if (!check_files(cub3d))
+		return (close(fd), 0);
+	return (close(fd), 1);
+
 }

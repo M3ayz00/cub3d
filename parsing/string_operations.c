@@ -6,30 +6,11 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:53:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 17:20:29 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 20:31:18 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-// char	*ft_strdup(char *str)
-// {
-// 	char	*new_str;
-
-// 	new_str = (char *)ft_calloc(ft_strlen(str) + 1, sizeof(char));
-// 	if (!new_str)
-// 		return (NULL);
-// 	ft_memcpy(new_str, str, ft_strlen(str));
-// 	return (new_str);
-// }
-
-// int	add_map_line(t_map2 **map, char *element, int nb_textures)
-// {
-// 	if (!is_valid_elem(element))
-// 		return (0);
-// 	ft_lstadd_back(&(*map)->rows, lst_new(element));
-// 	return (1);
-// }
 
 int	ft_atoi(char *str)
 {
@@ -54,4 +35,24 @@ int	ft_atoi(char *str)
 	if (str[i] && !(is_digit(str[i]) || is_space(str[i])))
 		return (-1);
 	return (result);
+}
+
+int check_file(char *path)
+{
+	int	fd;
+
+	fd = open(path, O_RDONLY , 0644);
+	if (fd == -1)
+		return (0);
+	return (close(fd), 1);
+}
+
+int	check_files(t_cub3d *cub3d)
+{
+	if (!check_file(cub3d->textures->north)
+		|| !check_file(cub3d->textures->south)
+		|| !check_file(cub3d->textures->east)
+		|| !check_file(cub3d->textures->west))
+		return (0);
+	return (1);
 }
