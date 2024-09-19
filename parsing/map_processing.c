@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:51:55 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 17:17:10 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:41:17 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	check_each_row(t_lst **rows)
 	t_lst		*curr;
 	t_checking	tools;
 
+	tools.count = 0;
 	curr = (*rows)->next;
 	while (curr->next)
 	{
@@ -73,7 +74,7 @@ int	check_each_row(t_lst **rows)
 		if (curr->prev)
 			tools.prev_len = ft_strlen(curr->prev->row);
 		if (!check_row(curr->row, tools.prev_len, tools.next_len))
-			return (0);
+			return (printf("ici ? \n"), 0);
 		curr = curr->next;
 		tools.rowc++;
 	}
@@ -95,7 +96,7 @@ int	check_row(char *row, int prev_len, int next_len)
 	{
 		if (!check_adjacent(curr_len, prev_len, row[i], i))
 			return (0);
-		if (check_adjacent(curr_len, next_len, row[i], i))
+		if (!check_adjacent(curr_len, next_len, row[i], i))
 			return (0);
 		i++;
 	}

@@ -1,8 +1,8 @@
 NO ./textures/wall1.xpm
 SO ./textures/wall2.xpm
-WE ./textures/wall3.xpm
+WE ./textures/wall3.xpm.xpm
 EA ./textures/wall4.xpm
-D  ./textures/doors/door_frame_1.xpm
+
 F 66,66,66
 C 135,206,235
 

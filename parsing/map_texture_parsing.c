@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:54:48 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 17:23:25 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 20:08:16 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d, int nb_textures)
 	if (!init_map_and_textures(&cub3d->textures, &cub3d->map2))
 		return (0);
 	line = get_next_line(fd);
-	while (line && i < nb_textures)
+	while (line && i < 6)
 	{
 		if (!check_line(&line, &cub3d->textures, &cub3d->map2, &i))
 			return (0);
@@ -79,7 +79,7 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d, int nb_textures)
 	if (nb_textures == 7
 		&& !check_door_texture(&line, &cub3d->textures, &i, fd))
 		return (free_map(&cub3d->map2), free_textures(&cub3d->textures), 0);
-	if (!check_textures(cub3d->textures))
+	if (!check_textures(cub3d->textures, nb_textures))
 		return (free_map(&cub3d->map2), free_textures(&cub3d->textures), 0);
 	if (!add_map_lines(&line, &cub3d->textures, &cub3d->map2, fd))
 		return (0);

@@ -26,12 +26,19 @@ void load_images(t_cub3d *data)
     while (i < 4)
     {
         data->wall_textures[i].img = mlx_xpm_file_to_image(data->mlx, textures[i], &data->wall_textures[i].width, &data->wall_textures[i].height);
+		if (!data->wall_textures[i].img)
+			exit(1);
         data->wall_textures[i].addr = mlx_get_data_addr(data->wall_textures[i].img, &data->wall_textures[i].bits_per_pixel, &data->wall_textures[i].line_length, &data->wall_textures[i].endian);
+		if (!data->wall_textures[i].addr)
+			exit(1);
         i++;
     }
-
     data->textures->ceil_tex.img = mlx_xpm_file_to_image(data->mlx, "textures/sky_dark.xpm", &data->textures->ceil_tex.width, &data->textures->ceil_tex.height);
+	if (!data->textures->ceil_tex.img)
+		exit(1);
     data->textures->ceil_tex.addr = mlx_get_data_addr(data->textures->ceil_tex.img, &data->textures->ceil_tex.bits_per_pixel, &data->textures->ceil_tex.line_length, &data->textures->ceil_tex.endian);
+	if (!data->textures->ceil_tex.addr)
+		exit(1);
 }
 
 int main(int ac, char **av)
@@ -40,7 +47,7 @@ int main(int ac, char **av)
 
     if (ac == 2)
     {
-		data.bonus = 6;
+		data.bonus = 0;
         if (!parse_data(&data, av[1], data.bonus))
         {
             write(2, "error\n", 6);

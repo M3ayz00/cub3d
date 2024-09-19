@@ -294,7 +294,7 @@ int main(int ac, char **av)
 
     if (ac == 2)
     {
-		data.bonus = 7;
+		data.bonus = 1;
         if (!parse_data(&data, av[1], data.bonus))
         {
             write(2, "error\n", 6);

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 17:19:39 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:07:41 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ int	is_identifier(char *line);
 int	parse_texture(char **line, t_textures **textures, int *counter);
 int   add_map_line(t_map2 **map, char *element);
 int	check_door_texture(char **line, t_textures **textures, int *i, int fd);
-int	check_textures(t_textures *textures);
+int	check_textures(t_textures *textures, int nb_tex);
 t_color	*split_color(char **color);
 int	based_split(char *line, char ***splitted);
 int	is_count_valid(char *identifier, int rows);
@@ -232,6 +232,9 @@ int	count_rows(char **map);
 int	check_texture_file(char *file, char **texture);
 int	parse_map(t_lst **rows, t_cub3d *cub3d);
 int	process_map_and_textures(int fd, t_cub3d *cub3d, int nb_textures);
+int	validating_and_cleaning(t_lst **rows, t_lst **curr);
+int	is_map_valid(t_lst **rows);
+int	check_each_row(t_lst **rows);
 int	is_space(char c);
 int	is_texture(char *element);
 int	is_color(char *element);

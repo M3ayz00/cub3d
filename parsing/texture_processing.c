@@ -6,66 +6,75 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:50:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 16:57:55 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:39:17 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	check_textures(t_textures *textures)
+int	check_textures(t_textures *textures, int is_bonus)
 {
 	if (!textures->ceiling
 		|| !textures->floor
 		|| !textures->east
 		|| !textures->west
 		|| !textures->north
-		|| !textures->south
-		|| !textures->door)
+		|| !textures->south)
 		return (0);
 	return (1);
 }
 
-int	texture_processing(char **splitted, char **texture, char *test)
+int	texture_processing(char **splitted, char **texture)
 {
-	if (!ft_strcmp(splitted[0], test))
-	{
-		if ((*texture))
-			return (0);
-		if (!check_texture_file(splitted[1], texture))
-			return (0);
-	}
+	if ((*texture))
+		return (0);
+	if (!check_texture_file(splitted[1], texture))
+		return (0);
 	return (1);
 }
 
-int	color_processing(char **splitted, t_color **color, char *test)
+int	color_processing(char **splitted, t_color **color)
 {
-	if (!ft_strcmp(splitted[0], test))
-	{
-		if (*color)
-			return (0);
-		*color = split_color(splitted);
-		if (!*color)
-			return (0);
-	}
+	if (*color)
+		return (0);
+	*color = split_color(splitted);
+	if (!*color)
+		return (0);
 	return (1);
 }
 
 int	process_texture(t_textures **textures, char **splitted)
 {
-	if (!texture_processing(splitted, &(*textures)->north, "NO"))
-		return (0);
-	else if (!texture_processing(splitted, &(*textures)->south, "SO"))
-		return (0);
-	else if (!texture_processing(splitted, &(*textures)->east, "EA"))
-		return (0);
-	else if (!texture_processing(splitted, &(*textures)->west, "WE"))
-		return (0);
-	else if (!texture_processing(splitted, &(*textures)->door, "D"))
-		return (0);
-	else if (!color_processing(splitted, &(*textures)->floor, "F"))
-		return (0);
-	else if (!color_processing(splitted, &(*textures)->ceiling, "C"))
-		return (0);
+	if (!ft_strcmp(splitted[0], "NO"))
+	{
+		if(!texture_processing(splitted, &(*textures)->north))
+			return (0);
+	}
+	else if (!ft_strcmp(splitted[0], "SO"))
+	{
+		if (!texture_processing(splitted, &(*textures)->south))
+			return (0);
+	}
+	else if (!ft_strcmp(splitted[0], "EA"))
+	{
+		if (!texture_processing(splitted, &(*textures)->east))
+			return (0);
+	}
+	else if (!ft_strcmp(splitted[0], "WE"))
+	{
+		if (!texture_processing(splitted, &(*textures)->west))
+			return (0);
+	}
+	else if (!ft_strcmp(splitted[0], "F"))
+	{
+		if (!color_processing(splitted, &(*textures)->floor))
+			return (0);
+	}
+	else if (!ft_strcmp(splitted[0], "C"))
+	{
+		if (!color_processing(splitted, &(*textures)->ceiling))
+			return (0);
+	}
 	else if (ft_strlen(splitted[0]) > 0)
 		return (0);
 	return (1);
