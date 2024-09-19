@@ -6,13 +6,13 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:51:55 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 19:41:17 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:28:12 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	check_zeros(t_lst **rows)
+int	check_zeros(t_lst **rows, int is_bonus)
 {
 	t_lst	*curr;
 	int		i;
@@ -25,7 +25,7 @@ int	check_zeros(t_lst **rows)
 		{
 			if (curr->row[i] == '0')
 			{
-				if (!is_valid_zero(curr, i))
+				if (!is_valid_zero(curr, i, is_bonus))
 					return (0);
 			}
 			i++;
@@ -74,7 +74,7 @@ int	check_each_row(t_lst **rows)
 		if (curr->prev)
 			tools.prev_len = ft_strlen(curr->prev->row);
 		if (!check_row(curr->row, tools.prev_len, tools.next_len))
-			return (printf("ici ? \n"), 0);
+			return (0);
 		curr = curr->next;
 		tools.rowc++;
 	}

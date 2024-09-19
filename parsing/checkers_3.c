@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:45:43 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 17:07:51 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:27:27 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ int	is_count_valid(char *identifier, int rows)
 	return (0);
 }
 
-int	is_valid_zero(t_lst *row, int i)
+int	is_valid_zero(t_lst *row, int i, int is_bonus)
 {
-	if ((i > 0 && !is_one_or_player(row->row[i - 1]))
-		|| (row->row[i + 1] && !is_one_or_player(row->row[i + 1])))
+	if ((i > 0 && !is_plane_or_player(row->row[i - 1], is_bonus))
+		|| (row->row[i + 1] && !is_plane_or_player(row->row[i + 1], is_bonus)))
 		return (0);
 	if (row->prev)
 	{
-		if ((row->prev->row[i] && !is_one_or_player(row->prev->row[i])))
+		if ((row->prev->row[i] && !is_plane_or_player(row->prev->row[i], is_bonus)))
 			return (0);
 	}
 	if (row->next)
 	{
-		if ((row->next->row[i] && !is_one_or_player(row->next->row[i])))
+		if ((row->next->row[i] && !is_plane_or_player(row->next->row[i], is_bonus)))
 			return (0);
 	}
 	return (1);
@@ -71,6 +71,7 @@ int	is_it_all_spaces(char *row)
 
 	i = 0;
 	ones_count = 0;
+	printf("hello\n");
 	while (row && row[i])
 	{
 		if (!is_space(row[i]))

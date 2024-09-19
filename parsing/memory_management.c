@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 15:40:24 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 17:08:22 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:12:28 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,20 @@ char	*ft_strdup(char *str)
 	return (new_str);
 }
 
-int	add_map_line(t_map2 **map, char *element)
+int	add_map_line(t_map2 **map, char *element, int is_bonus)
 {
-	if (!is_valid_elem(element))
+	if (!is_valid_elem(element, is_bonus))
 		return (0);
 	ft_lstadd_back(&(*map)->rows, lst_new(element));
 	return (1);
 }
 
-int	add_map_lines(char **line, t_textures **textures, t_map2 **map, int fd)
+int	add_map_lines(char **line, t_cub3d **cub3d, int fd, int is_bonus)
 {
 	while (*line)
 	{
-		if (!add_map_line(map, *line))
-			return (free(*line), free_textures(textures), free_map(map), 0);
+		if (!add_map_line(&(*cub3d)->map2, *line, is_bonus))
+			return (free(*line), free_textures(&(*cub3d)->textures), free_map(&(*cub3d)->map2), 0);
 		free(*line);
 		*line = get_next_line(fd);
 	}

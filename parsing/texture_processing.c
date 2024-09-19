@@ -6,13 +6,13 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:50:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 19:39:17 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:01:19 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	check_textures(t_textures *textures, int is_bonus)
+int	check_textures(t_textures *textures)
 {
 	if (!textures->ceiling
 		|| !textures->floor

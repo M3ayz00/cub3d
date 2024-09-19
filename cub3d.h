@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 20:18:55 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:28:57 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ int ft_lstsize(t_lst *lst);
 void ft_lstclear(t_lst **lst);
 char *ft_strdup(char *str);
 t_lst *ft_lstlast(t_lst *lst);
-int parse_data(t_cub3d *cub3d, char *path, int nb_textures);
+int parse_data(t_cub3d *cub3d, char *path, int is_bonus);
 void	free_textures(t_textures **textures);
 void	free_map(t_map2 **map);
 void	render_door(t_cub3d *data, int i, int start, int end);
@@ -222,39 +222,39 @@ void	init_map(t_map2 **map);
 int	init_map_and_textures(t_textures **textures, t_map2 **map);
 int	is_identifier(char *line);
 int	parse_texture(char **line, t_textures **textures, int *counter);
-int   add_map_line(t_map2 **map, char *element);
+int   add_map_line(t_map2 **map, char *element, int is_bonus);
 int	check_door_texture(char **line, t_textures **textures, int *i, int fd);
-int	check_textures(t_textures *textures, int nb_tex);
+int	check_textures(t_textures *textures);
 t_color	*split_color(char **color);
 int	based_split(char *line, char ***splitted);
 int	is_count_valid(char *identifier, int rows);
 int	count_rows(char **map);
 int	check_texture_file(char *file, char **texture);
-int	parse_map(t_lst **rows, t_cub3d *cub3d);
-int	process_map_and_textures(int fd, t_cub3d *cub3d, int nb_textures);
-int	validating_and_cleaning(t_lst **rows, t_lst **curr);
+int	parse_map(t_lst **rows, t_cub3d *cub3d, int is_bonus);
+int	process_map_and_textures(int fd, t_cub3d *cub3d, int is_bonus);
+int	validating_and_cleaning(t_lst **rows, t_lst *curr);
 int	is_map_valid(t_lst **rows);
 int	check_each_row(t_lst **rows);
 int	is_space(char c);
 int	is_texture(char *element);
 int	is_color(char *element);
-int	is_one_or_player(char c);
+int	is_plane_or_player(char c, int is_bonus);
 int	is_player(char c);
-int	is_plane(char c);
+int	is_plane(char c, int is_bonus);
 int	is_it_all_ones(char *row);
 int	is_it_all_spaces(char *row);
 int	is_digit(char c);
-int	is_valid_elem(char *element);
+int	is_valid_elem(char *element, int is_bonus);
 void	is_there_player(char *row, int *count);
-int	is_valid_zero(t_lst *row, int i);
+int	is_valid_zero(t_lst *row, int i, int is_bonus);
 int	ft_atoi(char *str);
 int	check_files(t_cub3d *cub3d);
 int	check_adjacent(int curr_len, int adj_len, char c, int i);
-int	check_zeros(t_lst **rows);
+int	check_zeros(t_lst **rows, int is_bonus);
 int	check_first_last_rows(t_lst *rows);
 int	check_sides(char *row);
 int	check_line(char **line, t_textures **textures, t_map2 **map, int *i);
-int	add_map_lines(char **line, t_textures **textures, t_map2 **map, int fd);
+int	add_map_lines(char **line, t_cub3d **cub3d, int fd, int is_bonus);
 int	check_row(char *row, int prev_len, int next_len);
 void	remove_x_node(t_lst **curr, t_lst **prev, t_lst **to_rem);
 

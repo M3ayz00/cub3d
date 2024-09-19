@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:30:35 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 17:17:40 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:07:38 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ void	remove_x_node(t_lst **curr, t_lst **prev, t_lst **to_rem)
 	}
 }
 
-int	validating_and_cleaning(t_lst **rows, t_lst **curr)
+int	validating_and_cleaning(t_lst **rows, t_lst *curr)
 {
 	t_lst	*checkpoint;
 
-	checkpoint = ft_lst_before(*rows, (*curr));
-	while ((*curr))
+	checkpoint = ft_lst_before(*rows, curr);
+	while (curr)
 	{
-		if (!is_it_all_spaces((*curr)->row))
+		if (!is_it_all_spaces(curr->row))
 			return (0);
 		else
 		{
-			ft_lst_remove(rows, (*curr));
-			(*curr) = checkpoint->next;
+			ft_lst_remove(rows, curr);
+			curr = checkpoint->next;
 		}
 	}
 	return (1);

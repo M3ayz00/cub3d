@@ -6,15 +6,15 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 15:47:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 19:37:34 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:26:39 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	is_plane_or_player(char c)
+int	is_plane_or_player(char c, int is_bonus)
 {
-	return (is_plane(c) || is_player(c));
+	return (is_plane(c, is_bonus) || is_player(c));
 }
 
 int	check_texture_file(char *file, char **texture)

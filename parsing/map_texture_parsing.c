@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:54:48 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 20:08:16 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:29:04 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	check_door_texture(char **line, t_textures **textures, int *i, int fd)
 	return (0);
 }
 
-int	process_map_and_textures(int fd, t_cub3d *cub3d, int nb_textures)
+int	process_map_and_textures(int fd, t_cub3d *cub3d, int is_bonus)
 {
 	int			i;
 	char		*line;
@@ -76,14 +76,11 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d, int nb_textures)
 			return (0);
 		line = get_next_line(fd);
 	}
-	if (nb_textures == 7
-		&& !check_door_texture(&line, &cub3d->textures, &i, fd))
+	if (!check_textures(cub3d->textures))
 		return (free_map(&cub3d->map2), free_textures(&cub3d->textures), 0);
-	if (!check_textures(cub3d->textures, nb_textures))
-		return (free_map(&cub3d->map2), free_textures(&cub3d->textures), 0);
-	if (!add_map_lines(&line, &cub3d->textures, &cub3d->map2, fd))
+	if (!add_map_lines(&line, &cub3d, fd, is_bonus))
 		return (0);
-	if (!parse_map(&cub3d->map2->rows, cub3d))
+	if (!parse_map(&cub3d->map2->rows, cub3d, is_bonus))
 		return (free_map(&cub3d->map2), free_textures(&cub3d->textures), 0);
 	return (1);
 }

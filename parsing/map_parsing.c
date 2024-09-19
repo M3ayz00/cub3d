@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 20:37:22 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:28:38 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	get_longest_line(t_lst *rows)
 	return (max_size);
 }
 
-int	parse_map(t_lst **rows, t_cub3d *cub3d)
+int	parse_map(t_lst **rows, t_cub3d *cub3d, int is_bonus)
 {
 	int		count;
 	int		before;
@@ -41,7 +41,7 @@ int	parse_map(t_lst **rows, t_cub3d *cub3d)
 		return (0);
 	if (!check_each_row(rows))
 		return (0);
-	if (!check_zeros(rows))
+	if (!check_zeros(rows, is_bonus))
 		return (0);
 	return (1);
 }
@@ -67,7 +67,7 @@ int	is_map_valid(t_lst **rows)
 			break ;
 		curr = curr->next;
 	}
-	validating_and_cleaning(rows, &curr);
+	validating_and_cleaning(rows, curr);
 	return (1);
 }
 
