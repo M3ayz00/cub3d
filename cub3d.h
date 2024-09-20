@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/20 21:41:14 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/20 21:52:32 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef enum t_dir
 	RIGHT,
 } t_direction;
 
-typedef struct
+typedef struct s_line
 {
 	int x0;
 	int y0;

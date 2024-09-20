@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:13:25 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/20 21:42:36 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/20 21:55:13 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	load_images(t_cub3d *data)
 				&data->wall_t[i].bits_per_pixel, &data->wall_t[i].line_length,
 				&data->wall_t[i].endian);
 		if (!data->wall_t[i].addr)
-			ft_exit(data);
+			ft_data);
 		i++;
 	}
 	init_ceiling_texture(data);
