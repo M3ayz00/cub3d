@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:13:25 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/20 20:53:38 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/20 21:42:36 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	render(void *cub)
 	handle_movement(data);
 	cast_all_rays(data);
 	render_map(data);
-	update_doors(data);
 	door_interaction(data);
+	close_doors(data);
 	if (frame_count++ >= animation_speed)
 	{
 		current_frame = (current_frame + 1) % FRAME_COUNT;

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/20 20:53:55 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/20 21:41:14 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,8 @@ typedef struct s_image
 
 typedef struct s_door
 {
-	int x, y;
-	int **state;
-	double **timer;
+	int **is_open;
+	int	**timer;
 	t_image *door_frame;
 } t_door;
 
@@ -100,10 +99,13 @@ typedef struct s_rendering_tools
 {
 	double x;
 	int y;
+	int	i;
 	int column;
 	int slice_height;
 	float scale;
 	uint32_t color;
+	int door_is_open;
+	double door_timer;
 } t_render;
 
 typedef struct s_weapon_vars
@@ -338,8 +340,7 @@ void handle_movement(t_cub3d *data);
 
 void check_wall_colision(t_cub3d *data, double newpos_x,
 						 double newpos_y);
-int	get_door_state_at(int map_x, int map_y, t_cub3d *data);
-double	get_door_timer_at(int map_x, int map_y, t_cub3d *data);
+int	get_door_is_open_at(int map_x, int map_y, t_cub3d *data);
 void render_ceil_bonus(t_cub3d *data, int i, int end);
 int mouse_move(int x, int y, t_cub3d *data);
 int get_texel(t_image weapon, int x, int y);
@@ -350,8 +351,7 @@ void initialize_filenames(char *filenames[]);
 void load_weapon_frames(t_cub3d *data);
 void init_doors(t_door **doors, t_cub3d *cub3d);
 void load_door_frames(t_cub3d *data);
-void update_doors(t_cub3d *cub3d);
-void init_door_texture(t_cub3d *data);
+void	close_doors(t_cub3d *cub3d);
 void init_ceiling_texture(t_cub3d *data);
 int is_near_door(t_cub3d *cub3d);
 void door_interaction(t_cub3d *cub3d);

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:53:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/20 20:27:25 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/20 21:33:50 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,4 @@ void	set_width_and_height(t_lst **rows, t_cub3d *cub3d)
 	}
 	cub3d->map2->height = height;
 	cub3d->map2->width = width;
-	printf("WIDTH : %d, HEIGHT : %d\n", width, height);
 }

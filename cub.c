@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 00:31:06 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/20 00:31:07 by aes-sarg         ###   ########.fr       */
+/*   Updated: 2024/09/20 21:13:50 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int ac, char **av)
 		}
 		init(&data);
 		get_player_pos(&data);
-		init_key_state(&data.keys);
+		init_key_is_open(&data.keys);
 		load_images(&data);
 		mlx_hook(data.win, 2, 1L << 0, key_press, &data);
 		mlx_hook(data.win, 3, 1L << 1, key_release, &data);

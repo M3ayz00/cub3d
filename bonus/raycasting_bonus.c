@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:59:02 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/20 20:24:51 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/20 21:23:53 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	dda(t_cub3d *data)
 {
-	int	state;
+	int	is_open;
 	data->ray->hit_door = 0;
 	while (1)
 	{
@@ -33,16 +33,14 @@ void	dda(t_cub3d *data)
 		if (data->bonus == 1
 			&& (data->map2->map[data->map2->map_y][data->map2->map_x] == 'D'))
 		{
-			state = get_door_state_at(data->map2->map_x, data->map2->map_y, data);
-			if (state == 2)
-				continue ;
-			else
+			is_open = get_door_is_open_at(data->map2->map_x, data->map2->map_y, data);
+			if (is_open == 0)
+			{
 				data->ray->hit_door = 1;
-			break ;
+				break ;
+			}
 		}
-		if (data->map2->map[data->map2->map_y][data->map2->map_x] == '1'
-			|| (data->map2->map[data->map2->map_y][data->map2->map_x] == 'D'
-				&& data->bonus == 1))
+		if (data->map2->map[data->map2->map_y][data->map2->map_x] == '1')
 			break ;
 	}
 }
