@@ -61,8 +61,10 @@ void	cast_ray(t_cub3d *data, double ray_angle)
 	else
 		data->ray->hit_distance = (data->ray->side_dist_y
 				- data->ray->delta_dist_y);
-	data->ray->hit_x = data->player->pos_x + data->ray->hit_distance * ray_dir_x;
-	data->ray->hit_y = data->player->pos_y + data->ray->hit_distance * ray_dir_y;
+	data->ray->hit_x = data->player->pos_x + data->ray->hit_distance
+		* ray_dir_x;
+	data->ray->hit_y = data->player->pos_y + data->ray->hit_distance
+		* ray_dir_y;
 	data->ray->is_vertical = (data->ray->side == 0);
 }
 
@@ -70,26 +72,24 @@ void	cast_all_rays(t_cub3d *data)
 {
 	int			i;
 	int			j;
-	t_casting	*wall;
+	t_casting	wall;
 
-	wall = malloc(sizeof(t_casting));
-	wall->angle_step = data->fov / WIDTH;
+	wall.angle_step = data->fov / WIDTH;
 	i = 0;
 	while (i < WIDTH - 1)
 	{
-		wall->ray_angle = data->player->angle - (data->fov / 2) + (i
-				* wall->angle_step);
-		cast_ray(data, wall->ray_angle);
-		wall->start = (HEIGHT / 2) - (calc_height((data->ray->hit_distance
-						* cos(wall->ray_angle - data->player->angle)), HEIGHT)
+		wall.ray_angle = data->player->angle - (data->fov / 2) + (i
+				* wall.angle_step);
+		cast_ray(data, wall.ray_angle);
+		wall.start = (HEIGHT / 2) - (calc_height((data->ray->hit_distance
+						* cos(wall.ray_angle - data->player->angle)), HEIGHT)
 				/ 2);
-		wall->end = (HEIGHT / 2) + (calc_height((data->ray->hit_distance
-						* cos(wall->ray_angle - data->player->angle)), HEIGHT)
+		wall.end = (HEIGHT / 2) + (calc_height((data->ray->hit_distance
+						* cos(wall.ray_angle - data->player->angle)), HEIGHT)
 				/ 2);
-		render_ceil(data, i, wall->start);
-		render_walls(data, i, wall->start, wall->end);
-		render_floor(data, i, wall->end, HEIGHT);
+		render_ceil(data, i, wall.start);
+		render_walls(data, i, wall.start, wall.end);
+		render_floor(data, i, wall.end, HEIGHT);
 		i++;
 	}
-	free(wall);
 }

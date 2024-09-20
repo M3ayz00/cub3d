@@ -51,26 +51,24 @@ void	render_walls(t_cub3d *data, int i, int start, int end)
 	t_image		*texture;
 	uint32_t	color;
 	int			y;
-	t_render	*wall;
+	t_render	wall;
 
-	wall = malloc(sizeof(t_render));
 	texture = get_texture_index(data);
-	get_wall_x(data, wall);
-	wall->column = (int)(wall->x * texture->width);
-	if (wall->column >= texture->width)
-		wall->column = texture->width - 1;
-	wall->slice_height = (end - start);
-	wall->scale = (float)texture->height / wall->slice_height;
+	get_wall_x(data, &wall);
+	wall.column = (int)(wall.x * texture->width);
+	if (wall.column >= texture->width)
+		wall.column = texture->width - 1;
+	wall.slice_height = (end - start);
+	wall.scale = (float)texture->height / wall.slice_height;
 	y = start;
 	while (y++ < end)
 	{
-		wall->y = (int)((y - start) * wall->scale);
-		if (wall->y >= texture->height)
-			wall->y = texture->height - 1;
-		wall->color = get_texture_color(texture, wall->column, wall->y);
-		my_mlx_pixel_put(data->image, i, y, wall->color);
+		wall.y = (int)((y - start) * wall.scale);
+		if (wall.y >= texture->height)
+			wall.y = texture->height - 1;
+		wall.color = get_texture_color(texture, wall.column, wall.y);
+		my_mlx_pixel_put(data->image, i, y, wall.color);
 	}
-	free(wall);
 }
 
 void	render_floor(t_cub3d *data, int i, int start, int end)

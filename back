@@ -1,0 +1,26 @@
+void weapon_puts(t_cub3d *data, int up, int c_frame)
+{
+    int x;
+    int y;
+    t_weapon_tex *weapon;
+    
+    weapon = malloc(sizeof(t_weapon_tex));
+    weapon->scale_x = (float)WIDTH / 1.5 / data->frames[c_frame].width;
+    weapon->scale_y = (float)HEIGHT / 1.5 / data->frames[c_frame].height;
+    weapon->start_x = (WIDTH - (int)(data->frames[c_frame].height * weapon->scale_x)) / 2;
+    weapon->start_y = HEIGHT - (int)(data->frames[c_frame].height * weapon->scale_y) - up;
+    x = 0, y = 0;
+    while (y++ < (int)(data->frames[c_frame].height * weapon->scale_y))
+    {
+        while (x++ < (int)(data->frames[c_frame].height * weapon->scale_x))
+        {
+            weapon->original_x = (int)(x / weapon->scale_x);
+            weapon->original_y = (int)(y / weapon->scale_y);
+            weapon->color = get_texel(data->frames[c_frame], weapon->original_x, weapon->original_y);
+            if (weapon->color != 0 && weapon->color != -16777216)
+                my_mlx_pixel_put2(data->image, weapon->start_x + x, weapon->start_y + y, weapon->color);
+        }
+    }
+}
+
+
