@@ -330,6 +330,7 @@ void handle_movement(t_cub3d *data);
 void check_wall_colision(t_cub3d *data, double newpos_x,
 						 double newpos_y);
 void render_ceil_bonus(t_cub3d *data, int i, int end);
+int mouse_move(int x, int y, t_cub3d *data);
 int get_texel(t_image weapon, int x, int y);
 void calc_scale_and_position(t_cub3d *data, t_weapon_vars *vars, int current_frame);
 void draw_weapon_img(t_cub3d *data, t_weapon_vars *vars, int current_frame);

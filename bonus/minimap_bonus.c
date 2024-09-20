@@ -163,5 +163,6 @@ void render_map(t_cub3d *data)
     // draw_player(data, data->player->pos_x * cub_size_width + offset, data->player->pos_y * cub_size_height + offset, scale, get_rgb(100,255,229,204));
     // cast_map_rays(data, offset, scale);
     draw_player_icon(data, data->player->pos_x * cub_size_width + offset, data->player->pos_y * cub_size_height + offset, 5 * scale, data->player->angle, get_rgb(255, 255, 255, 255)); // Triangle player icon
+   free_strs(map);
     // draw_direction_line(data, data->player->pos_x * cub_size_width + offset, data->player->pos_y * cub_size_height + offset, data->player->angle, 10, 0xff00ff);
 }
