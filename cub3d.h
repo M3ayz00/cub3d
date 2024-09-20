@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 21:28:57 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/20 20:53:55 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 #define RIGHT_KEY 65363
 #define ESC_KEY 65307
 #define E_KEY 101
+
+
 
 typedef enum t_dir
 {
@@ -88,9 +90,10 @@ typedef struct s_image
 
 typedef struct s_door
 {
+	int x, y;
 	int **state;
 	double **timer;
-	t_image *door_frames;
+	t_image *door_frame;
 } t_door;
 
 typedef struct s_rendering_tools
@@ -126,6 +129,7 @@ typedef struct s_key_state
 	int right;
 	int rotate_left;
 	int rotate_right;
+	int	e;
 } t_key_state;
 
 typedef struct s_color
@@ -252,15 +256,20 @@ int parse_texture(char **line, t_textures **textures,
 int add_map_line(t_map2 **map, char *element, int is_bonus);
 int check_door_texture(char **line, t_textures **textures,
 					   int *i, int fd);
-int check_textures(t_textures *textures);
+int check_textures(t_textures *textures, char **line);
 t_color *split_color(char **color);
 int based_split(char *line, char ***splitted);
 int is_count_valid(char *identifier, int rows);
 int count_rows(char **map);
 int check_texture_file(char *file, char **texture);
+void	set_width_and_height(t_lst **rows, t_cub3d *cub3d);
 int parse_map(t_lst **rows, t_cub3d *cub3d, int is_bonus);
 int process_map_and_textures(int fd, t_cub3d *cub3d,
 							 int is_bonus);
+int	process_texture(t_textures **textures, char **splitted);
+int	color_processing(char **splitted, t_color **color);
+int	textures_processing(char **splitted, t_textures **textures);
+int	colors_processing(char **splitted, t_textures **textures);
 double deg_to_rad(double degrees);
 int validating_and_cleaning(t_lst **rows, t_lst *curr);
 int is_map_valid(t_lst **rows);
@@ -329,6 +338,8 @@ void handle_movement(t_cub3d *data);
 
 void check_wall_colision(t_cub3d *data, double newpos_x,
 						 double newpos_y);
+int	get_door_state_at(int map_x, int map_y, t_cub3d *data);
+double	get_door_timer_at(int map_x, int map_y, t_cub3d *data);
 void render_ceil_bonus(t_cub3d *data, int i, int end);
 int mouse_move(int x, int y, t_cub3d *data);
 int get_texel(t_image weapon, int x, int y);
@@ -337,7 +348,7 @@ void draw_weapon_img(t_cub3d *data, t_weapon_vars *vars, int current_frame);
 void render_weapon(t_cub3d *data, int current_frame);
 void initialize_filenames(char *filenames[]);
 void load_weapon_frames(t_cub3d *data);
-void init_doors(t_door **doors);
+void init_doors(t_door **doors, t_cub3d *cub3d);
 void load_door_frames(t_cub3d *data);
 void update_doors(t_cub3d *cub3d);
 void init_door_texture(t_cub3d *data);

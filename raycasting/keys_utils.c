@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 00:03:06 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/20 00:03:08 by aes-sarg         ###   ########.fr       */
+/*   Updated: 2024/09/20 20:47:10 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	key_press(int key, t_cub3d *data)
 		data->keys.rotate_left = 1;
 	else if (key == RIGHT_KEY)
 		data->keys.rotate_right = 1;
+	else if (key == E_KEY)
+		data->keys.e = 1;
 	return (0);
 }
 
@@ -45,5 +47,7 @@ int	key_release(int key, t_cub3d *data)
 		data->keys.rotate_left = 0;
 	else if (key == RIGHT_KEY)
 		data->keys.rotate_right = 0;
+	else if (key == E_KEY)
+		data->keys.e = 0;
 	return (0);
 }

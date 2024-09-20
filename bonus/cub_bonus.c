@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:13:25 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/20 06:13:27 by aes-sarg         ###   ########.fr       */
+/*   Updated: 2024/09/20 20:53:38 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	load_images(t_cub3d *data)
 		i++;
 	}
 	init_ceiling_texture(data);
-	init_door_texture(data);
 }
 
 void	init(t_cub3d *data)
@@ -77,7 +76,7 @@ void	init(t_cub3d *data)
 		write(2, "error allocating memory\n", 25);
 		ft_exit(data);
 	}
-	init_doors(&data->doors);
+	init_doors(&data->doors, data);
 	data->mlx = mlx_init();
 	data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3d");
 	data->image->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
@@ -114,6 +113,6 @@ int	main(int ac, char **av)
 		mlx_loop(data.mlx);
 	}
 	else
-		write(1, "USAGE: ./cub3d [map]\n", 22);
+		write(1, "USAGE: ./cub3d_bonus [map]\n", 28);
 	return (0);
 }

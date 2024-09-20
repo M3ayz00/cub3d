@@ -138,31 +138,28 @@ double get_scale(t_cub3d *cub3d)
 
 void render_map(t_cub3d *data)
 {
-    int i = 0;
-    int offset = 10;
-    int size = ft_lstsize(data->map2->rows);
-    double scale = get_scale(data);
-    int cub_size_width = TILE_SIZE * scale;
-    int cub_size_height = TILE_SIZE * scale;
-    char **map = get_arr(data->map2->rows);
-    while (data->map2->map[i] != NULL)
-    {
-        int j = 0;
-        while (data->map2->map[i][j])
-        {
-            if (data->map2->map[i][j] == '1')
-                draw_cub(data, j * cub_size_width + offset, i * cub_size_height + offset, cub_size_height, cub_size_width, get_rgb(100, 44, 16, 16));
-            else if (data->map2->map[i][j] == '0' || data->map2->map[i][j] == 'S' || data->map2->map[i][j] == 'N' || data->map2->map[i][j] == 'E' || data->map2->map[i][j] == 'W')
-                draw_cub(data, j * cub_size_width + offset, i * cub_size_height + offset, cub_size_height, cub_size_width, get_rgb(100, 118, 115, 165));
-            else if (data->map2->map[i][j] == 'D')
-                draw_cub(data, j * cub_size_width + offset, i * cub_size_height + offset, cub_size_height, cub_size_width, get_rgb(100, 255, 255, 16));
-            j++;
-        }
-        i++;
-    }
-    // draw_player(data, data->player->pos_x * cub_size_width + offset, data->player->pos_y * cub_size_height + offset, scale, get_rgb(100,255,229,204));
-    // cast_map_rays(data, offset, scale);
-    draw_player_icon(data, data->player->pos_x * cub_size_width + offset, data->player->pos_y * cub_size_height + offset, 5 * scale, data->player->angle, get_rgb(255, 255, 255, 255)); // Triangle player icon
-   free_strs(map);
-    // draw_direction_line(data, data->player->pos_x * cub_size_width + offset, data->player->pos_y * cub_size_height + offset, data->player->angle, 10, 0xff00ff);
+	int i = 0;
+	int offset = 10;
+	int size = ft_lstsize(data->map2->rows);
+	double scale = get_scale(data);
+	int cub_size_width = TILE_SIZE * scale;
+	int cub_size_height = TILE_SIZE * scale;
+	char **map = get_arr(data->map2->rows);
+	while (data->map2->map[i] != NULL)
+	{
+		int j = 0;
+		while (data->map2->map[i][j])
+		{
+			if (data->map2->map[i][j] == '1')
+				draw_cub(data, j * cub_size_width + offset, i * cub_size_height + offset, cub_size_height, cub_size_width, get_rgb(100, 44, 16, 16));
+			else if (data->map2->map[i][j] == '0' || data->map2->map[i][j] == 'S' || data->map2->map[i][j] == 'N' || data->map2->map[i][j] == 'E' || data->map2->map[i][j] == 'W')
+				draw_cub(data, j * cub_size_width + offset, i * cub_size_height + offset, cub_size_height, cub_size_width, get_rgb(100, 118, 115, 165));
+			else if (data->map2->map[i][j] == 'D')
+				draw_cub(data, j * cub_size_width + offset, i * cub_size_height + offset, cub_size_height, cub_size_width, get_rgb(100, 255, 255, 16));
+			j++;
+		}
+		i++;
+	}
+	draw_player_icon(data, data->player->pos_x * cub_size_width + offset, data->player->pos_y * cub_size_height + offset, 5 * scale, data->player->angle, get_rgb(255, 255, 255, 255)); // Triangle player icon
+	free_strs(map);
 }

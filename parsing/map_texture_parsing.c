@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:54:48 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 21:29:04 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:15:56 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d, int is_bonus)
 			return (0);
 		line = get_next_line(fd);
 	}
-	if (!check_textures(cub3d->textures))
+	if (!check_textures(cub3d->textures, &line))
 		return (free_map(&cub3d->map2), free_textures(&cub3d->textures), 0);
 	if (!add_map_lines(&line, &cub3d, fd, is_bonus))
 		return (0);

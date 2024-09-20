@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 21:28:38 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/20 20:23:57 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	parse_map(t_lst **rows, t_cub3d *cub3d, int is_bonus)
 		return (0);
 	if (!check_zeros(rows, is_bonus))
 		return (0);
+	set_width_and_height(rows, cub3d);
 	return (1);
 }
 
@@ -97,5 +98,4 @@ int	parse_data(t_cub3d *cub3d, char *path, int is_bonus)
 	if (!check_files(cub3d))
 		return (close(fd), 0);
 	return (close(fd), 1);
-
 }

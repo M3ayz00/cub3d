@@ -6,13 +6,13 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:50:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 21:01:19 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:34:01 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	check_textures(t_textures *textures)
+int	check_textures(t_textures *textures, char **line)
 {
 	if (!textures->ceiling
 		|| !textures->floor
@@ -20,7 +20,7 @@ int	check_textures(t_textures *textures)
 		|| !textures->west
 		|| !textures->north
 		|| !textures->south)
-		return (0);
+		return (free(*line), 0);
 	return (1);
 }
 
@@ -43,41 +43,17 @@ int	color_processing(char **splitted, t_color **color)
 	return (1);
 }
 
-int	process_texture(t_textures **textures, char **splitted)
+int	textures_processing(char **splitted, t_textures **textures)
 {
 	if (!ft_strcmp(splitted[0], "NO"))
-	{
-		if(!texture_processing(splitted, &(*textures)->north))
-			return (0);
-	}
+		return (texture_processing(splitted, &(*textures)->north));
 	else if (!ft_strcmp(splitted[0], "SO"))
-	{
-		if (!texture_processing(splitted, &(*textures)->south))
-			return (0);
-	}
+		return (texture_processing(splitted, &(*textures)->south));
 	else if (!ft_strcmp(splitted[0], "EA"))
-	{
-		if (!texture_processing(splitted, &(*textures)->east))
-			return (0);
-	}
+		return (texture_processing(splitted, &(*textures)->east));
 	else if (!ft_strcmp(splitted[0], "WE"))
-	{
-		if (!texture_processing(splitted, &(*textures)->west))
-			return (0);
-	}
-	else if (!ft_strcmp(splitted[0], "F"))
-	{
-		if (!color_processing(splitted, &(*textures)->floor))
-			return (0);
-	}
-	else if (!ft_strcmp(splitted[0], "C"))
-	{
-		if (!color_processing(splitted, &(*textures)->ceiling))
-			return (0);
-	}
-	else if (ft_strlen(splitted[0]) > 0)
-		return (0);
-	return (1);
+		return (texture_processing(splitted, &(*textures)->west));
+	return (-1);
 }
 
 int	parse_texture(char **line, t_textures **textures, int *counter)

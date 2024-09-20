@@ -1,19 +1,19 @@
 #include "../cub3d.h"
 
-void	init_doors(t_door **doors)
+void	init_doors(t_door **doors, t_cub3d *cub3d)
 {
 	int	y;
 	int	x;
 
 	y = 0;
-	(*doors)->state = malloc(sizeof(int *) * HEIGHT);
-	(*doors)->timer = malloc(sizeof(double *) * HEIGHT);
-	while (y < HEIGHT)
+	(*doors)->state = malloc(sizeof(int *) * cub3d->map2->height);
+	(*doors)->timer = malloc(sizeof(double *) * cub3d->map2->height);
+	while (y < cub3d->map2->height)
 	{
-		(*doors)->state[y] = malloc(sizeof(int) * WIDTH);
-		(*doors)->timer[y] = malloc(sizeof(double) * WIDTH);
+		(*doors)->state[y] = malloc(sizeof(int) * cub3d->map2->width);
+		(*doors)->timer[y] = malloc(sizeof(double) * cub3d->map2->width);
 		x = 0;
-		while (x < WIDTH)
+		while (x < cub3d->map2->width)
 		{
 			(*doors)->state[y][x] = 0;
 			(*doors)->timer[y][x] = 0.0;
@@ -23,23 +23,29 @@ void	init_doors(t_door **doors)
 	}
 }
 
+t_door *get_door_at(int map_x, int map_y, t_cub3d *cub3d)
+{
+	return (&cub3d->doors[map_y * cub3d->map2->width + map_x]);
+}
+
 void	render_door(t_cub3d *data, int i, int start, int end)
 {
 	t_image		*door;
 	t_render	tools;
 	int			y;
-	int			frame_index;
 
-	door = &data->doors->door_frames[0];
-	if (data->ray->hit_door)
-	{
-		frame_index = (int)(data->doors->timer[data->map2->map_y][data->map2->map_x]
-				* (DOOR_FRAMES - 1));
-		door = &data->doors->door_frames[frame_index];
-	}
+	door = data->doors->door_frame;
 	tools.x = data->ray->hit_x - floor(data->ray->hit_x);
 	if (data->ray->is_vertical)
 		tools.x = data->ray->hit_y - floor(data->ray->hit_y);
+	int door_state = get_door_state_at(data->map2->map_x, data->map2->map_y, data);
+	if (door_state != 0)
+	{
+		double door_timer = get_door_timer_at(data->map2->map_x, data->map2->map_y, data);
+		tools.x += door_timer;
+		if (tools.x > 1.0)
+			tools.x -= 1.0;
+	}
 	tools.column = (int)(tools.x * door->width);
 	if (tools.column >= door->width)
 		tools.column = door->width - 1;
@@ -58,39 +64,27 @@ void	render_door(t_cub3d *data, int i, int start, int end)
 
 void	load_door_frames(t_cub3d *data)
 {
-	char *filenames[DOOR_FRAMES] = {
-		"bonus/textures/door/door_frame_1.xpm",
-		"bonus/textures/door/door_frame_2.xpm",
-		"bonus/textures/door/door_frame_3.xpm",
-		"bonus/textures/door/door_frame_4.xpm",
-		"bonus/textures/door/door_frame_5.xpm",
-		"bonus/textures/door/door_frame_6.xpm",
-		"bonus/textures/door/door_frame_7.xpm",
-		"bonus/textures/door/door_frame_8.xpm",
-		"bonus/textures/door/door_frame_9.xpm",
-	};
-	data->doors->door_frames = malloc(sizeof(t_image) * DOOR_FRAMES);
-	if (!data->doors->door_frames)
+	data->doors->door_frame = malloc(sizeof(t_image));
+	if (!data->doors->door_frame)
 	{
 		write(2, "door frames allocation error\n", 29);
 		exit(1);
 	}
-	for (int i = 0; i < DOOR_FRAMES; i++)
+	data->doors->door_frame->img = mlx_xpm_file_to_image(data->mlx,
+			"bonus/textures/door/wolfenstein_door.xpm", &data->doors->door_frame->width,
+			&data->doors->door_frame->height);
+	if (!data->doors->door_frame->img)
 	{
-		data->doors->door_frames[i].img = mlx_xpm_file_to_image(data->mlx,
-				filenames[i], &data->doors->door_frames[i].width,
-				&data->doors->door_frames[i].height);
-		if (!data->doors->door_frames[i].img)
-		{
-			write(2, "door frames loading error\n", 28);
-			exit(1);
-		}
-		data->doors->door_frames[i].addr = mlx_get_data_addr(data->doors->door_frames[i].img,
-				&data->doors->door_frames[i].bits_per_pixel,
-				&data->doors->door_frames[i].line_length,
-				&data->doors->door_frames[i].endian);
+		write(2, "door frames loading error\n", 28);
+		exit(1);
 	}
+	data->doors->door_frame->addr = mlx_get_data_addr(data->doors->door_frame->img,
+			&data->doors->door_frame->bits_per_pixel,
+			&data->doors->door_frame->line_length,
+			&data->doors->door_frame->endian);
 }
+
+
 
 void	update_doors(t_cub3d *cub3d)
 {
@@ -100,10 +94,10 @@ void	update_doors(t_cub3d *cub3d)
 
 	y = 0;
 	delta_time = 1.0 / 60.0;
-	while (y < HEIGHT)
+	while (y < cub3d->map2->height)
 	{
 		x = 0;
-		while (x < WIDTH)
+		while (x < cub3d->map2->width)
 		{
 			if (cub3d->doors->state[y][x] == 1) // opening
 			{
@@ -129,25 +123,6 @@ void	update_doors(t_cub3d *cub3d)
 	}
 }
 
-void	init_door_texture(t_cub3d *data)
-{
-	if (data->textures->door)
-	{
-		data->textures->door_tex.img = mlx_xpm_file_to_image(data->mlx,
-				data->textures->door, &data->textures->door_tex.width,
-				&data->textures->door_tex.height);
-		if (!data->textures->door_tex.img)
-		{
-			write(2, "error loading door texture\n", 26);
-			ft_exit(data);
-		}
-		data->textures->door_tex.addr = mlx_get_data_addr(data->textures->door_tex.img,
-				&data->textures->door_tex.bits_per_pixel,
-				&data->textures->door_tex.line_length,
-				&data->textures->door_tex.endian);
-	}
-}
-
 int	is_near_door(t_cub3d *cub3d)
 {
 	int	x;
@@ -155,9 +130,8 @@ int	is_near_door(t_cub3d *cub3d)
 
 	x = (int)cub3d->player->pos_x;
 	y = (int)cub3d->player->pos_y;
-	return (cub3d->map2->map[y + 1][x] == 'D' || cub3d->map2->map[y][x
-		+ 1] == 'D' || cub3d->map2->map[y - 1][x] == 'D'
-		|| cub3d->map2->map[y][x - 1] == 'D');
+	return (cub3d->map2->map[y + 1][x] == 'D' || cub3d->map2->map[y][x + 1] == 'D'
+		|| cub3d->map2->map[y - 1][x] == 'D' || cub3d->map2->map[y][x - 1] == 'D');
 }
 
 void	toggle_door(t_cub3d *data, int door_x, int door_y)
@@ -170,24 +144,25 @@ void	toggle_door(t_cub3d *data, int door_x, int door_y)
 
 void	door_interaction(t_cub3d *cub3d)
 {
-	int y;
-	int x;
+	int door_x;
+	int door_y;
 
-	y = 0;
-	while (cub3d->map2->map[y])
+	door_x = (int)cub3d->player->pos_x;
+	door_y = (int)cub3d->player->pos_y;
+	if (is_near_door(cub3d))
 	{
-		x = 0;
-		while (cub3d->map2->map[y][x])
+		mlx_string_put(cub3d->mlx, cub3d->win, WIDTH / 2, HEIGHT / 2,
+			get_rgb(0, 255, 255, 255), "Press [E] to interact");
+		if (cub3d->keys.e == 1)
 		{
-			if (cub3d->map2->map[y][x] == 'D')
-			{
-				if (is_near_door(cub3d))
-					mlx_string_put(cub3d->mlx, cub3d->win, WIDTH / 2, HEIGHT
-						/ 2, get_rgb(0, 255, 255, 255),
-						"Press [E] to interact");
-			}
-			x++;
+			if (cub3d->map2->map[door_y + 1][door_x] == 'D')
+				toggle_door(cub3d, door_x, door_y + 1);
+			else if (cub3d->map2->map[door_y][door_x + 1] == 'D')
+				toggle_door(cub3d, door_x + 1, door_y);
+			else if (cub3d->map2->map[door_y - 1][door_x] == 'D')
+				toggle_door(cub3d, door_x, door_y - 1);
+			else if (cub3d->map2->map[door_y][door_x - 1] == 'D')
+				toggle_door(cub3d, door_x - 1, door_y);
 		}
-		y++;
 	}
 }

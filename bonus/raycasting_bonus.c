@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:59:02 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/20 06:59:03 by aes-sarg         ###   ########.fr       */
+/*   Updated: 2024/09/20 20:24:51 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	dda(t_cub3d *data)
 {
+	int	state;
 	data->ray->hit_door = 0;
 	while (1)
 	{
@@ -29,15 +30,23 @@ void	dda(t_cub3d *data)
 			data->map2->map_y += data->ray->step_y;
 			data->ray->side = 1;
 		}
-		if (data->bonus == 7
+		if (data->bonus == 1
 			&& (data->map2->map[data->map2->map_y][data->map2->map_x] == 'D'))
-			data->ray->hit_door = 1;
+		{
+			state = get_door_state_at(data->map2->map_x, data->map2->map_y, data);
+			if (state == 2)
+				continue ;
+			else
+				data->ray->hit_door = 1;
+			break ;
+		}
 		if (data->map2->map[data->map2->map_y][data->map2->map_x] == '1'
 			|| (data->map2->map[data->map2->map_y][data->map2->map_x] == 'D'
-				&& data->bonus == 7))
+				&& data->bonus == 1))
 			break ;
 	}
 }
+
 
 void	get_delta_distance(t_cub3d *data, double ray_dir_x, double ray_dir_y)
 {
