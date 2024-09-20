@@ -27,6 +27,7 @@ void	check_y_collision(t_cub3d *data, double newpos_y)
 			+ MARGIN)][(int)floor(data->player->pos_x + MARGIN)] != '1')
 	{
 		// No collision in Y direction, allow Y movement
+		
 		data->player->pos_y = newpos_y;
 	}
 }

@@ -56,7 +56,7 @@ void	load_images(t_cub3d *data)
 				&data->wall_t[i].bits_per_pixel, &data->wall_t[i].line_length,
 				&data->wall_t[i].endian);
 		if (!data->wall_t[i].addr)
-			ft_data);
+			ft_exit(data);
 		i++;
 	}
 	init_ceiling_texture(data);

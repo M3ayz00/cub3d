@@ -78,7 +78,7 @@ int	main(int ac, char **av)
 		}
 		init(&data);
 		get_player_pos(&data);
-		init_key_is_open(&data.keys);
+		init_key_state(&data.keys);
 		load_images(&data);
 		mlx_hook(data.win, 2, 1L << 0, key_press, &data);
 		mlx_hook(data.win, 3, 1L << 1, key_release, &data);
