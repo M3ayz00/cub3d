@@ -23,17 +23,19 @@ int	is_count_valid(char *identifier, int rows)
 
 int	is_valid_zero(t_lst *row, int i, int is_bonus)
 {
-	if ((i > 0 && !is_plane_or_player(row->row[i - 1], is_bonus))
-		|| (row->row[i + 1] && !is_plane_or_player(row->row[i + 1], is_bonus)))
+	if ((i > 0 && !is_plane_or_player(row->row[i - 1], is_bonus)) || (row->row[i
+			+ 1] && !is_plane_or_player(row->row[i + 1], is_bonus)))
 		return (0);
 	if (row->prev)
 	{
-		if ((row->prev->row[i] && !is_plane_or_player(row->prev->row[i], is_bonus)))
+		if ((row->prev->row[i] && !is_plane_or_player(row->prev->row[i],
+					is_bonus)))
 			return (0);
 	}
 	if (row->next)
 	{
-		if ((row->next->row[i] && !is_plane_or_player(row->next->row[i], is_bonus)))
+		if ((row->next->row[i] && !is_plane_or_player(row->next->row[i],
+					is_bonus)))
 			return (0);
 	}
 	return (1);
@@ -64,7 +66,7 @@ int	is_it_all_spaces(char *row)
 	return (0);
 }
 
-	int	is_it_all_ones(char *row)
+int	is_it_all_ones(char *row)
 {
 	int	i;
 	int	ones_count;

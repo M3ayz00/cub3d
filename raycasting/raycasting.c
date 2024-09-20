@@ -1,100 +1,95 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/19 23:32:28 by aes-sarg          #+#    #+#             */
+/*   Updated: 2024/09/19 23:32:29 by aes-sarg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-void dda(t_cub3d *data)
+void	dda(t_cub3d *data)
 {
-    int hit = 0;
+	int	hit;
 
-	data->ray->hit_door = 0;
-    while (hit == 0)
-    {
-        if (data->ray->sideDistX < data->ray->sideDistY)
-        {
-            data->ray->sideDistX += data->ray->deltaDistX;
-            data->map2->mapX += data->ray->stepX;
-            data->ray->side = 0;
-        }
-        else
-        {
-            data->ray->sideDistY += data->ray->deltaDistY;
-            data->map2->mapY += data->ray->stepY;
-            data->ray->side = 1;
-        }
-		char tile = data->map2->map[data->map2->mapY][data->map2->mapX];
-        if (tile == '1' || (data->bonus == 7 && tile == 'D'))
-            hit = 1;
-		if (data->bonus == 7 && tile == 'D')
-			data->ray->hit_door = 1;
-    }
-    if (data->ray->side == 0)
-        data->ray->hit_distance = (data->ray->sideDistX - data->ray->deltaDistX);
-    else
-        data->ray->hit_distance = (data->ray->sideDistY - data->ray->deltaDistY);
-}
-
-void get_delta_distance(t_cub3d *data, double rayDirX, double rayDirY)
-{
-    data->ray->deltaDistX = fabs(1 / rayDirX);
-    data->ray->deltaDistY = fabs(1 / rayDirY);
-
-    if (rayDirX < 0)
-    {
-        data->ray->stepX = -1;
-        data->ray->sideDistX = (data->player->posX - data->map2->mapX) * data->ray->deltaDistX;
-    }
-    else
-    {
-        data->ray->stepX = 1;
-        data->ray->sideDistX = (data->map2->mapX + 1.0 - data->player->posX) * data->ray->deltaDistX;
-    }
-    if (rayDirY < 0)
-    {
-        data->ray->stepY = -1;
-        data->ray->sideDistY = (data->player->posY - data->map2->mapY) * data->ray->deltaDistY;
-    }
-    else
-    {
-        data->ray->stepY = 1;
-        data->ray->sideDistY = (data->map2->mapY + 1.0 - data->player->posY) * data->ray->deltaDistY;
-    }
-}
-
-void cast_ray(t_cub3d *data, double ray_angle)
-{
-	data->map2->mapX = (int)data->player->posX;
-	data->map2->mapY = (int)data->player->posY;
-	double rayDirX = cos(ray_angle);
-	double rayDirY = sin(ray_angle);
-	get_delta_distance(data, rayDirX, rayDirY);
-	dda(data);
-	data->ray->hitX = data->player->posX + data->ray->hit_distance * rayDirX;
-	data->ray->hitY = data->player->posY + data->ray->hit_distance * rayDirY;
-    data->ray->is_vertical = (data->ray->side == 0);
-}
-
-void cast_all_rays(t_cub3d *data)
-{
-    double angle_step;
-    int i;
-    int j;
-    int wall_height;
-    int wall_start;
-    int wall_end;
-
-    angle_step = FOV / WIDTH;
-    i = 0;
-    while (i < WIDTH - 1)
-    {
-        double ray_angle = data->player->angle - (FOV / 2) + (i * angle_step);
-        cast_ray(data, ray_angle);
-        wall_start = (HEIGHT / 2) - (calc_height((data->ray->hit_distance * cos(ray_angle - data->player->angle)), HEIGHT) / 2);
-        wall_end = (HEIGHT / 2) + (calc_height((data->ray->hit_distance * cos(ray_angle - data->player->angle)), HEIGHT) / 2);
-        data->wall_height = wall_end - wall_start;
-        render_ceil(data, i, wall_start);
-		if (data->ray->hit_door)
-			render_door(data, i, wall_start, wall_end);
+	hit = 0;
+	while (hit == 0)
+	{
+		if (data->ray->side_dist_x < data->ray->side_dist_y)
+		{
+			data->ray->side_dist_x += data->ray->delta_dist_x;
+			data->map2->map_x += data->ray->step_x;
+			data->ray->side = 0;
+		}
 		else
-        	render_walls(data, i, wall_start, wall_end);
-        render_floor(data, i, wall_end, HEIGHT);
-        i++;
-    }
+		{
+			data->ray->side_dist_y += data->ray->delta_dist_y;
+			data->map2->map_y += data->ray->step_y;
+			data->ray->side = 1;
+		}
+		if (data->map2->map[data->map2->map_y][data->map2->map_x] == '1')
+			hit = 1;
+	}
+}
+
+void	get_delta_distance(t_cub3d *data, double ray_dir_x, double ray_dir_y)
+{
+	data->ray->delta_dist_x = fabs(1 / ray_dir_x);
+	data->ray->delta_dist_y = fabs(1 / ray_dir_y);
+	get_delta_distance_x(data, ray_dir_x);
+	get_delta_distance_y(data, ray_dir_y);
+}
+
+void	cast_ray(t_cub3d *data, double ray_angle)
+{
+	double	ray_dir_x;
+	double	ray_dir_y;
+
+	ray_dir_x = cos(ray_angle);
+	ray_dir_y = sin(ray_angle);
+	data->map2->map_x = (int)data->player->pos_x;
+	data->map2->map_y = (int)data->player->pos_y;
+	get_delta_distance(data, ray_dir_x, ray_dir_y);
+	dda(data);
+	if (data->ray->side == 0)
+		data->ray->hit_distance = (data->ray->side_dist_x
+				- data->ray->delta_dist_x);
+	else
+		data->ray->hit_distance = (data->ray->side_dist_y
+				- data->ray->delta_dist_y);
+	data->ray->hit_x = data->player->pos_x + data->ray->hit_distance * ray_dir_x;
+	data->ray->hit_y = data->player->pos_y + data->ray->hit_distance * ray_dir_y;
+	data->ray->is_vertical = (data->ray->side == 0);
+}
+
+void	cast_all_rays(t_cub3d *data)
+{
+	int			i;
+	int			j;
+	t_casting	*wall;
+
+	wall = malloc(sizeof(t_casting));
+	wall->angle_step = data->fov / WIDTH;
+	i = 0;
+	while (i < WIDTH - 1)
+	{
+		wall->ray_angle = data->player->angle - (data->fov / 2) + (i
+				* wall->angle_step);
+		cast_ray(data, wall->ray_angle);
+		wall->start = (HEIGHT / 2) - (calc_height((data->ray->hit_distance
+						* cos(wall->ray_angle - data->player->angle)), HEIGHT)
+				/ 2);
+		wall->end = (HEIGHT / 2) + (calc_height((data->ray->hit_distance
+						* cos(wall->ray_angle - data->player->angle)), HEIGHT)
+				/ 2);
+		render_ceil(data, i, wall->start);
+		render_walls(data, i, wall->start, wall->end);
+		render_floor(data, i, wall->end, HEIGHT);
+		i++;
+	}
+	free(wall);
 }

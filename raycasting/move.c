@@ -1,115 +1,89 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/19 23:18:19 by aes-sarg          #+#    #+#             */
+/*   Updated: 2024/09/19 23:18:21 by aes-sarg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-
-void init_key_state(t_key_state *keys) {
-    keys->forward = 0;
-    keys->backward = 0;
-    keys->left = 0;
-    keys->right = 0;
-    keys->rotate_left = 0;
-    keys->rotate_right = 0;
-}
-
-void ft_move(t_cub3d *data, double *newPosX, double *newPosY, t_direction move)
+void	init_key_state(t_key_state *keys)
 {
-    if (move == FORWARD)
-    {
-        *newPosX += cos(data->player->angle) * MOVE_SPEED;
-        *newPosY += sin(data->player->angle) * MOVE_SPEED;
-    }
-    else
-    {
-        *newPosX -= cos(data->player->angle) * MOVE_SPEED;
-        *newPosY -= sin(data->player->angle) * MOVE_SPEED;
-    }
+	keys->forward = 0;
+	keys->backward = 0;
+	keys->left = 0;
+	keys->right = 0;
+	keys->rotate_left = 0;
+	keys->rotate_right = 0;
 }
 
-void strafing(t_cub3d *data, double *newPosX, double *newPosY, t_direction dir)
+void	ft_move(t_cub3d *data, double *new_pos_x, double *new_pos_y,
+		t_direction move)
 {
-    if (dir == LEFT)
-    {
-        *newPosX += sin(data->player->angle) * MOVE_SPEED;
-        *newPosY -= cos(data->player->angle) * MOVE_SPEED;
-    }
-    else
-    {
-        *newPosX -= sin(data->player->angle) * MOVE_SPEED;
-        *newPosY += cos(data->player->angle) * MOVE_SPEED;
-    }
+	if (move == FORWARD)
+	{
+		*new_pos_x += cos(data->player->angle) * MOVE_SPEED;
+		*new_pos_y += sin(data->player->angle) * MOVE_SPEED;
+	}
+	else
+	{
+		*new_pos_x -= cos(data->player->angle) * MOVE_SPEED;
+		*new_pos_y -= sin(data->player->angle) * MOVE_SPEED;
+	}
 }
-void check_wall_colision(t_cub3d *data, double newPosX, double newPosY)
+
+void	strafing(t_cub3d *data, double *new_pos_x, double *new_pos_y,
+		t_direction dir)
 {
-  if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' && // Top-left
-        data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' && // Top-right
-        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1' && // Bottom-left
-        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1')   // Bottom-right
-    {
-        data->player->posX = newPosX;
-        data->player->posY = newPosY;
-        // render(data);
-    }
+	if (dir == LEFT)
+	{
+		*new_pos_x += sin(data->player->angle) * MOVE_SPEED;
+		*new_pos_y -= cos(data->player->angle) * MOVE_SPEED;
+	}
+	else
+	{
+		*new_pos_x -= sin(data->player->angle) * MOVE_SPEED;
+		*new_pos_y += cos(data->player->angle) * MOVE_SPEED;
+	}
 }
 
-// void check_wall_colision(t_cub3d *data, double newPosX, double newPosY)
-// {
-//     if (data->map2->map[(int)(newPosY + MARGIN)][(int)data->player->posX] != '1')
-// 		data->player->posY = newPosY;
-// 	if (data->map2->map[(int)newPosY][(int)(data->player->posX + MARGIN)] != '1')
-// 		data->player->posX = newPosX;
-// }
-
-void handle_movement(t_cub3d *data)
+void	check_wall_colision(t_cub3d *data, double new_pos_x, double new_pos_y)
 {
-    double newPosX = data->player->posX ;
-    double newPosY = data->player->posY;
-
-    if (data->keys.forward)
-        ft_move(data, &newPosX, &newPosY, FORWARD);
-    if (data->keys.backward)
-        ft_move(data, &newPosX, &newPosY, BACKWARD);
-    if (data->keys.left)
-        strafing(data, &newPosX, &newPosY, LEFT);
-    if (data->keys.right)
-        strafing(data, &newPosX, &newPosY, RIGHT);
-    if (data->keys.rotate_left)
-        data->player->angle -= ROT_SPEED;
-    if (data->keys.rotate_right)
-        data->player->angle += ROT_SPEED;
-
-    check_wall_colision(data, newPosX, newPosY);
+	if (data->map2->map[(int)floor(new_pos_y - MARGIN)][(int)floor(new_pos_x
+			- MARGIN)] != '1' && data->map2->map[(int)floor(new_pos_y
+			- MARGIN)][(int)floor(new_pos_x + MARGIN)] != '1'
+		&& data->map2->map[(int)floor(new_pos_y + MARGIN)][(int)floor(new_pos_x
+			- MARGIN)] != '1' && data->map2->map[(int)floor(new_pos_y
+			+ MARGIN)][(int)floor(new_pos_x + MARGIN)] != '1')
+	{
+		data->player->pos_x = new_pos_x;
+		data->player->pos_y = new_pos_y;
+	}
 }
 
-int key_press(int key, t_cub3d *data) {
-    if (key == ESC_KEY)
-        exit(0);
-    else if (key == W_KEY)
-        data->keys.forward = 1;
-    else if (key == S_KEY)
-        data->keys.backward = 1;
-    else if (key == A_KEY)
-        data->keys.left = 1;
-    else if (key == D_KEY)
-        data->keys.right = 1;
-    else if (key == LEFT_KEY)
-        data->keys.rotate_left = 1;
-    else if (key == RIGHT_KEY)
-        data->keys.rotate_right = 1;
-    return (0);
-}
+void	handle_movement(t_cub3d *data)
+{
+	double	new_pos_x;
+	double	new_pos_y;
 
-int key_release(int key, t_cub3d *data) {
-    if (key == W_KEY)
-        data->keys.forward = 0;
-    else if (key == S_KEY)
-        data->keys.backward = 0;
-    else if (key == A_KEY)
-        data->keys.left = 0;
-    else if (key == D_KEY)
-        data->keys.right = 0;
-    else if (key == LEFT_KEY)
-        data->keys.rotate_left = 0;
-    else if (key == RIGHT_KEY)
-        data->keys.rotate_right = 0;
-    return (0);
+	new_pos_x = data->player->pos_x;
+	new_pos_y = data->player->pos_y;
+	if (data->keys.forward)
+		ft_move(data, &new_pos_x, &new_pos_y, FORWARD);
+	if (data->keys.backward)
+		ft_move(data, &new_pos_x, &new_pos_y, BACKWARD);
+	if (data->keys.left)
+		strafing(data, &new_pos_x, &new_pos_y, LEFT);
+	if (data->keys.right)
+		strafing(data, &new_pos_x, &new_pos_y, RIGHT);
+	if (data->keys.rotate_left)
+		data->player->angle -= ROT_SPEED;
+	if (data->keys.rotate_right)
+		data->player->angle += ROT_SPEED;
+	check_wall_colision(data, new_pos_x, new_pos_y);
 }
-

@@ -27,6 +27,5 @@ int	check_texture_file(char *file, char **texture)
 
 int	is_space2(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\f'
-		|| c == '\r' || c == '\v');
+	return (c == ' ' || c == '\t' || c == '\f' || c == '\r' || c == '\v');
 }

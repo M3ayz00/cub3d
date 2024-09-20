@@ -14,8 +14,7 @@
 
 int	is_space(char c)
 {
-	return ((c >= 9 && c <= 13)
-		|| c == 32);
+	return ((c >= 9 && c <= 13) || c == 32);
 }
 
 int	is_digit(char c)
@@ -25,16 +24,13 @@ int	is_digit(char c)
 
 int	is_color(char *element)
 {
-	return (!ft_strcmp(element, "F")
-		|| !ft_strcmp(element, "C"));
+	return (!ft_strcmp(element, "F") || !ft_strcmp(element, "C"));
 }
 
 int	is_texture(char *element)
 {
-	return (!ft_strcmp(element, "NO")
-		|| !ft_strcmp(element, "SO")
-		|| !ft_strcmp(element, "EA")
-		|| !ft_strcmp(element, "WE"));
+	return (!ft_strcmp(element, "NO") || !ft_strcmp(element, "SO")
+		|| !ft_strcmp(element, "EA") || !ft_strcmp(element, "WE"));
 }
 
 int	is_identifier(char *line)

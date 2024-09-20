@@ -250,22 +250,32 @@ void init(t_cub3d *data)
     data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "cub3d");
     data->image->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
     data->image->addr = mlx_get_data_addr(data->image->img, &data->image->bits_per_pixel, &data->image->line_length, &data->image->endian);
+    data->fov = deg_to_rad(60.0);
 }
 
 void load_images(t_cub3d *data)
 {
-    char *textures[4] = {data->textures->north, data->textures->west, data->textures->east, data->textures->south};
+   int		i;
+	char	*textures[4];
 
-    for (int i = 0; i < 4; i++)
-    {
-        data->wall_textures[i].img = mlx_xpm_file_to_image(data->mlx, textures[i], &data->wall_textures[i].width, &data->wall_textures[i].height);
-        if (!data->wall_textures[i].img)
-        {
-            write(2, "error loading texture\n", 23);
-            exit(1);
-        }
-        data->wall_textures[i].addr = mlx_get_data_addr(data->wall_textures[i].img, &data->wall_textures[i].bits_per_pixel, &data->wall_textures[i].line_length, &data->wall_textures[i].endian);
-    }
+	i = 0;
+	textures[0] = data->textures->north;
+	textures[1] = data->textures->south;
+	textures[2] = data->textures->east;
+	textures[3] = data->textures->west;
+	while (i < 4)
+	{
+		data->wall_t[i].img = mlx_xpm_file_to_image(data->mlx, textures[i],
+				&data->wall_t[i].width, &data->wall_t[i].height);
+		if (!data->wall_t[i].img)
+			ft_exit(data);
+		data->wall_t[i].addr = mlx_get_data_addr(data->wall_t[i].img,
+				&data->wall_t[i].bits_per_pixel, &data->wall_t[i].line_length,
+				&data->wall_t[i].endian);
+		if (!data->wall_t[i].addr)
+			ft_exit(data);
+		i++;
+	}
 
     data->textures->ceil_tex.img = mlx_xpm_file_to_image(data->mlx, "textures/sky_dark.xpm", &data->textures->ceil_tex.width, &data->textures->ceil_tex.height);
     if (!data->textures->ceil_tex.img)

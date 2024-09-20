@@ -56,8 +56,7 @@ t_color	*get_color(t_color **actual_color, char ***colors, char *color)
 	(*actual_color)->r = ft_atoi((*colors)[1]);
 	(*actual_color)->g = ft_atoi((*colors)[2]);
 	(*actual_color)->b = ft_atoi((*colors)[3]);
-	if ((*actual_color)->r == -1
-		|| (*actual_color)->g == -1
+	if ((*actual_color)->r == -1 || (*actual_color)->g == -1
 		|| (*actual_color)->b == -1)
 		return (free((*actual_color)), NULL);
 	return ((*actual_color));

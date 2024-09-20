@@ -2,8 +2,8 @@
 
 int is_near_door(t_cub3d *cub3d)
 {
-	int x = (int)cub3d->player->posX;
-	int y = (int)cub3d->player->posY;
+	int x = (int)cub3d->player->pos_x;
+	int y = (int)cub3d->player->pos_y;
 	return ( cub3d->map2->map[y + 1][x] == 'D'
 		|| cub3d->map2->map[y][x + 1] == 'D'
 		|| cub3d->map2->map[y - 1][x] == 'D'
@@ -39,65 +39,65 @@ void init_key_state(t_key_state *keys)
     keys->rotate_right = 0;
 }
 
-void ft_move(t_cub3d *data, double *newPosX, double *newPosY, t_direction move)
+void ft_move(t_cub3d *data, double *newpos_x, double *newpos_y, t_direction move)
 {
     if (move == FORWARD)
     {
-        *newPosX += cos(data->player->angle) * MOVE_SPEED;
-        *newPosY += sin(data->player->angle) * MOVE_SPEED;
+        *newpos_x += cos(data->player->angle) * MOVE_SPEED;
+        *newpos_y += sin(data->player->angle) * MOVE_SPEED;
     }
     else
     {
-        *newPosX -= cos(data->player->angle) * MOVE_SPEED;
-        *newPosY -= sin(data->player->angle) * MOVE_SPEED;
+        *newpos_x -= cos(data->player->angle) * MOVE_SPEED;
+        *newpos_y -= sin(data->player->angle) * MOVE_SPEED;
     }
 }
 
-void strafing(t_cub3d *data, double *newPosX, double *newPosY, t_direction dir)
+void strafing(t_cub3d *data, double *newpos_x, double *newpos_y, t_direction dir)
 {
     if (dir == LEFT)
     {
-        *newPosX += sin(data->player->angle) * MOVE_SPEED;
-        *newPosY -= cos(data->player->angle) * MOVE_SPEED;
+        *newpos_x += sin(data->player->angle) * MOVE_SPEED;
+        *newpos_y -= cos(data->player->angle) * MOVE_SPEED;
     }
     else
     {
-        *newPosX -= sin(data->player->angle) * MOVE_SPEED;
-        *newPosY += cos(data->player->angle) * MOVE_SPEED;
+        *newpos_x -= sin(data->player->angle) * MOVE_SPEED;
+        *newpos_y += cos(data->player->angle) * MOVE_SPEED;
     }
 }
 
-void check_wall_colision(t_cub3d *data, double newPosX, double newPosY)
+void check_wall_colision(t_cub3d *data, double newpos_x, double newpos_y)
 {
-   if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&
-    data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' &&
-    data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&
-    data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1')
+   if (data->map2->map[(int)floor(newpos_y - MARGIN)][(int)floor(newpos_x - MARGIN)] != '1' &&
+    data->map2->map[(int)floor(newpos_y - MARGIN)][(int)floor(newpos_x + MARGIN)] != '1' &&
+    data->map2->map[(int)floor(newpos_y + MARGIN)][(int)floor(newpos_x - MARGIN)] != '1' &&
+    data->map2->map[(int)floor(newpos_y + MARGIN)][(int)floor(newpos_x + MARGIN)] != '1')
 {
     // No collisions, update both X and Y positions
-    data->player->posX = newPosX;
-    data->player->posY = newPosY;
+    data->player->pos_x = newpos_x;
+    data->player->pos_y = newpos_y;
 }
 else
 {
     // Check X direction only
-    if (data->map2->map[(int)floor(data->player->posY - MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&
-        data->map2->map[(int)floor(data->player->posY + MARGIN)][(int)floor(newPosX - MARGIN)] != '1' &&
-        data->map2->map[(int)floor(data->player->posY - MARGIN)][(int)floor(newPosX + MARGIN)] != '1' &&
-        data->map2->map[(int)floor(data->player->posY + MARGIN)][(int)floor(newPosX + MARGIN)] != '1')
+    if (data->map2->map[(int)floor(data->player->pos_y - MARGIN)][(int)floor(newpos_x - MARGIN)] != '1' &&
+        data->map2->map[(int)floor(data->player->pos_y + MARGIN)][(int)floor(newpos_x - MARGIN)] != '1' &&
+        data->map2->map[(int)floor(data->player->pos_y - MARGIN)][(int)floor(newpos_x + MARGIN)] != '1' &&
+        data->map2->map[(int)floor(data->player->pos_y + MARGIN)][(int)floor(newpos_x + MARGIN)] != '1')
     {
         // No collision in X direction, allow X movement
-        data->player->posX = newPosX;
+        data->player->pos_x = newpos_x;
     }
 
     // Check Y direction only
-    if (data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(data->player->posX - MARGIN)] != '1' &&
-        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(data->player->posX - MARGIN)] != '1' &&
-        data->map2->map[(int)floor(newPosY - MARGIN)][(int)floor(data->player->posX + MARGIN)] != '1' &&
-        data->map2->map[(int)floor(newPosY + MARGIN)][(int)floor(data->player->posX + MARGIN)] != '1')
+    if (data->map2->map[(int)floor(newpos_y - MARGIN)][(int)floor(data->player->pos_x - MARGIN)] != '1' &&
+        data->map2->map[(int)floor(newpos_y + MARGIN)][(int)floor(data->player->pos_x - MARGIN)] != '1' &&
+        data->map2->map[(int)floor(newpos_y - MARGIN)][(int)floor(data->player->pos_x + MARGIN)] != '1' &&
+        data->map2->map[(int)floor(newpos_y + MARGIN)][(int)floor(data->player->pos_x + MARGIN)] != '1')
     {
         // No collision in Y direction, allow Y movement
-        data->player->posY = newPosY;
+        data->player->pos_y = newpos_y;
     }
 }
 
@@ -105,18 +105,18 @@ else
 
 void handle_movement(t_cub3d *data)
 {
-    double newPosX = data->player->posX;
-    double newPosY = data->player->posY;
+    double newpos_x = data->player->pos_x;
+    double newpos_y = data->player->pos_y;
 
     float sensitivity = 0.5;
 	if (data->keys.forward)
-		ft_move(data, &newPosX, &newPosY, FORWARD);
+		ft_move(data, &newpos_x, &newpos_y, FORWARD);
 	if (data->keys.backward)
-		ft_move(data, &newPosX, &newPosY, BACKWARD);
+		ft_move(data, &newpos_x, &newpos_y, BACKWARD);
 	if (data->keys.left)
-		strafing(data, &newPosX, &newPosY, LEFT);
+		strafing(data, &newpos_x, &newpos_y, LEFT);
 	if (data->keys.right)
-		strafing(data, &newPosX, &newPosY, RIGHT);
+		strafing(data, &newpos_x, &newpos_y, RIGHT);
 
     if (data->keys.rotate_left == 1)
         data->player->angle -= ROT_SPEED;
@@ -127,7 +127,7 @@ void handle_movement(t_cub3d *data)
         data->player->angle += ROT_SPEED;
     if (data->keys.rotate_right == 2)
         data->player->angle += abs(data->keys.delta_x) * SENSITIVITY;
-    check_wall_colision(data, newPosX, newPosY);
+    check_wall_colision(data, newpos_x, newpos_y);
 
     data->keys.rotate_left = 0;
     data->keys.rotate_right = 0;
@@ -169,51 +169,4 @@ void toggle_door(t_cub3d *data, int door_x, int door_y)
 }
 
 
-int key_press(int key, t_cub3d *data)
-{
-    if (key == ESC_KEY)
-        exit(0);
-    else if (key == W_KEY)
-        data->keys.forward = 1;
-    else if (key == S_KEY)
-        data->keys.backward = 1;
-    else if (key == A_KEY)
-        data->keys.left = 1;
-    else if (key == D_KEY)
-        data->keys.right = 1;
-    else if (key == LEFT_KEY)
-        data->keys.rotate_left = 1;
-    else if (key == RIGHT_KEY)
-        data->keys.rotate_right = 1;
-	else if (key == E_KEY)
-	{
-		int x = (int)data->player->posX;
-        int y = (int)data->player->posY;
-		if (data->map2->map[y + 1][x] == 'D')
-			toggle_door(data, x, y + 1);
-		if (data->map2->map[y][x + 1] == 'D')
-			toggle_door(data, x + 1, y);
-		if (data->map2->map[y - 1][x] == 'D')
-			toggle_door(data, x, y - 1);
-		if (data->map2->map[y][x - 1] == 'D')
-			toggle_door(data, x - 1, y);
-	}
-    return (0);
-}
 
-int key_release(int key, t_cub3d *data)
-{
-    if (key == W_KEY)
-        data->keys.forward = 0;
-    else if (key == S_KEY)
-        data->keys.backward = 0;
-    else if (key == A_KEY)
-        data->keys.left = 0;
-    else if (key == D_KEY)
-        data->keys.right = 0;
-    else if (key == LEFT_KEY)
-        data->keys.rotate_left = 0;
-    else if (key == RIGHT_KEY)
-        data->keys.rotate_right = 0;
-    return (0);
-}

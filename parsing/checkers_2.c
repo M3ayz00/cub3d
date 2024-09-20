@@ -14,8 +14,7 @@
 
 int	is_player(char c)
 {
-	return (c == 'N' || c == 'W'
-		|| c == 'S' || c == 'E');
+	return (c == 'N' || c == 'W' || c == 'S' || c == 'E');
 }
 
 int	is_plane(char c, int is_bonus)
@@ -25,9 +24,7 @@ int	is_plane(char c, int is_bonus)
 
 int	is_valid_char(char c, int is_bonus)
 {
-	return (is_plane(c, is_bonus)
-		|| is_player(c)
-		|| is_space(c));
+	return (is_plane(c, is_bonus) || is_player(c) || is_space(c));
 }
 
 int	is_valid_elem(char *element, int is_bonus)

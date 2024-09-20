@@ -6,8 +6,8 @@ SRCS = cub.c ./parsing/gnl/get_next_line.c ./parsing/gnl/get_next_line_utils.c \
 		./parsing/checkers_4.c ./parsing/color_processing.c ./parsing/init_and_free.c \
 		./parsing/map_processing.c ./parsing/map_texture_parsing.c ./parsing/texture_processing.c  \
 		./parsing/parsing_utils.c ./parsing/parsing_utils2.c ./parsing/string_operations.c  \
-		./parsing/lst_management.c ./parsing/map_parsing.c ./raycasting/raycasting.c \
-		./raycasting/player.c ./raycasting/move.c ./raycasting/draw_env.c ./raycasting/utils.c \
+		./parsing/lst_management.c ./parsing/map_parsing.c ./raycasting/raycasting.c ./raycasting/keys_utils.c \
+		./raycasting/player.c ./raycasting/draw_utils.c ./raycasting/move.c ./raycasting/ray_cast_utils.c ./raycasting/draw_env.c ./raycasting/utils.c \
 
 SRCS_BONUS =./bonus/cub_bonus.c ./parsing/memory_management.c ./parsing/map_parsing.c\
 		./parsing/gnl/get_next_line.c ./parsing/gnl/get_next_line_utils.c \
@@ -16,9 +16,9 @@ SRCS_BONUS =./bonus/cub_bonus.c ./parsing/memory_management.c ./parsing/map_pars
 		./parsing/checkers_4.c ./parsing/color_processing.c ./parsing/init_and_free.c \
 		./parsing/map_processing.c ./parsing/map_texture_parsing.c ./parsing/texture_processing.c  \
 		./parsing/parsing_utils.c ./parsing/parsing_utils2.c ./parsing/string_operations.c  \
-		./parsing/lst_management.c ./raycasting/raycasting.c \
-		./raycasting/player.c ./bonus/move_bonus.c ./raycasting/draw_env.c ./raycasting/utils.c \
-		./bonus/minimap_bonus.c
+		./parsing/lst_management.c ./bonus/raycasting_bonus.c ./raycasting/draw_utils.c ./raycasting/keys_utils.c\
+		./raycasting/player.c ./bonus/move_bonus.c ./raycasting/draw_env.c ./raycasting/ray_cast_utils.c ./raycasting/utils.c \
+		./bonus/minimap_bonus.c ./bonus/render_bonus.c
 
 INCLUDES = -I/usr/include -Imlx
 MLX_FLAGS = -L./minilibx-linux -lmlx -lX11 -lXext -lm
