@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:11:32 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/21 14:59:21 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/21 18:32:53 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ void	my_mlx_pixel_put2(t_image *image, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = image->addr + ((y + 10) * image->line_length + (x + 10)
-			* (image->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
+	if ((x < WIDTH && x >= 0) && (y < HEIGHT && y >= 0))
+	{
+		dst = image->addr + ((y + 10) * image->line_length + (x + 10)
+				* (image->bits_per_pixel / 8));
+		*(unsigned int *)dst = color;
+	}
 }
 
 uint32_t	get_texture_color(t_image *texture, int x, int y)

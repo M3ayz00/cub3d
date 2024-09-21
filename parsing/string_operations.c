@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:53:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/20 21:33:50 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/21 18:57:45 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	set_width_and_height(t_lst **rows, t_cub3d *cub3d)
 	width = ft_strlen(curr->row);
 	while (curr)
 	{
-		if (curr->next &&  width <= ft_strlen(curr->next->row))
+		if (curr->next && width <= ft_strlen(curr->next->row))
 			width = ft_strlen(curr->next->row);
 		curr = curr->next;
 		height++;

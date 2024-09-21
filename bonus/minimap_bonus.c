@@ -6,100 +6,81 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:48:10 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/21 16:48:11 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/21 19:17:58 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void draw_line(t_cub3d *cub3d, t_line *line)
+void	draw_line(t_cub3d *cub3d, t_line *line)
 {
-    int dx = abs(line->x1 - line->x0);
-    int dy = abs(line->y1 - line->y0);
-    int sx = (line->x0 < line->x1) ? 1 : -1;
-    int sy = (line->y0 < line->y1) ? 1 : -1;
-    int err = dx - dy;
-    int e2;
+	t_draw_tool	tool;
 
-    while (1)
-    {
-        my_mlx_pixel_put2(cub3d->image, line->x0, line->y0, line->color);
-        if (line->x0 == line->x1 && line->y0 == line->y1)
-            break;
-        e2 = 2 * err;
-        if (e2 > -dy)
-        {
-            err -= dy;
-            line->x0 += sx;
-        }
-        if (e2 < dx)
-        {
-            err += dx;
-            line->y0 += sy;
-        }
-    }
+	tool.dx = abs(line->x1 - line->x0);
+	tool.dy = abs(line->y1 - line->y0);
+	tool.err = tool.dx - tool.dy;
+	define_sx(&tool, line);
+	while (1)
+	{
+		my_mlx_pixel_put2(cub3d->image, line->x0, line->y0, line->color);
+		if (line->x0 == line->x1 && line->y0 == line->y1)
+			break ;
+		tool.e2 = 2 * tool.err;
+		if (tool.e2 > -tool.dy)
+		{
+			tool.err -= tool.dy;
+			line->x0 += tool.sx;
+		}
+		if (tool.e2 < tool.dx)
+		{
+			tool.err += tool.dx;
+			line->y0 += tool.sy;
+		}
+	}
 }
 
-void draw_player_icon(t_cub3d *cub3d, int xc, int yc, int size, double angle, int color)
+void	draw_player_icon(t_cub3d *cub3d, t_render infos,
+	double angle, int color)
 {
-    int x1 = xc + cos(angle) * size;
-    int y1 = yc + sin(angle) * size;
-    int x2 = xc + cos(angle + M_PI_2) * (size / 2);
-    int y2 = yc + sin(angle + M_PI_2) * (size / 2);
-    int x3 = xc + cos(angle - M_PI_2) * (size / 2);
-    int y3 = yc + sin(angle - M_PI_2) * (size / 2);
-    t_line line = {x1, y1, x2, y2, color};
-    draw_line(cub3d, &line);
-    t_line line2 = {x2, y2, x3, y3, color};
-    draw_line(cub3d, &line2);
-    t_line line3 = {x3, y3, x1, y1, color};
-    draw_line(cub3d, &line3);
+	t_draw_tool	tool;
+	t_line		line;
+	t_line		line2;
+	t_line		line3;
+
+	tool.x_tip = infos.map_x + cos(angle) * infos.size;
+	tool.y_tip = infos.map_y + sin(angle) * infos.size;
+	tool.x_left = infos.map_x + cos(angle + M_PI_2) * (infos.size / 2);
+	tool.y_left = infos.map_y + sin(angle + M_PI_2) * (infos.size / 2);
+	tool.x_right = infos.map_x + cos(angle - M_PI_2) * (infos.size / 2);
+	tool.y_right = infos.map_y + sin(angle - M_PI_2) * (infos.size / 2);
+	line = (t_line){tool.x_tip, tool.y_tip,
+		tool.x_left, tool.y_left, color};
+	draw_line(cub3d, &line);
+	line2 = (t_line){tool.x_left, tool.y_left,
+		tool.x_right, tool.y_right, color};
+	draw_line(cub3d, &line2);
+	line3 = (t_line){tool.x_right, tool.y_right,
+		tool.x_tip, tool.y_tip, color};
+	draw_line(cub3d, &line3);
 }
 
-void draw_cub(t_cub3d *cub3d, t_render tools)
+void	draw_cub(t_cub3d *cub3d, t_render tools)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while(i < tools.tile_size)
+	while (i < tools.tile_size)
 	{
 		j = 0;
 		while (j < tools.tile_size)
 		{
-			my_mlx_pixel_put2(cub3d->image, j + tools.map_x, i + tools.map_y, tools.color);
+			my_mlx_pixel_put2(cub3d->image, j + tools.map_x,
+				i + tools.map_y, tools.color);
 			j++;
 		}
 		i++;
 	}
-}
-
-int get_max(int v1, int v2)
-{
-    if (v1 > v2)
-        return (v1);
-    return (v2);
-}
-
-double get_scale(t_cub3d *cub3d)
-{
-    int map_width;
-    int map_height;
-    int max_map_size;
-    double max_screen_size;
-
-	map_width = ft_strlen(cub3d->map2->map[0]);
-	map_height = ft_lstsize(cub3d->map2->rows);
-	max_map_size = get_max(map_height, map_width);
-	max_screen_size = WIDTH * 0.20;
-    return (max_screen_size / (max_map_size * TILE_SIZE));
-}
-
-void	init_render(t_cub3d *cub3d,t_render *tools)
-{
-	tools->offset = 10;
-	tools->scale = get_scale(cub3d);
-	tools->tile_size = TILE_SIZE * tools->scale;
 }
 
 void	map_rendering(t_cub3d *cub3d, t_render *tools, int i, int j)
@@ -116,7 +97,7 @@ void	map_rendering(t_cub3d *cub3d, t_render *tools, int i, int j)
 		draw_cub(cub3d, *tools);
 }
 
-void render_map(t_cub3d *cub3d)
+void	render_map(t_cub3d *cub3d)
 {
 	t_render	tools;
 	int			i;
@@ -134,9 +115,9 @@ void render_map(t_cub3d *cub3d)
 		}
 		i++;
 	}
-	draw_player_icon(cub3d,
-		cub3d->player->pos_x * tools.tile_size + tools.offset,
-		cub3d->player->pos_y * tools.tile_size + tools.offset,
-		5 * tools.scale, cub3d->player->angle,
+	tools.map_x = cub3d->player->pos_x * tools.tile_size + tools.offset;
+	tools.map_y = cub3d->player->pos_y * tools.tile_size + tools.offset;
+	tools.size = 5 * tools.scale;
+	draw_player_icon(cub3d, tools, cub3d->player->angle,
 		get_rgb(255, 255, 255, 255));
 }

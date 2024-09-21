@@ -18,7 +18,7 @@ SRCS_BONUS =./bonus/cub_bonus.c ./parsing/memory_management.c ./parsing/map_pars
 		./parsing/parsing_utils.c ./parsing/parsing_utils2.c ./parsing/string_operations.c ./bonus/doors_bonus.c \
 		./parsing/lst_management.c ./bonus/raycasting_bonus.c ./raycasting/draw_utils.c ./raycasting/keys_utils.c ./bonus/fpp_bonus.c\
 		./raycasting/player.c ./bonus/move_bonus.c ./raycasting/draw_env.c ./raycasting/ray_cast_utils.c ./raycasting/utils.c \
-		 ./bonus/render_bonus.c ./bonus/move_help_bonus.c ./bonus/utils_bonus.c ./bonus/minimap_bonus.c ./bonus/doors_utils_bonus.c
+		 ./bonus/render_bonus.c ./bonus/move_help_bonus.c ./bonus/utils_bonus.c ./bonus/minimap_bonus.c ./bonus/doors_utils_bonus.c ./bonus/minimap_utils_bonus.c
 
 INCLUDES = -I/usr/include -Imlx
 MLX_FLAGS = -L./minilibx-linux -lmlx -lX11 -lXext -lm

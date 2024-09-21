@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 22:29:27 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/21 16:00:28 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/21 19:00:19 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	render_ceil(t_cub3d *cub3d, int i, int end)
 	uint32_t	color;
 
 	l = 0;
-	color = get_rgb(255, cub3d->textures->ceiling->r, cub3d->textures->ceiling->g,
+	color = get_rgb(255, cub3d->textures->ceiling->r,
+			cub3d->textures->ceiling->g,
 			cub3d->textures->ceiling->b);
 	while (l < end)
 	{
