@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   fpp_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:19:36 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/20 06:19:38 by aes-sarg         ###   ########.fr       */
+/*   Updated: 2024/09/21 15:00:03 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	calc_scale_and_position(t_cub3d *data, t_weapon_vars *vars,
+void	calc_scale_and_position(t_cub3d *cub3d, t_weapon_vars *vars,
 		int current_frame)
 {
 	vars->screen_width = WIDTH;
 	vars->screen_height = HEIGHT;
-	vars->image_width = data->frames[current_frame].width;
-	vars->image_height = data->frames[current_frame].height;
+	vars->image_width = cub3d->frames[current_frame].width;
+	vars->image_height = cub3d->frames[current_frame].height;
 	vars->scale_x = (float)vars->screen_width / 1.5 / vars->image_width;
 	vars->scale_y = (float)vars->screen_height / 1.5 / vars->image_height;
 	vars->start_x = (vars->screen_width - (int)(vars->image_width
@@ -27,7 +27,7 @@ void	calc_scale_and_position(t_cub3d *data, t_weapon_vars *vars,
 			* vars->scale_y) - 10;
 }
 
-void	draw_weapon_img(t_cub3d *data, t_weapon_vars *vars, int current_frame)
+void	draw_weapon_img(t_cub3d *cub3d, t_weapon_vars *vars, int current_frame)
 {
 	int	color;
 	int	original_x;
@@ -41,10 +41,10 @@ void	draw_weapon_img(t_cub3d *data, t_weapon_vars *vars, int current_frame)
 		{
 			original_x = (int)(vars->x / vars->scale_x);
 			original_y = (int)(vars->y / vars->scale_y);
-			color = get_texel(data->frames[current_frame], original_x,
+			color = get_texel(cub3d->frames[current_frame], original_x,
 					original_y);
 			if (color != 0 && color != -16777216)
-				my_mlx_pixel_put2(data->image, vars->start_x + vars->x,
+				my_mlx_pixel_put2(cub3d->image, vars->start_x + vars->x,
 					vars->start_y + vars->y, color);
 			vars->x++;
 		}
@@ -52,13 +52,13 @@ void	draw_weapon_img(t_cub3d *data, t_weapon_vars *vars, int current_frame)
 	}
 }
 
-void	render_weapon(t_cub3d *data, int current_frame)
+void	render_weapon(t_cub3d *cub3d, int current_frame)
 {
 	t_weapon_vars	vars;
 
-	calc_scale_and_position(data, &vars, current_frame);
-	draw_weapon_img(data, &vars, current_frame);
-	mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
+	calc_scale_and_position(cub3d, &vars, current_frame);
+	draw_weapon_img(cub3d, &vars, current_frame);
+	mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->image->img, 0, 0);
 }
 
 void	initialize_filenames(char *filenames[])
@@ -88,7 +88,7 @@ void	initialize_filenames(char *filenames[])
 	filenames[22] = "bonus/textures/idle/tile022.xpm";
 }
 
-void	load_weapon_frames(t_cub3d *data)
+void	load_weapon_frames(t_cub3d *cub3d)
 {
 	int		width;
 	int		height;
@@ -99,18 +99,18 @@ void	load_weapon_frames(t_cub3d *data)
 	initialize_filenames(filenames);
 	while (i < FRAME_COUNT)
 	{
-		data->frames[i].img = mlx_xpm_file_to_image(data->mlx, filenames[i],
+		cub3d->frames[i].img = mlx_xpm_file_to_image(cub3d->mlx, filenames[i],
 				&width, &height);
-		if (!data->frames[i].img)
+		if (!cub3d->frames[i].img)
 		{
 			write(2, "error loading frame\n", 20);
 			exit(1);
 		}
-		data->frames[i].width = width;
-		data->frames[i].height = height;
-		data->frames[i].addr = mlx_get_data_addr(data->frames[i].img,
-				&data->frames[i].bits_per_pixel, &data->frames[i].line_length,
-				&data->frames[i].endian);
+		cub3d->frames[i].width = width;
+		cub3d->frames[i].height = height;
+		cub3d->frames[i].addr = mlx_get_data_addr(cub3d->frames[i].img,
+				&cub3d->frames[i].bits_per_pixel, &cub3d->frames[i].line_length,
+				&cub3d->frames[i].endian);
 		i++;
 	}
 }

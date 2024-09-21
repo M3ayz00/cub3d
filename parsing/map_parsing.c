@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/20 20:23:57 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:59:21 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	check_line(char **line, t_textures **textures, t_map2 **map, int *i)
 	return (1);
 }
 
-int	parse_data(t_cub3d *cub3d, char *path, int is_bonus)
+int	parse_cub3d(t_cub3d *cub3d, char *path, int is_bonus)
 {
 	int	fd;
 

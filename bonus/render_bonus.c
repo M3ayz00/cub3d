@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   render_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 07:05:49 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/20 07:05:55 by aes-sarg         ###   ########.fr       */
+/*   Updated: 2024/09/21 15:00:03 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	render_ceil_bonus(t_cub3d *data, int i, int end)
+void	render_ceil_bonus(t_cub3d *cub3d, int i, int end)
 {
 	int			j;
 	int			texture_x;
@@ -21,30 +21,30 @@ void	render_ceil_bonus(t_cub3d *data, int i, int end)
 	uint32_t	color;
 
 	j = 0;
-	ceiling_texture = &data->textures->ceil_tex;
+	ceiling_texture = &cub3d->textures->ceil_tex;
 	while (j < end)
 	{
 		texture_x = (i * ceiling_texture->width) / WIDTH;
 		texture_y = (j * ceiling_texture->height) / HEIGHT;
 		color = get_texture_color(ceiling_texture, texture_x, texture_y);
-		my_mlx_pixel_put(data->image, i, j, color);
+		my_mlx_pixel_put(cub3d->image, i, j, color);
 		j++;
 	}
 }
 
-void	init_ceiling_texture(t_cub3d *data)
+void	init_ceiling_texture(t_cub3d *cub3d)
 {
-	data->textures->ceil_tex.img = mlx_xpm_file_to_image(data->mlx,
-			"textures/sky_dark.xpm", &data->textures->ceil_tex.width,
-			&data->textures->ceil_tex.height);
-	if (!data->textures->ceil_tex.img)
+	cub3d->textures->ceil_tex.img = mlx_xpm_file_to_image(cub3d->mlx,
+			"textures/sky_dark.xpm", &cub3d->textures->ceil_tex.width,
+			&cub3d->textures->ceil_tex.height);
+	if (!cub3d->textures->ceil_tex.img)
 	{
 		write(2, "error loading sky texture\n", 26);
-		ft_exit(data);
+		ft_exit(cub3d);
 	}
-	data->textures->ceil_tex.addr = \
-	mlx_get_data_addr(data->textures->ceil_tex.img,
-			&data->textures->ceil_tex.bits_per_pixel,
-			&data->textures->ceil_tex.line_length,
-			&data->textures->ceil_tex.endian);
+	cub3d->textures->ceil_tex.addr = \
+	mlx_get_data_addr(cub3d->textures->ceil_tex.img,
+			&cub3d->textures->ceil_tex.bits_per_pixel,
+			&cub3d->textures->ceil_tex.line_length,
+			&cub3d->textures->ceil_tex.endian);
 }

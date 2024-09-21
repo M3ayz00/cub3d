@@ -1,8 +1,8 @@
 #include "../cub3d.h"
 
-int	get_door_is_open_at(int map_x, int map_y, t_cub3d *data)
+int	get_door_is_open_at(int map_x, int map_y, t_cub3d *cub3d)
 {
-	return (data->doors->is_open[map_y][map_x]);
+	return (cub3d->doors->is_open[map_y][map_x]);
 }
 
 int	get_texel(t_image weapon, int x, int y)

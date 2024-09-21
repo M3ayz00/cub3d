@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:11:32 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/19 23:11:34 by aes-sarg         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:59:21 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ uint32_t	get_texture_color(t_image *texture, int x, int y)
 	return (*(uint32_t *)pixel);
 }
 
-void	get_wall_x(t_cub3d *data, t_render *wall)
+void	get_wall_x(t_cub3d *cub3d, t_render *wall)
 {
-	if (data->ray->is_vertical)
-		wall->x = data->ray->hit_y - floor(data->ray->hit_y);
+	if (cub3d->ray->is_vertical)
+		wall->x = cub3d->ray->hit_y - floor(cub3d->ray->hit_y);
 	else
-		wall->x = data->ray->hit_x - floor(data->ray->hit_x);
+		wall->x = cub3d->ray->hit_x - floor(cub3d->ray->hit_x);
 }

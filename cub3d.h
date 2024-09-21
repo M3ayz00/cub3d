@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/20 21:52:32 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:33:10 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,16 @@ typedef struct s_rendering_tools
 	int column;
 	int slice_height;
 	float scale;
-	uint32_t color;
+	int offset;
+	int	tile_size;
+	int32_t color;
 	int door_is_open;
 	double door_timer;
+	int	m;
+	int	n;
+	int	size;
+	int	map_x;
+	int	map_y;
 } t_render;
 
 typedef struct s_weapon_vars
@@ -244,10 +251,10 @@ int ft_lstsize(t_lst *lst);
 void ft_lstclear(t_lst **lst);
 char *ft_strdup(char *str);
 t_lst *ft_lstlast(t_lst *lst);
-int parse_data(t_cub3d *cub3d, char *path, int is_bonus);
+int parse_cub3d(t_cub3d *cub3d, char *path, int is_bonus);
 void free_textures(t_textures **textures);
 void free_map(t_map2 **map);
-void render_door(t_cub3d *data, int i, int start, int end);
+void render_door(t_cub3d *cub3d, int i, int start, int end);
 uint32_t get_texture_color(t_image *texture, int x, int y);
 void init_textures(t_textures **textures);
 void init_map(t_map2 **map);
@@ -304,63 +311,61 @@ void remove_x_node(t_lst **curr, t_lst **prev, t_lst **to_rem);
 // raycasting prototypes
 void my_mlx_pixel_put(t_image *image, int x, int y, int color);
 void my_mlx_pixel_put2(t_image *image, int x, int y, int color);
-void render_ceil(t_cub3d *data, int i, int end);
-void render_walls(t_cub3d *data, int i, int start, int end);
-void render_floor(t_cub3d *data, int i, int start, int end);
-int key_press(int key, t_cub3d *data);
-void get_player_pos(t_cub3d *data);
-void dda(t_cub3d *data);
-void get_delta_distance(t_cub3d *data, double ray_dir_x,
+void render_ceil(t_cub3d *cub3d, int i, int end);
+void render_walls(t_cub3d *cub3d, int i, int start, int end);
+void render_floor(t_cub3d *cub3d, int i, int start, int end);
+int key_press(int key, t_cub3d *cub3d);
+void get_player_pos(t_cub3d *cub3d);
+void dda(t_cub3d *cub3d);
+void get_delta_distance(t_cub3d *cub3d, double ray_dir_x,
 						double ray_dir_y);
-void cast_ray(t_cub3d *data, double ray_angle);
-void cast_all_rays(t_cub3d *data);
+void cast_ray(t_cub3d *cub3d, double ray_angle);
+void cast_all_rays(t_cub3d *cub3d);
 int calc_height(double distance, int screen_height);
 char **get_arr(t_lst *lst);
 int get_rgb(int t, int r, int g, int b);
 int render(void *cub);
 int ft_exit(t_cub3d *cub3d);
-void get_wall_x(t_cub3d *data, t_render *wall);
-void get_delta_distance_y(t_cub3d *data, double ray_dir_y);
-void get_delta_distance_x(t_cub3d *data, double ray_dir_x);
+void get_wall_x(t_cub3d *cub3d, t_render *wall);
+void get_delta_distance_y(t_cub3d *cub3d, double ray_dir_y);
+void get_delta_distance_x(t_cub3d *cub3d, double ray_dir_x);
 
 // bonus
-void draw_line(t_cub3d *data, t_line *line);
-void draw_direction_line(t_cub3d *data, int x, int y,
-						 double angle, int length, int color);
-void draw_cub(t_cub3d *data, int x, int y, int size_h,
-			  int size_w, int color);
-void cast_map_rays(t_cub3d *data, int offset, double scale);
-void render_map(t_cub3d *data);
+void draw_line(t_cub3d *cub3d, t_line *line);
+void draw_cub(t_cub3d *cub3d, t_render tools);
+void render_map(t_cub3d *cub3d);
 void door_interaction(t_cub3d *cub3d);
-void render_ceil_bonus(t_cub3d *data, int i, int end);
+void render_ceil_bonus(t_cub3d *cub3d, int i, int end);
 int get_texel(t_image texture, int x, int y);
 void init_key_state(t_key_state *keys);
-int key_release(int key, t_cub3d *data);
-void handle_movement(t_cub3d *data);
+int key_release(int key, t_cub3d *cub3d);
+void handle_movement(t_cub3d *cub3d);
+void	put_rect(t_cub3d *cub3d);
+void	put_message(t_cub3d *cub3d);
+int	is_near_door(t_cub3d *cub3d);
 
-void check_wall_colision(t_cub3d *data, double newpos_x,
+void check_wall_colision(t_cub3d *cub3d, double newpos_x,
 						 double newpos_y);
-int	get_door_is_open_at(int map_x, int map_y, t_cub3d *data);
-void render_ceil_bonus(t_cub3d *data, int i, int end);
-int mouse_move(int x, int y, t_cub3d *data);
+int	get_door_is_open_at(int map_x, int map_y, t_cub3d *cub3d);
+void render_ceil_bonus(t_cub3d *cub3d, int i, int end);
+int mouse_move(int x, int y, t_cub3d *cub3d);
 int get_texel(t_image weapon, int x, int y);
-void calc_scale_and_position(t_cub3d *data, t_weapon_vars *vars, int current_frame);
-void draw_weapon_img(t_cub3d *data, t_weapon_vars *vars, int current_frame);
-void render_weapon(t_cub3d *data, int current_frame);
+void calc_scale_and_position(t_cub3d *cub3d, t_weapon_vars *vars, int current_frame);
+void draw_weapon_img(t_cub3d *cub3d, t_weapon_vars *vars, int current_frame);
+void render_weapon(t_cub3d *cub3d, int current_frame);
 void initialize_filenames(char *filenames[]);
-void load_weapon_frames(t_cub3d *data);
+void load_weapon_frames(t_cub3d *cub3d);
 void init_doors(t_door **doors, t_cub3d *cub3d);
-void load_door_frames(t_cub3d *data);
+void load_door_frames(t_cub3d *cub3d);
 void	close_doors(t_cub3d *cub3d);
-void init_ceiling_texture(t_cub3d *data);
+void init_ceiling_texture(t_cub3d *cub3d);
 int is_near_door(t_cub3d *cub3d);
-void door_interaction(t_cub3d *cub3d);
-void toggle_door(t_cub3d *data, int door_x, int door_y);
-void	handle_movement(t_cub3d *data);
-void check_wall_collision(t_cub3d *data, double newpos_x, double newpos_y);
-void ft_move(t_cub3d *data, double *newpos_x, double *newpos_y,
+void toggle_door(t_cub3d *cub3d, int door_x, int door_y);
+void	handle_movement(t_cub3d *cub3d);
+void check_wall_collision(t_cub3d *cub3d, double newpos_x, double newpos_y);
+void ft_move(t_cub3d *cub3d, double *newpos_x, double *newpos_y,
 			 t_direction move);
-void strafing(t_cub3d *data, double *newpos_x, double *newpos_y,
+void strafing(t_cub3d *cub3d, double *newpos_x, double *newpos_y,
 			  t_direction dir);
 
 #endif

@@ -6,48 +6,48 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 00:03:06 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/20 20:47:10 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:59:21 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	key_press(int key, t_cub3d *data)
+int	key_press(int key, t_cub3d *cub3d)
 {
 	if (key == ESC_KEY)
 		exit(0);
 	else if (key == W_KEY)
-		data->keys.forward = 1;
+		cub3d->keys.forward = 1;
 	else if (key == S_KEY)
-		data->keys.backward = 1;
+		cub3d->keys.backward = 1;
 	else if (key == A_KEY)
-		data->keys.left = 1;
+		cub3d->keys.left = 1;
 	else if (key == D_KEY)
-		data->keys.right = 1;
+		cub3d->keys.right = 1;
 	else if (key == LEFT_KEY)
-		data->keys.rotate_left = 1;
+		cub3d->keys.rotate_left = 1;
 	else if (key == RIGHT_KEY)
-		data->keys.rotate_right = 1;
+		cub3d->keys.rotate_right = 1;
 	else if (key == E_KEY)
-		data->keys.e = 1;
+		cub3d->keys.e = 1;
 	return (0);
 }
 
-int	key_release(int key, t_cub3d *data)
+int	key_release(int key, t_cub3d *cub3d)
 {
 	if (key == W_KEY)
-		data->keys.forward = 0;
+		cub3d->keys.forward = 0;
 	else if (key == S_KEY)
-		data->keys.backward = 0;
+		cub3d->keys.backward = 0;
 	else if (key == A_KEY)
-		data->keys.left = 0;
+		cub3d->keys.left = 0;
 	else if (key == D_KEY)
-		data->keys.right = 0;
+		cub3d->keys.right = 0;
 	else if (key == LEFT_KEY)
-		data->keys.rotate_left = 0;
+		cub3d->keys.rotate_left = 0;
 	else if (key == RIGHT_KEY)
-		data->keys.rotate_right = 0;
+		cub3d->keys.rotate_right = 0;
 	else if (key == E_KEY)
-		data->keys.e = 0;
+		cub3d->keys.e = 0;
 	return (0);
 }

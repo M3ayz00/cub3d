@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:31:55 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/19 23:31:57 by aes-sarg         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:59:21 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ void	set_player_pos(t_player *player, int i, int j, char direction)
 		player->angle = M_PI / 2;
 }
 
-void	get_player_pos(t_cub3d *data)
+void	get_player_pos(t_cub3d *cub3d)
 {
 	char	**map;
 	int		i;
 	int		j;
 
 	i = 0;
-	map = get_arr(data->map2->rows);
-	data->map2->map = map;
+	map = get_arr(cub3d->map2->rows);
+	cub3d->map2->map = map;
 	while (map[i])
 	{
 		j = 0;
@@ -42,7 +42,7 @@ void	get_player_pos(t_cub3d *data)
 		{
 			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W'
 				|| map[i][j] == 'E')
-				set_player_pos(data->player, i, j, map[i][j]);
+				set_player_pos(cub3d->player, i, j, map[i][j]);
 			j++;
 		}
 		i++;

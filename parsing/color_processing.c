@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:48:50 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/20 15:26:19 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:29:43 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	based_split(char *line, char ***splitted)
 	return (1);
 }
 
-t_color	*get_color(t_color **actual_color, char ***colors, char *color)
+t_color	*get_color(t_color **actual_color, char ***colors)
 {
 	(*actual_color)->r = ft_atoi((*colors)[1]);
 	(*actual_color)->g = ft_atoi((*colors)[2]);
@@ -64,7 +64,6 @@ t_color	*get_color(t_color **actual_color, char ***colors, char *color)
 
 t_color	*split_color(char **color)
 {
-	char	**colors;
 	int		size;
 	t_color	*actual_col;
 
@@ -73,6 +72,6 @@ t_color	*split_color(char **color)
 	if (!actual_col)
 		return (NULL);
 	if (size == 4)
-		return (get_color(&actual_col, &color, color[1]));
+		return (get_color(&actual_col, &color));
 	return (actual_col);
 }
