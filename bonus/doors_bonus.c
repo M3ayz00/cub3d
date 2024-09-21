@@ -52,8 +52,7 @@ void	load_door_frames(t_cub3d *cub3d)
 		exit(1);
 	}
 	door_frame->img = mlx_xpm_file_to_image(cub3d->mlx,
-			"bonus/textures/door/wolfenstein_door.xpm",
-			&door_frame->width,
+			"bonus/textures/door/wolfenstein_door.xpm", &door_frame->width,
 			&door_frame->height);
 	if (!door_frame->img)
 	{
@@ -61,8 +60,7 @@ void	load_door_frames(t_cub3d *cub3d)
 		exit(1);
 	}
 	door_frame->addr = mlx_get_data_addr(door_frame->img,
-			&door_frame->bits_per_pixel,
-			&door_frame->line_length,
+			&door_frame->bits_per_pixel, &door_frame->line_length,
 			&door_frame->endian);
 	cub3d->doors->door_frame = door_frame;
 }

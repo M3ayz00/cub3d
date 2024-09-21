@@ -71,8 +71,7 @@ int	is_near_door(t_cub3d *cub3d)
 
 	x = (int)cub3d->player->pos_x;
 	y = (int)cub3d->player->pos_y;
-	return (cub3d->map2->map[y + 1][x] == 'D'
-		|| cub3d->map2->map[y][x + 1] == 'D'
-		|| cub3d->map2->map[y - 1][x] == 'D'
+	return (cub3d->map2->map[y + 1][x] == 'D' || cub3d->map2->map[y][x
+		+ 1] == 'D' || cub3d->map2->map[y - 1][x] == 'D'
 		|| cub3d->map2->map[y][x - 1] == 'D');
 }

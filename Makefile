@@ -11,7 +11,7 @@ SRCS = cub.c ./parsing/gnl/get_next_line.c ./parsing/gnl/get_next_line_utils.c \
 
 SRCS_BONUS =./bonus/cub_bonus.c ./parsing/memory_management.c ./parsing/map_parsing.c\
 		./parsing/gnl/get_next_line.c ./parsing/gnl/get_next_line_utils.c \
-		./parsing/ft_split.c ./parsing/ft_strtrim.c \
+		./parsing/ft_split.c ./parsing/ft_strtrim.c ./bonus/collision_bonus.c\
 		./parsing/checkers_1.c ./parsing/checkers_2.c ./parsing/checkers_3.c \
 		./parsing/checkers_4.c ./parsing/color_processing.c ./parsing/init_and_free.c \
 		./parsing/map_processing.c ./parsing/map_texture_parsing.c ./parsing/texture_processing.c  \

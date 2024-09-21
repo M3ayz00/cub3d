@@ -30,7 +30,9 @@ int	render(void *cub)
 		frame_count = 0;
 	}
 	render_weapon(cub3d, current_frame);
-	close_doors(cub3d);
+	if (!get_door_is_open_at((int)floor(cub3d->player->pos_x),
+			(int)floor(cub3d->player->pos_y), cub3d))
+		close_doors(cub3d);
 	mlx_put_image_to_window(cub3d->mlx, cub3d->win, cub3d->image->img, 0, 0);
 	door_interaction(cub3d);
 	return (0);

@@ -19,8 +19,8 @@ int	check_door_hit(t_cub3d *cub3d)
 	if (cub3d->bonus == 1
 		&& (cub3d->map2->map[cub3d->map2->map_y][cub3d->map2->map_x] == 'D'))
 	{
-		is_open = get_door_is_open_at(cub3d->map2->map_x,
-				cub3d->map2->map_y, cub3d);
+		is_open = get_door_is_open_at(cub3d->map2->map_x, cub3d->map2->map_y,
+				cub3d);
 		if (is_open == 0)
 		{
 			cub3d->ray->hit_door = 1;

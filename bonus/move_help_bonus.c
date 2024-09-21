@@ -1,74 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move_help_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/21 22:21:22 by aes-sarg          #+#    #+#             */
+/*   Updated: 2024/09/21 23:32:33 by aes-sarg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
-void	check_x_collision(t_cub3d *cub3d, double newpos_x)
+void	check_xy_collision(t_cub3d *cub3d, double newpos_x, double newpos_y)
 {
-	if (cub3d->map2->map[(int)floor(cub3d->player->pos_y
-			- MARGIN)][(int)floor(newpos_x - MARGIN)] != '1'
-		&& cub3d->map2->map[(int)floor(cub3d->player->pos_y
-			+ MARGIN)][(int)floor(newpos_x - MARGIN)] != '1'
-		&& cub3d->map2->map[(int)floor(cub3d->player->pos_y
-			- MARGIN)][(int)floor(newpos_x + MARGIN)] != '1'
-		&& cub3d->map2->map[(int)floor(cub3d->player->pos_y
-			+ MARGIN)][(int)floor(newpos_x + MARGIN)] != '1')
-	{
-		// No collision in X direction, allow X movement
+	if (!is_collide_wall_at_x(cub3d, newpos_x) && !is_collide_door_at_x(cub3d,
+			newpos_x))
 		cub3d->player->pos_x = newpos_x;
-	}
-}
-void	check_y_collision(t_cub3d *cub3d, double newpos_y)
-{
-	if (cub3d->map2->map[(int)floor(newpos_y
-			- MARGIN)][(int)floor(cub3d->player->pos_x - MARGIN)] != '1'
-		&& cub3d->map2->map[(int)floor(newpos_y
-			+ MARGIN)][(int)floor(cub3d->player->pos_x - MARGIN)] != '1'
-		&& cub3d->map2->map[(int)floor(newpos_y
-			- MARGIN)][(int)floor(cub3d->player->pos_x + MARGIN)] != '1'
-		&& cub3d->map2->map[(int)floor(newpos_y
-			+ MARGIN)][(int)floor(cub3d->player->pos_x + MARGIN)] != '1')
-	{
-		// No collision in Y direction, allow Y movement
-
+	if (!is_collide_wall_at_y(cub3d, newpos_y) && !is_collide_door_at_y(cub3d,
+			newpos_y))
 		cub3d->player->pos_y = newpos_y;
-	}
 }
 
 int	is_collision(t_cub3d *cub3d, double newpos_x, double newpos_y)
 {
-	// Check surrounding tiles for collisions
-	return (cub3d->map2->map[(int)floor(newpos_y - MARGIN)][(int)floor(newpos_x
-			- MARGIN)] == '1' || cub3d->map2->map[(int)floor(newpos_y
-			- MARGIN)][(int)floor(newpos_x + MARGIN)] == '1'
-		|| cub3d->map2->map[(int)floor(newpos_y + MARGIN)][(int)floor(newpos_x
-			- MARGIN)] == '1' || cub3d->map2->map[(int)floor(newpos_y
-			+ MARGIN)][(int)floor(newpos_x + MARGIN)] == '1');
+	return (is_collide_wall_at_x(cub3d, newpos_x) || is_collide_wall_at_y(cub3d,
+			newpos_y) || is_collide_door_at_x(cub3d, newpos_x)
+		|| is_collide_door_at_y(cub3d, newpos_y));
 }
 
 void	check_wall_collision(t_cub3d *cub3d, double newpos_x, double newpos_y)
 {
 	if (!is_collision(cub3d, newpos_x, newpos_y))
 	{
-		// No collisions, update both X and Y positions
 		cub3d->player->pos_x = newpos_x;
 		cub3d->player->pos_y = newpos_y;
 	}
 	else
-	{
-		// Check movement in X direction
-		check_x_collision(cub3d, newpos_x);
-		// Check movement in Y direction
-		check_y_collision(cub3d, newpos_y);
-	}
+		check_xy_collision(cub3d, newpos_x, newpos_y);
+}
+
+void	release_mouse(t_cub3d *cub3d)
+{
+	if (cub3d->keys.rotate_left == 2 || cub3d->keys.rotate_right == 2)
+		cub3d->keys.rotate_left = 0;
+	cub3d->keys.rotate_right = 0;
+	cub3d->keys.delta_x = 0;
 }
 
 void	handle_movement(t_cub3d *cub3d)
 {
-	double newpos_x;
-	double newpos_y;
-	float sensitivity;
+	double	newpos_x;
+	double	newpos_y;
 
 	newpos_x = cub3d->player->pos_x;
 	newpos_y = cub3d->player->pos_y;
-	sensitivity = 0.5;
 	if (cub3d->keys.forward)
 		ft_move(cub3d, &newpos_x, &newpos_y, FORWARD);
 	if (cub3d->keys.backward)
@@ -86,10 +72,5 @@ void	handle_movement(t_cub3d *cub3d)
 	if (cub3d->keys.rotate_right == 2)
 		cub3d->player->angle += abs(cub3d->keys.delta_x) * SENSITIVITY;
 	check_wall_collision(cub3d, newpos_x, newpos_y);
-	cub3d->keys.rotate_left = 0;
-	cub3d->keys.rotate_right = 0;
-	cub3d->keys.delta_x = 0;
-	if (cub3d->keys.rotate_left == 2 || cub3d->keys.rotate_right == 2)
-		cub3d->keys.rotate_left = 0, cub3d->keys.rotate_right = 0,
-			cub3d->keys.delta_x = 0;
+	release_mouse(cub3d);
 }
