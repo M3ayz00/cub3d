@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/21 14:59:21 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:50:32 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ int	is_map_valid(t_lst **rows)
 	curr = *rows;
 	while (curr)
 	{
-		if (!is_it_all_spaces(curr->row))
-			break ;
-		else
+		if (is_it_all_spaces(curr->row))
 		{
 			ft_lst_remove(rows, curr);
 			curr = *rows;
 		}
+		else
+			break ;
 	}
 	while (curr)
 	{

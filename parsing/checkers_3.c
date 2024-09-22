@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:45:43 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/20 14:08:50 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:43:50 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	is_it_all_spaces(char *row)
 	int	i;
 
 	i = 0;
-	while (row[i] && is_space(row[i]))
+	while (row && row[i] && is_space(row[i]))
 		i++;
 	if (!row[i])
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:47:18 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 16:33:28 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:49:14 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	ft_lst_remove(t_lst	**lst, t_lst *to_rem)
 	if (*lst == to_rem)
 	{
 		*lst = (*lst)->next;
-		(*lst)->prev = NULL;
+		if (*lst)
+			(*lst)->prev = NULL;
 		to_rem->next = NULL;
 		free(to_rem->row);
 		free(to_rem);

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:51:55 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 21:28:12 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 14:55:41 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	check_zeros(t_lst **rows, int is_bonus)
 
 int	check_first_last_rows(t_lst *rows)
 {
+	if (!rows)
+		return (0);
 	if (!is_it_all_ones(rows->row)
 		|| !is_it_all_ones(ft_lstlast(rows)->row))
 		return (0);
@@ -64,7 +66,7 @@ int	check_each_row(t_lst **rows)
 
 	tools.count = 0;
 	curr = (*rows)->next;
-	while (curr->next)
+	while (curr && curr->next)
 	{
 		tools.prev_len = 0;
 		tools.next_len = 0;
