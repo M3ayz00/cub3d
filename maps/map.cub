@@ -1,18 +1,14 @@
-NO ./textures/old.xpm
+NO ./textures/old1.xpm
 SO ./textures/old2.xpm
 F 	255,255,255
 WE ./textures/wall_metal1.xpm
 
 C 135,206,235
+
 EA ./textures/wall_metal2.xpm
-
-
-
 
 111
 1N1
 111
-
-
 
 
