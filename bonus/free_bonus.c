@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aes-sarg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:57:04 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 19:57:06 by aes-sarg         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:25:46 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,27 +79,3 @@ void	free_doors(t_door **doors, t_cub3d *cub3d)
 	*doors = NULL;
 }
 
-int	ft_exit_bonus(t_cub3d *cub3d)
-{
-	free_weapon_frames(cub3d);
-	free_doors(&cub3d->doors, cub3d);
-	if (cub3d->map->map)
-		free_strs(cub3d->map->map);
-	free_map(&cub3d->map);
-	if (cub3d->textures->ceil_tex.img)
-	{
-		mlx_destroy_image(cub3d->mlx, cub3d->textures->ceil_tex.img);
-		cub3d->textures->ceil_tex.img = NULL;
-	}
-	free_textures(&cub3d->textures);
-	free_struct_bonus(cub3d);
-	mlx_destroy_image(cub3d->mlx, cub3d->image->img);
-	if (cub3d->image)
-		free(cub3d->image);
-	mlx_destroy_window(cub3d->mlx, cub3d->win);
-	mlx_destroy_display(cub3d->mlx);
-	if (cub3d->mlx)
-		free(cub3d->mlx);
-	exit(0);
-	return (0);
-}

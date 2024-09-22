@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 18:23:51 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:24:50 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -392,4 +392,6 @@ int					is_collide_door_at_y(t_cub3d *cub3d, double newpos_y);
 int					key_press_bonus(int key, t_cub3d *cub3d);
 int					ft_exit_bonus(t_cub3d *cub3d);
 void				free_struct_bonus(t_cub3d *cub3d);
+void				free_weapon_frames(t_cub3d *cub3d);
+void				free_doors(t_door **doors, t_cub3d *cub3d);
 #endif
