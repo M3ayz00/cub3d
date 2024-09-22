@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:56:35 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 22:22:46 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 23:30:05 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	get_texel(t_image weapon, int x, int y)
 
 int	ft_exit_bonus(t_cub3d *cub3d, int flag)
 {
-	if (flag)
+	if (flag == 1)
 		free_weapon_frames(cub3d);
 	free_strs(cub3d->map->map);
-	free_doors(&cub3d->doors, cub3d);
+	free_doors(&cub3d->doors, cub3d, flag);
 	free_map(&cub3d->map);
 	if (cub3d->textures->ceil_tex.img)
 	{

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:13:25 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 22:16:15 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:36:23 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,10 @@ void	init(t_cub3d *cub3d)
 	cub3d->image->addr = mlx_get_data_addr(cub3d->image->img,
 			&cub3d->image->bits_per_pixel, &cub3d->image->line_length,
 			&cub3d->image->endian);
+	load_images(cub3d);
 	init_doors(&cub3d->doors, cub3d);
 	load_door_frames(cub3d);
 	get_player_pos(cub3d);
-	load_images(cub3d);
 	load_weapon_frames(cub3d);
 	cub3d->win = mlx_new_window(cub3d->mlx, WIDTH, HEIGHT, "cub3d");
 }
@@ -113,7 +113,7 @@ int	main(int ac, char **av)
 		if (!parse_cub3d(&cub3d, av[1], cub3d.bonus))
 		{
 			write(2, "error\n", 6);
-			ft_exit_bonus(&cub3d, 1);
+			exit(1);
 		}
 		init(&cub3d);
 		init_key_state(&cub3d.keys);

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:57:04 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 22:20:20 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 23:24:19 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,20 @@ void	free_weapon_frames(t_cub3d *cub3d)
 	}
 }
 
-void	free_doors(t_door **doors, t_cub3d *cub3d)
+void	free_doors(t_door **doors, t_cub3d *cub3d, int flag)
 {
 	int	y;
 
 	if (!doors || !(*doors) || !cub3d->map)
 		return ;
 	y = 0;
-	if (cub3d->doors->door_frame->img)
+	if (flag && (*doors)->door_frame->img)
 	{
 		mlx_destroy_image(cub3d->mlx, cub3d->doors->door_frame->img);
 		cub3d->doors->door_frame->img = NULL;
-		free(cub3d->doors->door_frame);
 	}
+	if (cub3d->doors->door_frame)
+		free(cub3d->doors->door_frame);
 	while (y < cub3d->map->height)
 	{
 		free((*doors)->is_open[y]);

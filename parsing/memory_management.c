@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 15:40:24 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 18:27:51 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:26:14 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	add_map_lines(char **line, t_cub3d **cub3d, int fd, int is_bonus)
 	{
 		if (!add_map_line(&(*cub3d)->map, *line, is_bonus))
 			return (free(*line),
-				free((*cub3d)->container),
 				free_textures(&(*cub3d)->textures),
 				free_map(&(*cub3d)->map), 0);
 		free(*line);

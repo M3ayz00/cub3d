@@ -6,14 +6,15 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 22:23:17 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 23:19:24 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "minilibx-linux/mlx.h"
+// # include "minilibx-linux/mlx.h"
+#include <mlx.h>
 # include "parsing/gnl/get_next_line.h"
 # include <fcntl.h>
 # include <math.h>
@@ -394,5 +395,5 @@ int					key_press_bonus(int key, t_cub3d *cub3d);
 int					ft_exit_bonus(t_cub3d *cub3d, int flag);
 void				free_struct_bonus(t_cub3d *cub3d);
 void				free_weapon_frames(t_cub3d *cub3d);
-void				free_doors(t_door **doors, t_cub3d *cub3d);
+void				free_doors(t_door **doors, t_cub3d *cub3d, int flag);
 #endif

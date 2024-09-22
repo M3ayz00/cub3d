@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 15:43:31 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 22:18:34 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 23:20:33 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,24 @@ void	load_door_frames(t_cub3d *cub3d)
 {
 	t_image	*door_frame;
 
+	if (!check_file("bonus/textures/door/wolfenstein_door.xpm"))
+	{
+		write(2, "door frames loading error\n", 27);
+		ft_exit_bonus(cub3d, 0);
+	}
 	door_frame = malloc(sizeof(t_image));
 	if (!door_frame)
 	{
-		write(2, "door frames allocation error\n", 29);
-		ft_exit_bonus(cub3d, 1);
+		write(2, "door frames allocation error\n", 30);
+		ft_exit_bonus(cub3d, 0);
 	}
 	door_frame->img = mlx_xpm_file_to_image(cub3d->mlx,
 			"bonus/textures/door/wolfenstein_door.xpm", &door_frame->width,
 			&door_frame->height);
 	if (!door_frame->img)
 	{
-		write(2, "door frames loading error\n", 28);
-		ft_exit_bonus(cub3d, 1);
+		write(2, "door frames loading error\n", 27);
+		ft_exit_bonus(cub3d, 0);
 	}
 	door_frame->addr = mlx_get_data_addr(door_frame->img,
 			&door_frame->bits_per_pixel, &door_frame->line_length,
