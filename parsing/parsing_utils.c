@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 16:59:04 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 16:13:55 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:07:23 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	ft_lstclear(t_lst **lst)
 	while (curr != NULL)
 	{
 		next = curr->next;
-		free(curr->row);
+		if (curr->row)
+			free(curr->row);
 		free(curr);
 		curr = next;
 	}

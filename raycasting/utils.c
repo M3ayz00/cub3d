@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:58:39 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/20 21:53:53 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:03:39 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,15 @@ double	deg_to_rad(double degrees)
 
 void free_struct(t_cub3d *cub3d)
 {
- 	int i;
+	int	i;
 
 	i = 0;
-    while (i < 4)
-    {
+	while (i < 4)
+	{
 		if (cub3d->wall_t[i].img)
 		{
-			 mlx_destroy_image(cub3d->mlx, cub3d->wall_t[i].img);
-            cub3d->wall_t[i].img = NULL; 
+			mlx_destroy_image(cub3d->mlx, cub3d->wall_t[i].img);
+			cub3d->wall_t[i].img = NULL;
 		}
 		i++;
 	}

@@ -1,11 +1,6 @@
-NO ./textures/old1.xpm
-<<<<<<< HEAD
-SO ./textures/old.xpm
-F 66,66,66
-=======
+NO ./textures/old.xpm
 SO ./textures/old2.xpm
 F 	255,255,255
->>>>>>> upstream/main
 WE ./textures/wall_metal1.xpm
 
 C 135,206,235
