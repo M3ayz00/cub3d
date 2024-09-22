@@ -33,6 +33,27 @@ int	key_press(int key, t_cub3d *cub3d)
 	return (0);
 }
 
+int	key_press_bonus(int key, t_cub3d *cub3d)
+{
+	if (key == ESC_KEY)
+		ft_exit_bonus(cub3d);
+	else if (key == W_KEY)
+		cub3d->keys.forward = 1;
+	else if (key == S_KEY)
+		cub3d->keys.backward = 1;
+	else if (key == A_KEY)
+		cub3d->keys.left = 1;
+	else if (key == D_KEY)
+		cub3d->keys.right = 1;
+	else if (key == LEFT_KEY)
+		cub3d->keys.rotate_left = 1;
+	else if (key == RIGHT_KEY)
+		cub3d->keys.rotate_right = 1;
+	else if (key == E_KEY)
+		cub3d->keys.e = 1;
+	return (0);
+}
+
 int	key_release(int key, t_cub3d *cub3d)
 {
 	if (key == W_KEY)

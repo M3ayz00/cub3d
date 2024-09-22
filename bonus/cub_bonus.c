@@ -53,12 +53,12 @@ void	load_images(t_cub3d *cub3d)
 		cub3d->wall_t[i].img = mlx_xpm_file_to_image(cub3d->mlx, textures[i],
 				&cub3d->wall_t[i].width, &cub3d->wall_t[i].height);
 		if (!cub3d->wall_t[i].img)
-			ft_exit(cub3d);
+			ft_exit_bonus(cub3d);
 		cub3d->wall_t[i].addr = mlx_get_data_addr(cub3d->wall_t[i].img,
 				&cub3d->wall_t[i].bits_per_pixel, &cub3d->wall_t[i].line_length,
 				&cub3d->wall_t[i].endian);
 		if (!cub3d->wall_t[i].addr)
-			ft_exit(cub3d);
+			ft_exit_bonus(cub3d);
 		i++;
 	}
 	init_ceiling_texture(cub3d);
@@ -76,7 +76,7 @@ void	init(t_cub3d *cub3d)
 		|| !cub3d->weapon || !cub3d->doors)
 	{
 		write(2, "error allocating memory\n", 25);
-		ft_exit(cub3d);
+		ft_exit_bonus(cub3d);
 	}
 	init_doors(&cub3d->doors, cub3d);
 	cub3d->mlx = mlx_init();
@@ -107,10 +107,10 @@ int	main(int ac, char **av)
 		get_player_pos(&cub3d);
 		init_key_state(&cub3d.keys);
 		mlx_mouse_hide(cub3d.mlx, cub3d.win);
-		mlx_hook(cub3d.win, 2, 1L << 0, key_press, &cub3d);
+		mlx_hook(cub3d.win, 2, 1L << 0, key_press_bonus, &cub3d);
 		mlx_hook(cub3d.win, 3, 1L << 1, key_release, &cub3d);
 		mlx_hook(cub3d.win, 6, 1L << 6, mouse_move, &cub3d);
-		mlx_hook(cub3d.win, 17, 1L << 17, &ft_exit, NULL);
+		mlx_hook(cub3d.win, 17, 1L << 17, &ft_exit_bonus, NULL);
 		mlx_loop_hook(cub3d.mlx, render, &cub3d);
 		mlx_loop(cub3d.mlx);
 	}
