@@ -40,7 +40,7 @@ void	init_ceiling_texture(t_cub3d *cub3d)
 	if (!cub3d->textures->ceil_tex.img)
 	{
 		write(2, "error loading sky texture\n", 26);
-		ft_exit(cub3d);
+		ft_exit_bonus(cub3d);
 	}
 	cub3d->textures->ceil_tex.addr = \
 	mlx_get_data_addr(cub3d->textures->ceil_tex.img,

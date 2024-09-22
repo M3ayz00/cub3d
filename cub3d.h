@@ -213,7 +213,6 @@ typedef struct s_textures
 	t_color			*floor;
 	t_color			*ceiling;
 	t_image			ceil_tex;
-	t_image			*floor_tex;
 	t_image			door_tex;
 	char			*north;
 	char			*south;
@@ -390,4 +389,7 @@ int					is_collide_wall_at_x(t_cub3d *cub3d, double newpos_x);
 int					is_collide_wall_at_y(t_cub3d *cub3d, double newpos_y);
 int					is_collide_door_at_x(t_cub3d *cub3d, double newpos_x);
 int					is_collide_door_at_y(t_cub3d *cub3d, double newpos_y);
+int					key_press_bonus(int key, t_cub3d *cub3d);
+int					ft_exit_bonus(t_cub3d *cub3d);
+void				free_struct_bonus(t_cub3d *cub3d);
 #endif
