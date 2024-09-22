@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 15:50:26 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/21 16:01:19 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 19:56:45 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	init_doors(t_door **doors, t_cub3d *cub3d)
 		while (x < cub3d->map->width)
 		{
 			(*doors)->is_open[y][x] = 0;
-			(*doors)->is_open[y][x] = 0;
+			(*doors)->timer[y][x] = 0;
 			x++;
 		}
 		y++;

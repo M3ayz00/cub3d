@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:53:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/21 18:57:45 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:00:08 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,5 @@ void	set_width_and_height(t_lst **rows, t_cub3d *cub3d)
 		height++;
 	}
 	cub3d->map->height = height;
-	cub3d->map->width = width;
+	cub3d->map->width = width - 1;
 }

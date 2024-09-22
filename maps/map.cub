@@ -1,6 +1,6 @@
 NO ./textures/old1.xpm
 SO ./textures/old2.xpm
-F 	255,255,255
+F 	255,255,1
 WE ./textures/wall_metal1.xpm
 
 C 135,206,235
