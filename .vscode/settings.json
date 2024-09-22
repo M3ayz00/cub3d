@@ -3,7 +3,8 @@
 		"string.h": "c",
 		"cub3d.h": "c",
 		"math.h": "c",
-		"get_next_line.h": "c"
+		"get_next_line.h": "c",
+		"fcntl.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

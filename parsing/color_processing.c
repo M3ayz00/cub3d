@@ -47,6 +47,8 @@ int	based_split(char *line, char ***splitted)
 		if (count_commas(line) != 2)
 			return (0);
 		*splitted = ft_split(line, "\f\t\v\r\n ,");
+		if (count_rows(*splitted) != 4)
+			return (free_strs(*splitted) ,0);
 	}
 	return (1);
 }

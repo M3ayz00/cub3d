@@ -55,7 +55,7 @@ int	add_map_lines(char **line, t_cub3d **cub3d, int fd, int is_bonus)
 				free_textures(&(*cub3d)->textures),
 				free_map(&(*cub3d)->map), 0);
 		free(*line);
-		*line = get_next_line(fd);
+		*line = get_next_line(fd, 0);
 	}
 	return (1);
 }

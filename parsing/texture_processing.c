@@ -62,9 +62,7 @@ int	parse_texture(char **line, t_textures **textures, int *counter)
 	int		status;
 
 	if (!based_split(*line, &splitted))
-		return (free(*line), 0);
-	if (!is_count_valid(splitted[0], count_rows(splitted)))
-		return (free(*line), free_strs(splitted), 0);
+		return (printf("1\n"),free(*line), 0);
 	status = process_texture(textures, splitted);
 	if (status == 1)
 		(*counter)++;

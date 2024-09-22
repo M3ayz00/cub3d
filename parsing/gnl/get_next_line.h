@@ -27,7 +27,7 @@ char	*ft_strchr(char *str, int c);
 void	*ft_memcpy(void *dest, void *src, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
 void	*ft_calloc(size_t num_elements, size_t element_size);
-char	*get_next_line(int fd);
+char	*get_next_line(int fd, int is_ok);
 char	*ft_strjoin2(char *s1, char *s2);
 char	*read_file(int fd, char *container);
 char	*gget_line(char *container);

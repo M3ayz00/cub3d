@@ -73,8 +73,9 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d, int is_bonus)
 	while (line && i < 6)
 	{
 		if (!check_line(&line, &cub3d->textures, &cub3d->map, &i))
-			return (0);
+			return (printf("3\n"), 0);
 		line = get_next_line(fd);
+		
 	}
 	if (!check_textures(cub3d->textures, &line))
 		return (free_map(&cub3d->map), free_textures(&cub3d->textures), 0);
