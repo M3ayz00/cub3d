@@ -18,13 +18,13 @@ void	get_delta_distance_y(t_cub3d *cub3d, double ray_dir_y)
 	{
 		cub3d->ray->step_y = -1;
 		cub3d->ray->side_dist_y = cub3d->ray->delta_dist_y
-			* (cub3d->player->pos_y - cub3d->map2->map_y);
+			* (cub3d->player->pos_y - cub3d->map->map_y);
 	}
 	else
 	{
 		cub3d->ray->step_y = 1;
 		cub3d->ray->side_dist_y = cub3d->ray->delta_dist_y
-			* (cub3d->map2->map_y + 1.0 - cub3d->player->pos_y);
+			* (cub3d->map->map_y + 1.0 - cub3d->player->pos_y);
 	}
 }
 
@@ -34,12 +34,12 @@ void	get_delta_distance_x(t_cub3d *cub3d, double ray_dir_x)
 	{
 		cub3d->ray->step_x = -1;
 		cub3d->ray->side_dist_x = cub3d->ray->delta_dist_x
-			* (cub3d->player->pos_x - cub3d->map2->map_x);
+			* (cub3d->player->pos_x - cub3d->map->map_x);
 	}
 	else
 	{
 		cub3d->ray->step_x = 1;
 		cub3d->ray->side_dist_x = cub3d->ray->delta_dist_x
-			* (cub3d->map2->map_x + 1.0 - cub3d->player->pos_x);
+			* (cub3d->map->map_x + 1.0 - cub3d->player->pos_x);
 	}
 }

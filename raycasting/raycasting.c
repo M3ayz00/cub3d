@@ -22,16 +22,16 @@ void	dda(t_cub3d *cub3d)
 		if (cub3d->ray->side_dist_x < cub3d->ray->side_dist_y)
 		{
 			cub3d->ray->side_dist_x += cub3d->ray->delta_dist_x;
-			cub3d->map2->map_x += cub3d->ray->step_x;
+			cub3d->map->map_x += cub3d->ray->step_x;
 			cub3d->ray->side = 0;
 		}
 		else
 		{
 			cub3d->ray->side_dist_y += cub3d->ray->delta_dist_y;
-			cub3d->map2->map_y += cub3d->ray->step_y;
+			cub3d->map->map_y += cub3d->ray->step_y;
 			cub3d->ray->side = 1;
 		}
-		if (cub3d->map2->map[cub3d->map2->map_y][cub3d->map2->map_x] == '1')
+		if (cub3d->map->map[cub3d->map->map_y][cub3d->map->map_x] == '1')
 			hit = 1;
 	}
 }
@@ -51,8 +51,8 @@ void	cast_ray(t_cub3d *cub3d, double ray_angle)
 
 	ray_dir_x = cos(ray_angle);
 	ray_dir_y = sin(ray_angle);
-	cub3d->map2->map_x = (int)cub3d->player->pos_x;
-	cub3d->map2->map_y = (int)cub3d->player->pos_y;
+	cub3d->map->map_x = (int)cub3d->player->pos_x;
+	cub3d->map->map_y = (int)cub3d->player->pos_y;
 	get_delta_distance(cub3d, ray_dir_x, ray_dir_y);
 	dda(cub3d);
 	if (cub3d->ray->side == 0)

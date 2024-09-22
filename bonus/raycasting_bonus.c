@@ -17,9 +17,9 @@ int	check_door_hit(t_cub3d *cub3d)
 	int	is_open;
 
 	if (cub3d->bonus == 1
-		&& (cub3d->map2->map[cub3d->map2->map_y][cub3d->map2->map_x] == 'D'))
+		&& (cub3d->map->map[cub3d->map->map_y][cub3d->map->map_x] == 'D'))
 	{
-		is_open = get_door_is_open_at(cub3d->map2->map_x, cub3d->map2->map_y,
+		is_open = get_door_is_open_at(cub3d->map->map_x, cub3d->map->map_y,
 				cub3d);
 		if (is_open == 0)
 		{
@@ -38,17 +38,17 @@ void	dda(t_cub3d *cub3d)
 		if (cub3d->ray->side_dist_x < cub3d->ray->side_dist_y)
 		{
 			cub3d->ray->side_dist_x += cub3d->ray->delta_dist_x;
-			cub3d->map2->map_x += cub3d->ray->step_x;
+			cub3d->map->map_x += cub3d->ray->step_x;
 			cub3d->ray->side = 0;
 		}
 		else
 		{
 			cub3d->ray->side_dist_y += cub3d->ray->delta_dist_y;
-			cub3d->map2->map_y += cub3d->ray->step_y;
+			cub3d->map->map_y += cub3d->ray->step_y;
 			cub3d->ray->side = 1;
 		}
 		if (check_door_hit(cub3d)
-			|| cub3d->map2->map[cub3d->map2->map_y][cub3d->map2->map_x] == '1')
+			|| cub3d->map->map[cub3d->map->map_y][cub3d->map->map_x] == '1')
 			break ;
 	}
 }
@@ -68,8 +68,8 @@ void	cast_ray(t_cub3d *cub3d, double ray_angle)
 
 	ray_dir_x = cos(ray_angle);
 	ray_dir_y = sin(ray_angle);
-	cub3d->map2->map_x = (int)cub3d->player->pos_x;
-	cub3d->map2->map_y = (int)cub3d->player->pos_y;
+	cub3d->map->map_x = (int)cub3d->player->pos_x;
+	cub3d->map->map_y = (int)cub3d->player->pos_y;
 	get_delta_distance(cub3d, ray_dir_x, ray_dir_y);
 	dda(cub3d);
 	if (cub3d->ray->side == 0)

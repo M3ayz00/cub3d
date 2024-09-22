@@ -23,20 +23,20 @@ void	init_textures(t_textures **textures)
 	(*textures)->door = NULL;
 }
 
-void	init_map(t_map2 **map)
+void	init_map(t_map **map)
 {
 	(*map)->rows = NULL;
 	(*map)->width = -1;
 	(*map)->height = -1;
 }
 
-int	init_map_and_textures(t_textures **textures, t_map2 **map)
+int	init_map_and_textures(t_textures **textures, t_map **map)
 {
 	(*textures) = (t_textures *)malloc(sizeof(t_textures));
 	if (!(*textures))
 		return (0);
 	init_textures(textures);
-	(*map) = (t_map2 *)malloc(sizeof(t_map2));
+	(*map) = (t_map *)malloc(sizeof(t_map));
 	if (!(*map))
 		return (free_textures(textures), 0);
 	init_map(map);
@@ -67,20 +67,20 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d, int is_bonus)
 	char		*line;
 
 	i = 0;
-	if (!init_map_and_textures(&cub3d->textures, &cub3d->map2))
+	if (!init_map_and_textures(&cub3d->textures, &cub3d->map))
 		return (0);
 	line = get_next_line(fd);
 	while (line && i < 6)
 	{
-		if (!check_line(&line, &cub3d->textures, &cub3d->map2, &i))
+		if (!check_line(&line, &cub3d->textures, &cub3d->map, &i))
 			return (0);
 		line = get_next_line(fd);
 	}
 	if (!check_textures(cub3d->textures, &line))
-		return (free_map(&cub3d->map2), free_textures(&cub3d->textures), 0);
+		return (free_map(&cub3d->map), free_textures(&cub3d->textures), 0);
 	if (!add_map_lines(&line, &cub3d, fd, is_bonus))
 		return (0);
-	if (!parse_map(&cub3d->map2->rows, cub3d, is_bonus))
-		return (free_map(&cub3d->map2), free_textures(&cub3d->textures), 0);
+	if (!parse_map(&cub3d->map->rows, cub3d, is_bonus))
+		return (free_map(&cub3d->map), free_textures(&cub3d->textures), 0);
 	return (1);
 }

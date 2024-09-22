@@ -38,7 +38,7 @@ char	*ft_strdup(char *str)
 	return (new_str);
 }
 
-int	add_map_line(t_map2 **map, char *element, int is_bonus)
+int	add_map_line(t_map **map, char *element, int is_bonus)
 {
 	if (!is_valid_elem(element, is_bonus))
 		return (0);
@@ -50,10 +50,10 @@ int	add_map_lines(char **line, t_cub3d **cub3d, int fd, int is_bonus)
 {
 	while (*line)
 	{
-		if (!add_map_line(&(*cub3d)->map2, *line, is_bonus))
+		if (!add_map_line(&(*cub3d)->map, *line, is_bonus))
 			return (free(*line),
 				free_textures(&(*cub3d)->textures),
-				free_map(&(*cub3d)->map2), 0);
+				free_map(&(*cub3d)->map), 0);
 		free(*line);
 		*line = get_next_line(fd);
 	}

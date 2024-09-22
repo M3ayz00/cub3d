@@ -54,11 +54,11 @@ void	strafing(t_cub3d *cub3d, double *new_pos_x, double *new_pos_y,
 
 void	check_wall_colision(t_cub3d *cub3d, double new_pos_x, double new_pos_y)
 {
-	if (cub3d->map2->map[(int)floor(new_pos_y - MARGIN)][(int)floor(new_pos_x
-			- MARGIN)] != '1' && cub3d->map2->map[(int)floor(new_pos_y
+	if (cub3d->map->map[(int)floor(new_pos_y - MARGIN)][(int)floor(new_pos_x
+			- MARGIN)] != '1' && cub3d->map->map[(int)floor(new_pos_y
 			- MARGIN)][(int)floor(new_pos_x + MARGIN)] != '1'
-		&& cub3d->map2->map[(int)floor(new_pos_y + MARGIN)][(int)floor(new_pos_x
-			- MARGIN)] != '1' && cub3d->map2->map[(int)floor(new_pos_y
+		&& cub3d->map->map[(int)floor(new_pos_y + MARGIN)][(int)floor(new_pos_x
+			- MARGIN)] != '1' && cub3d->map->map[(int)floor(new_pos_y
 			+ MARGIN)][(int)floor(new_pos_x + MARGIN)] != '1')
 	{
 		cub3d->player->pos_x = new_pos_x;

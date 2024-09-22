@@ -85,13 +85,13 @@ void	map_rendering(t_cub3d *cub3d, t_render *tools, int i, int j)
 {
 	tools->map_x = j * tools->tile_size + tools->offset;
 	tools->map_y = i * tools->tile_size + tools->offset;
-	if (cub3d->map2->map[i][j] == '1')
+	if (cub3d->map->map[i][j] == '1')
 		tools->color = get_rgb(100, 44, 16, 16);
-	else if (is_plane_or_player(cub3d->map2->map[i][j], 0))
+	else if (is_plane_or_player(cub3d->map->map[i][j], 0))
 		tools->color = get_rgb(100, 118, 115, 165);
-	else if (cub3d->map2->map[i][j] == 'D')
+	else if (cub3d->map->map[i][j] == 'D')
 		tools->color = get_rgb(100, 255, 255, 16);
-	if (is_plane_or_player(cub3d->map2->map[i][j], 1))
+	if (is_plane_or_player(cub3d->map->map[i][j], 1))
 		draw_cub(cub3d, *tools);
 }
 
@@ -103,10 +103,10 @@ void	render_map(t_cub3d *cub3d)
 
 	i = 0;
 	init_render(cub3d, &tools);
-	while (cub3d->map2->map[i])
+	while (cub3d->map->map[i])
 	{
 		j = 0;
-		while (cub3d->map2->map[i][j])
+		while (cub3d->map->map[i][j])
 		{
 			map_rendering(cub3d, &tools, i, j);
 			j++;

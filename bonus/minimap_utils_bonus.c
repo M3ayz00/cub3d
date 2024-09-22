@@ -26,8 +26,8 @@ double	get_scale(t_cub3d *cub3d)
 	int		max_map_size;
 	double	max_screen_size;
 
-	map_width = ft_strlen(cub3d->map2->map[0]);
-	map_height = ft_lstsize(cub3d->map2->rows);
+	map_width = ft_strlen(cub3d->map->map[0]);
+	map_height = ft_lstsize(cub3d->map->rows);
 	max_map_size = get_max(map_height, map_width);
 	max_screen_size = WIDTH * 0.20;
 	return (max_screen_size / (max_map_size * TILE_SIZE));

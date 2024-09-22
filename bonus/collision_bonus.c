@@ -14,43 +14,43 @@
 
 int	is_collide_wall_at_x(t_cub3d *cub3d, double newpos_x)
 {
-	return ((cub3d->map2->map[(int)floor(cub3d->player->pos_y
+	return ((cub3d->map->map[(int)floor(cub3d->player->pos_y
 					- MARGIN)][(int)floor(newpos_x - MARGIN)] == '1'
-		|| cub3d->map2->map[(int)floor(cub3d->player->pos_y
+		|| cub3d->map->map[(int)floor(cub3d->player->pos_y
 				+ MARGIN)][(int)floor(newpos_x - MARGIN)] == '1'
-		|| cub3d->map2->map[(int)floor(cub3d->player->pos_y
+		|| cub3d->map->map[(int)floor(cub3d->player->pos_y
 					- MARGIN)][(int)floor(newpos_x + MARGIN)] == '1'
-		|| cub3d->map2->map[(int)floor(cub3d->player->pos_y
+		|| cub3d->map->map[(int)floor(cub3d->player->pos_y
 					+ MARGIN)][(int)floor(newpos_x + MARGIN)] == '1'));
 }
 
 int	is_collide_wall_at_y(t_cub3d *cub3d, double newpos_y)
 {
-	return (cub3d->map2->map[(int)floor(newpos_y
+	return (cub3d->map->map[(int)floor(newpos_y
 				- MARGIN)][(int)floor(cub3d->player->pos_x - MARGIN)] == '1'
-		|| cub3d->map2->map[(int)floor(newpos_y
+		|| cub3d->map->map[(int)floor(newpos_y
 			+ MARGIN)][(int)floor(cub3d->player->pos_x - MARGIN)] == '1'
-		|| cub3d->map2->map[(int)floor(newpos_y
+		|| cub3d->map->map[(int)floor(newpos_y
 			- MARGIN)][(int)floor(cub3d->player->pos_x + MARGIN)] == '1'
-		|| cub3d->map2->map[(int)floor(newpos_y
+		|| cub3d->map->map[(int)floor(newpos_y
 			+ MARGIN)][(int)floor(cub3d->player->pos_x + MARGIN)] == '1');
 }
 
 int	is_collide_door_at_x(t_cub3d *cub3d, double newpos_x)
 {
-	return ((cub3d->map2->map[(int)floor(cub3d->player->pos_y
+	return ((cub3d->map->map[(int)floor(cub3d->player->pos_y
 					- MARGIN)][(int)floor(newpos_x - MARGIN)] == 'D'
 		&& !get_door_is_open_at((int)floor(newpos_x - MARGIN),
 			(int)floor(cub3d->player->pos_y - MARGIN), cub3d))
-		|| (cub3d->map2->map[(int)floor(cub3d->player->pos_y
+		|| (cub3d->map->map[(int)floor(cub3d->player->pos_y
 			+ MARGIN)][(int)floor(newpos_x - MARGIN)] == 'D'
 		&& !get_door_is_open_at((int)floor(newpos_x - MARGIN),
 			(int)floor(cub3d->player->pos_y + MARGIN), cub3d))
-		|| (cub3d->map2->map[(int)floor(cub3d->player->pos_y
+		|| (cub3d->map->map[(int)floor(cub3d->player->pos_y
 			- MARGIN)][(int)floor(newpos_x + MARGIN)] == 'D'
 		&& !get_door_is_open_at((int)floor(newpos_x + MARGIN),
 			(int)floor(cub3d->player->pos_y - MARGIN), cub3d))
-		|| (cub3d->map2->map[(int)floor(cub3d->player->pos_y
+		|| (cub3d->map->map[(int)floor(cub3d->player->pos_y
 			+ MARGIN)][(int)floor(newpos_x + MARGIN)] == 'D'
 		&& !get_door_is_open_at((int)floor(newpos_x + MARGIN),
 			(int)floor(cub3d->player->pos_y + MARGIN), cub3d)));
@@ -58,19 +58,19 @@ int	is_collide_door_at_x(t_cub3d *cub3d, double newpos_x)
 
 int	is_collide_door_at_y(t_cub3d *cub3d, double newpos_y)
 {
-	return ((cub3d->map2->map[(int)floor(newpos_y
+	return ((cub3d->map->map[(int)floor(newpos_y
 					- MARGIN)][(int)floor(cub3d->player->pos_x - MARGIN)] == 'D'
 		&& !get_door_is_open_at((int)floor(cub3d->player->pos_x - MARGIN),
 			(int)floor(newpos_y - MARGIN), cub3d))
-		|| (cub3d->map2->map[(int)floor(newpos_y
+		|| (cub3d->map->map[(int)floor(newpos_y
 			+ MARGIN)][(int)floor(cub3d->player->pos_x - MARGIN)] == 'D'
 		&& !get_door_is_open_at((int)floor(cub3d->player->pos_x - MARGIN),
 			(int)floor(newpos_y + MARGIN), cub3d))
-		|| (cub3d->map2->map[(int)floor(newpos_y
+		|| (cub3d->map->map[(int)floor(newpos_y
 			- MARGIN)][(int)floor(cub3d->player->pos_x + MARGIN)] == 'D'
 		&& !get_door_is_open_at((int)floor(cub3d->player->pos_x + MARGIN),
 			(int)floor(newpos_y - MARGIN), cub3d))
-		|| (cub3d->map2->map[(int)floor(newpos_y
+		|| (cub3d->map->map[(int)floor(newpos_y
 			+ MARGIN)][(int)floor(cub3d->player->pos_x + MARGIN)] == 'D'
 		&& !get_door_is_open_at((int)floor(cub3d->player->pos_x + MARGIN),
 			(int)floor(newpos_y + MARGIN), cub3d)));

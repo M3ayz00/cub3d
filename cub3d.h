@@ -198,7 +198,7 @@ typedef struct s_player
 	double			angle;
 }					t_player;
 
-typedef struct s_map2
+typedef struct s_map
 {
 	t_lst			*rows;
 	char			**map;
@@ -206,7 +206,7 @@ typedef struct s_map2
 	int				height;
 	int				map_x;
 	int				map_y;
-}					t_map2;
+}					t_map;
 
 typedef struct s_textures
 {
@@ -241,7 +241,7 @@ typedef struct s_cub3d
 	t_image			*weapon;
 	t_ray			*ray;
 	t_player		*player;
-	t_map2			*map2;
+	t_map			*map;
 	t_key_state		keys;
 	t_door			*doors;
 	t_textures		*textures;
@@ -266,16 +266,16 @@ char				*ft_strdup(char *str);
 t_lst				*ft_lstlast(t_lst *lst);
 int					parse_cub3d(t_cub3d *cub3d, char *path, int is_bonus);
 void				free_textures(t_textures **textures);
-void				free_map(t_map2 **map);
+void				free_map(t_map **map);
 void				render_door(t_cub3d *cub3d, int i, int start, int end);
 uint32_t			get_texture_color(t_image *texture, int x, int y);
 void				init_textures(t_textures **textures);
-void				init_map(t_map2 **map);
-int					init_map_and_textures(t_textures **textures, t_map2 **map);
+void				init_map(t_map **map);
+int					init_map_and_textures(t_textures **textures, t_map **map);
 int					is_identifier(char *line);
 int					parse_texture(char **line, t_textures **textures,
 						int *counter);
-int					add_map_line(t_map2 **map, char *element, int is_bonus);
+int					add_map_line(t_map **map, char *element, int is_bonus);
 int					check_door_texture(char **line, t_textures **textures,
 						int *i, int fd);
 int					check_textures(t_textures *textures, char **line);
@@ -314,7 +314,7 @@ int					check_adjacent(int curr_len, int adj_len, char c, int i);
 int					check_zeros(t_lst **rows, int is_bonus);
 int					check_first_last_rows(t_lst *rows);
 int					check_sides(char *row);
-int					check_line(char **line, t_textures **textures, t_map2 **map,
+int					check_line(char **line, t_textures **textures, t_map **map,
 						int *i);
 int					add_map_lines(char **line, t_cub3d **cub3d, int fd,
 						int is_bonus);

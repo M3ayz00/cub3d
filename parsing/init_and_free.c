@@ -12,10 +12,11 @@
 
 #include "../cub3d.h"
 
-void	free_map(t_map2 **map)
+void	free_map(t_map **map)
 {
 	if ((*map)->rows)
 		ft_lstclear(&(*map)->rows);
+	free_strs((*map)->map);
 	free((*map));
 }
 

@@ -73,6 +73,6 @@ void	set_width_and_height(t_lst **rows, t_cub3d *cub3d)
 		curr = curr->next;
 		height++;
 	}
-	cub3d->map2->height = height;
-	cub3d->map2->width = width;
+	cub3d->map->height = height;
+	cub3d->map->width = width;
 }

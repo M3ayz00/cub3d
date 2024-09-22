@@ -17,7 +17,7 @@ void	render_door(t_cub3d *cub3d, int i, int start, int end)
 	t_image		*door;
 	t_render	tools;
 
-	if (cub3d->doors->is_open[cub3d->map2->map_y][cub3d->map2->map_x] == 1)
+	if (cub3d->doors->is_open[cub3d->map->map_y][cub3d->map->map_x] == 1)
 		return ;
 	door = cub3d->doors->door_frame;
 	tools.x = cub3d->ray->hit_x - floor(cub3d->ray->hit_x);
@@ -84,10 +84,10 @@ void	close_doors(t_cub3d *cub3d)
 
 	y = 0;
 	close_threshold = 100;
-	while (y < cub3d->map2->height)
+	while (y < cub3d->map->height)
 	{
 		x = 0;
-		while (x < cub3d->map2->width)
+		while (x < cub3d->map->width)
 		{
 			if (cub3d->doors->is_open[y][x])
 				cub3d->doors->timer[y][x]++;
@@ -111,13 +111,13 @@ void	door_interaction(t_cub3d *cub3d)
 		put_message(cub3d);
 		if (cub3d->keys.e == 1)
 		{
-			if (cub3d->map2->map[door_y + 1][door_x] == 'D')
+			if (cub3d->map->map[door_y + 1][door_x] == 'D')
 				toggle_door(cub3d, door_x, door_y + 1);
-			else if (cub3d->map2->map[door_y][door_x + 1] == 'D')
+			else if (cub3d->map->map[door_y][door_x + 1] == 'D')
 				toggle_door(cub3d, door_x + 1, door_y);
-			else if (cub3d->map2->map[door_y - 1][door_x] == 'D')
+			else if (cub3d->map->map[door_y - 1][door_x] == 'D')
 				toggle_door(cub3d, door_x, door_y - 1);
-			else if (cub3d->map2->map[door_y][door_x - 1] == 'D')
+			else if (cub3d->map->map[door_y][door_x - 1] == 'D')
 				toggle_door(cub3d, door_x - 1, door_y);
 			cub3d->keys.e = 0;
 		}

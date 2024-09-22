@@ -33,8 +33,8 @@ void	get_player_pos(t_cub3d *cub3d)
 	int		j;
 
 	i = 0;
-	map = get_arr(cub3d->map2->rows);
-	cub3d->map2->map = map;
+	map = get_arr(cub3d->map->rows);
+	cub3d->map->map = map;
 	while (map[i])
 	{
 		j = 0;

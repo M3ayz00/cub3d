@@ -15,7 +15,7 @@
 int	key_press(int key, t_cub3d *cub3d)
 {
 	if (key == ESC_KEY)
-		exit(0);
+		ft_exit(cub3d);
 	else if (key == W_KEY)
 		cub3d->keys.forward = 1;
 	else if (key == S_KEY)

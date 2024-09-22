@@ -18,14 +18,14 @@ void	init_doors(t_door **doors, t_cub3d *cub3d)
 	int	x;
 
 	y = 0;
-	(*doors)->is_open = malloc(sizeof(int *) * cub3d->map2->height);
-	(*doors)->timer = malloc(sizeof(int *) * cub3d->map2->height);
-	while (y < cub3d->map2->height)
+	(*doors)->is_open = malloc(sizeof(int *) * cub3d->map->height);
+	(*doors)->timer = malloc(sizeof(int *) * cub3d->map->height);
+	while (y < cub3d->map->height)
 	{
-		(*doors)->is_open[y] = malloc(sizeof(int) * cub3d->map2->width);
-		(*doors)->timer[y] = malloc(sizeof(int) * cub3d->map2->width);
+		(*doors)->is_open[y] = malloc(sizeof(int) * cub3d->map->width);
+		(*doors)->timer[y] = malloc(sizeof(int) * cub3d->map->width);
 		x = 0;
-		while (x < cub3d->map2->width)
+		while (x < cub3d->map->width)
 		{
 			(*doors)->is_open[y][x] = 0;
 			(*doors)->is_open[y][x] = 0;
@@ -71,7 +71,7 @@ int	is_near_door(t_cub3d *cub3d)
 
 	x = (int)cub3d->player->pos_x;
 	y = (int)cub3d->player->pos_y;
-	return (cub3d->map2->map[y + 1][x] == 'D' || cub3d->map2->map[y][x
-		+ 1] == 'D' || cub3d->map2->map[y - 1][x] == 'D'
-		|| cub3d->map2->map[y][x - 1] == 'D');
+	return (cub3d->map->map[y + 1][x] == 'D' || cub3d->map->map[y][x
+		+ 1] == 'D' || cub3d->map->map[y - 1][x] == 'D'
+		|| cub3d->map->map[y][x - 1] == 'D');
 }

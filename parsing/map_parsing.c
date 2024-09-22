@@ -72,7 +72,7 @@ int	is_map_valid(t_lst **rows)
 	return (1);
 }
 
-int	check_line(char **line, t_textures **textures, t_map2 **map, int *i)
+int	check_line(char **line, t_textures **textures, t_map **map, int *i)
 {
 	if (is_identifier(*line) == 1)
 	{
