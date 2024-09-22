@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:47:37 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 21:37:46 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:20:57 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_strs(char **strs)
 {
 	int	i;
 
-	if(!strs || !(*strs))
+	if (!strs || !(*strs))
 		return ;
 	i = 0;
 	while (strs[i])

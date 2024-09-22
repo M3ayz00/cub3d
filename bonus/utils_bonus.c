@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:56:35 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 21:37:20 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:22:46 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	ft_exit_bonus(t_cub3d *cub3d, int flag)
 		mlx_destroy_image(cub3d->mlx, cub3d->image->img);
 	if (cub3d->image)
 		free(cub3d->image);
-	mlx_destroy_window(cub3d->mlx, cub3d->win);
+	if (cub3d->win)
+		mlx_destroy_window(cub3d->mlx, cub3d->win);
 	mlx_destroy_display(cub3d->mlx);
 	if (cub3d->mlx)
 		free(cub3d->mlx);
@@ -73,4 +74,18 @@ int	key_press_bonus(int key, t_cub3d *cub3d)
 	else if (key == E_KEY)
 		cub3d->keys.e = 1;
 	return (0);
+}
+
+int	check_filenames(char *filenames[])
+{
+	int	i;
+
+	i = 0;
+	while (i < FRAME_COUNT)
+	{
+		if (!check_file(filenames[i]))
+			return (write(2, "error\n", 7), 0);
+		i++;
+	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 00:31:06 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/21 15:00:03 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:16:11 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,6 @@ int	main(int ac, char **av)
 		mlx_loop(cub3d.mlx);
 	}
 	else
-		write(1, "USAGE ./cube3d [map]\n", 22);
+		write(2, "USAGE ./cube3d [map]\n", 22);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 21:20:05 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:23:17 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,6 @@ typedef struct s_cub3d
 	void			*mlx;
 	void			*win;
 	t_image			*image;
-	t_image			*minimap;
 	t_image			*weapon;
 	t_ray			*ray;
 	t_player		*player;
@@ -386,6 +385,7 @@ void				ft_move(t_cub3d *cub3d, double *newpos_x, double *newpos_y,
 						t_direction move);
 void				strafing(t_cub3d *cub3d, double *newpos_x, double *newpos_y,
 						t_direction dir);
+int					check_filenames(char *filenames[]);
 int					is_collide_wall_at_x(t_cub3d *cub3d, double newpos_x);
 int					is_collide_wall_at_y(t_cub3d *cub3d, double newpos_y);
 int					is_collide_door_at_x(t_cub3d *cub3d, double newpos_x);

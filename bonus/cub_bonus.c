@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:13:25 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 21:49:38 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:16:15 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,26 @@ void	load_images(t_cub3d *cub3d)
 	init_ceiling_texture(cub3d);
 }
 
+void	init_cube(t_cub3d *cub3d)
+{
+	cub3d->player = NULL;
+	cub3d->ray = NULL;
+	cub3d->image = NULL;
+	cub3d->weapon = NULL;
+	cub3d->doors = NULL;
+	cub3d->mlx = NULL;
+	cub3d->win = NULL;
+}
+
 void	init(t_cub3d *cub3d)
 {
+	init_cube(cub3d);
 	cub3d->player = malloc(sizeof(t_player));
 	cub3d->ray = malloc(sizeof(t_ray));
 	cub3d->image = malloc(sizeof(t_image));
-	cub3d->minimap = malloc(sizeof(t_image));
 	cub3d->weapon = malloc(sizeof(t_image));
 	cub3d->doors = malloc(sizeof(t_door));
-	if (!cub3d->player || !cub3d->ray || !cub3d->image || !cub3d->minimap
+	if (!cub3d->player || !cub3d->ray || !cub3d->image
 		|| !cub3d->weapon || !cub3d->doors)
 	{
 		write(2, "error allocating memory\n", 25);
@@ -84,12 +95,12 @@ void	init(t_cub3d *cub3d)
 	cub3d->image->addr = mlx_get_data_addr(cub3d->image->img,
 			&cub3d->image->bits_per_pixel, &cub3d->image->line_length,
 			&cub3d->image->endian);
-	cub3d->win = mlx_new_window(cub3d->mlx, WIDTH, HEIGHT, "cub3d");
-	load_weapon_frames(cub3d);
+	init_doors(&cub3d->doors, cub3d);
 	load_door_frames(cub3d);
 	get_player_pos(cub3d);
-	init_doors(&cub3d->doors, cub3d);
 	load_images(cub3d);
+	load_weapon_frames(cub3d);
+	cub3d->win = mlx_new_window(cub3d->mlx, WIDTH, HEIGHT, "cub3d");
 }
 
 int	main(int ac, char **av)
@@ -115,6 +126,6 @@ int	main(int ac, char **av)
 		mlx_loop(cub3d.mlx);
 	}
 	else
-		write(1, "USAGE: ./cub3d_bonus [map]\n", 28);
+		write(2, "USAGE: ./cub3d_bonus [map]\n", 28);
 	return (0);
 }

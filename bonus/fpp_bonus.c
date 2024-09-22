@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:19:36 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 21:21:36 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:22:08 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,6 @@ void	initialize_filenames(char *filenames[])
 	filenames[20] = "bonus/textures/idle/tile020.xpm";
 	filenames[21] = "bonus/textures/idle/tile021.xpm";
 	filenames[22] = "bonus/textures/idle/tile022.xpm";
-}
-
-int	check_filenames(char *filenames[])
-{
-	int i = 0;
-	while (i < FRAME_COUNT)
-	{
-		if (!check_file(filenames[i]))
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 void	load_weapon_frames(t_cub3d *cub3d)

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 15:43:31 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 21:46:19 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:18:34 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,11 @@ void	door_interaction(t_cub3d *cub3d)
 		{
 			if (cub3d->map->map[door_y + 1][door_x] == 'D')
 				toggle_door(cub3d, door_x, door_y + 1);
-			else if (cub3d->map->map[door_y][door_x + 1] == 'D')
+			if (cub3d->map->map[door_y][door_x + 1] == 'D')
 				toggle_door(cub3d, door_x + 1, door_y);
-			else if (cub3d->map->map[door_y - 1][door_x] == 'D')
+			if (cub3d->map->map[door_y - 1][door_x] == 'D')
 				toggle_door(cub3d, door_x, door_y - 1);
-			else if (cub3d->map->map[door_y][door_x - 1] == 'D')
+			if (cub3d->map->map[door_y][door_x - 1] == 'D')
 				toggle_door(cub3d, door_x - 1, door_y);
 			cub3d->keys.e = 0;
 		}
