@@ -104,7 +104,7 @@ void	load_weapon_frames(t_cub3d *cub3d)
 		if (!cub3d->frames[i].img)
 		{
 			write(2, "error loading frame\n", 20);
-			exit(1);
+			ft_exit_bonus(cub3d);
 		}
 		cub3d->frames[i].width = width;
 		cub3d->frames[i].height = height;
