@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:47:37 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/19 16:09:23 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:27:40 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	free_map(t_map **map)
 {
 	if ((*map)->rows)
 		ft_lstclear(&(*map)->rows);
+	free((*map));
 }
 
 void	free_strs(char **strs)
