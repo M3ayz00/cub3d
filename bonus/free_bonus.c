@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:57:04 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 20:30:00 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:45:03 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ void	free_doors(t_door **doors, t_cub3d *cub3d)
 {
 	int	y;
 
-	if (!(*doors) || !cub3d->map)
+	if (!doors || !(*doors) || !cub3d->map)
 		return ;
 	y = 0;
+	printf("HELLO : %d\n", (cub3d->doors->door_frame != NULL));
 	if (cub3d->doors->door_frame->img)
 	{
 		mlx_destroy_image(cub3d->mlx, cub3d->doors->door_frame->img);

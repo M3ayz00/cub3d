@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:47:37 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 16:27:40 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:37:46 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	free_map(t_map **map)
 {
+	if (!map || !(*map))
+		return ;
 	if ((*map)->rows)
 		ft_lstclear(&(*map)->rows);
 	free((*map));
@@ -23,8 +25,10 @@ void	free_strs(char **strs)
 {
 	int	i;
 
+	if(!strs || !(*strs))
+		return ;
 	i = 0;
-	while (strs && strs[i])
+	while (strs[i])
 	{
 		free(strs[i]);
 		i++;
@@ -59,6 +63,8 @@ void	free_textures2(t_textures **textures)
 
 void	free_textures(t_textures **textures)
 {
+	if (!textures || !(*textures))
+		return ;
 	free_textures2(textures);
 	if ((*textures)->west)
 	{

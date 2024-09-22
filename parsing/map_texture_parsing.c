@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:54:48 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 20:27:52 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:30:03 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_textures(t_textures **textures)
 
 void	init_map(t_map **map)
 {
+	(*map)->map = NULL;
 	(*map)->rows = NULL;
 	(*map)->width = -1;
 	(*map)->height = -1;

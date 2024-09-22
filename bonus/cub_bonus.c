@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:13:25 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 20:06:24 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:49:38 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ void	load_images(t_cub3d *cub3d)
 		cub3d->wall_t[i].img = mlx_xpm_file_to_image(cub3d->mlx, textures[i],
 				&cub3d->wall_t[i].width, &cub3d->wall_t[i].height);
 		if (!cub3d->wall_t[i].img)
-			ft_exit_bonus(cub3d);
+			ft_exit_bonus(cub3d, 1);
 		cub3d->wall_t[i].addr = mlx_get_data_addr(cub3d->wall_t[i].img,
 				&cub3d->wall_t[i].bits_per_pixel, &cub3d->wall_t[i].line_length,
 				&cub3d->wall_t[i].endian);
 		if (!cub3d->wall_t[i].addr)
-			ft_exit_bonus(cub3d);
+			ft_exit_bonus(cub3d, 1);
 		i++;
 	}
 	init_ceiling_texture(cub3d);
@@ -76,19 +76,20 @@ void	init(t_cub3d *cub3d)
 		|| !cub3d->weapon || !cub3d->doors)
 	{
 		write(2, "error allocating memory\n", 25);
-		ft_exit_bonus(cub3d);
+		ft_exit_bonus(cub3d, 1);
 	}
-	init_doors(&cub3d->doors, cub3d);
 	cub3d->mlx = mlx_init();
 	cub3d->fov = deg_to_rad(60.0);
-	load_images(cub3d);
-	load_door_frames(cub3d);
-	load_weapon_frames(cub3d);
-	cub3d->win = mlx_new_window(cub3d->mlx, WIDTH, HEIGHT, "cub3d");
 	cub3d->image->img = mlx_new_image(cub3d->mlx, WIDTH, HEIGHT);
 	cub3d->image->addr = mlx_get_data_addr(cub3d->image->img,
 			&cub3d->image->bits_per_pixel, &cub3d->image->line_length,
 			&cub3d->image->endian);
+	cub3d->win = mlx_new_window(cub3d->mlx, WIDTH, HEIGHT, "cub3d");
+	load_weapon_frames(cub3d);
+	load_door_frames(cub3d);
+	get_player_pos(cub3d);
+	init_doors(&cub3d->doors, cub3d);
+	load_images(cub3d);
 }
 
 int	main(int ac, char **av)
@@ -101,10 +102,9 @@ int	main(int ac, char **av)
 		if (!parse_cub3d(&cub3d, av[1], cub3d.bonus))
 		{
 			write(2, "error\n", 6);
-			ft_exit_bonus(&cub3d);
+			ft_exit_bonus(&cub3d, 1);
 		}
 		init(&cub3d);
-		get_player_pos(&cub3d);
 		init_key_state(&cub3d.keys);
 		mlx_mouse_hide(cub3d.mlx, cub3d.win);
 		mlx_hook(cub3d.win, 2, 1L << 0, key_press_bonus, &cub3d);

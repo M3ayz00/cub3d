@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:56:35 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 20:22:34 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:37:20 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int	get_texel(t_image weapon, int x, int y)
 	return (*(int *)pixel);
 }
 
-int	ft_exit_bonus(t_cub3d *cub3d)
+int	ft_exit_bonus(t_cub3d *cub3d, int flag)
 {
-	free_weapon_frames(cub3d);
+	if (flag)
+		free_weapon_frames(cub3d);
+	free_strs(cub3d->map->map);
 	free_doors(&cub3d->doors, cub3d);
-	if (cub3d->map->map)
-		free_strs(cub3d->map->map);
 	free_map(&cub3d->map);
 	if (cub3d->textures->ceil_tex.img)
 	{
@@ -42,7 +42,8 @@ int	ft_exit_bonus(t_cub3d *cub3d)
 	}
 	free_textures(&cub3d->textures);
 	free_struct_bonus(cub3d);
-	mlx_destroy_image(cub3d->mlx, cub3d->image->img);
+	if (cub3d->image->img)
+		mlx_destroy_image(cub3d->mlx, cub3d->image->img);
 	if (cub3d->image)
 		free(cub3d->image);
 	mlx_destroy_window(cub3d->mlx, cub3d->win);
@@ -56,7 +57,7 @@ int	ft_exit_bonus(t_cub3d *cub3d)
 int	key_press_bonus(int key, t_cub3d *cub3d)
 {
 	if (key == ESC_KEY)
-		ft_exit_bonus(cub3d);
+		ft_exit_bonus(cub3d, 1);
 	else if (key == W_KEY)
 		cub3d->keys.forward = 1;
 	else if (key == S_KEY)

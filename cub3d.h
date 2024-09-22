@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 20:24:50 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:20:05 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,7 @@ int					is_valid_elem(char *element, int is_bonus);
 void				is_there_player(char *row, int *count);
 int					is_valid_zero(t_lst *row, int i, int is_bonus);
 int					ft_atoi(char *str);
+int					check_file(char *path);
 int					check_files(t_cub3d *cub3d);
 int					check_adjacent(int curr_len, int adj_len, char c, int i);
 int					check_zeros(t_lst **rows, int is_bonus);
@@ -390,7 +391,7 @@ int					is_collide_wall_at_y(t_cub3d *cub3d, double newpos_y);
 int					is_collide_door_at_x(t_cub3d *cub3d, double newpos_x);
 int					is_collide_door_at_y(t_cub3d *cub3d, double newpos_y);
 int					key_press_bonus(int key, t_cub3d *cub3d);
-int					ft_exit_bonus(t_cub3d *cub3d);
+int					ft_exit_bonus(t_cub3d *cub3d, int flag);
 void				free_struct_bonus(t_cub3d *cub3d);
 void				free_weapon_frames(t_cub3d *cub3d);
 void				free_doors(t_door **doors, t_cub3d *cub3d);

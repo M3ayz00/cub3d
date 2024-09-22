@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 07:05:49 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 19:58:02 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:19:51 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	init_ceiling_texture(t_cub3d *cub3d)
 	if (!cub3d->textures->ceil_tex.img)
 	{
 		write(2, "error loading sky texture\n", 26);
-		ft_exit_bonus(cub3d);
+		ft_exit_bonus(cub3d, 1);
 	}
 	cub3d->textures->ceil_tex.addr = \
 	mlx_get_data_addr(cub3d->textures->ceil_tex.img,

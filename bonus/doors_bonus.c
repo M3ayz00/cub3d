@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 15:43:31 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/21 15:51:39 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:46:19 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	load_door_frames(t_cub3d *cub3d)
 	if (!door_frame)
 	{
 		write(2, "door frames allocation error\n", 29);
-		ft_exit_bonus(cub3d);
+		ft_exit_bonus(cub3d, 1);
 	}
 	door_frame->img = mlx_xpm_file_to_image(cub3d->mlx,
 			"bonus/textures/door/wolfenstein_door.xpm", &door_frame->width,
@@ -57,7 +57,7 @@ void	load_door_frames(t_cub3d *cub3d)
 	if (!door_frame->img)
 	{
 		write(2, "door frames loading error\n", 28);
-		ft_exit_bonus(cub3d);
+		ft_exit_bonus(cub3d, 1);
 	}
 	door_frame->addr = mlx_get_data_addr(door_frame->img,
 			&door_frame->bits_per_pixel, &door_frame->line_length,

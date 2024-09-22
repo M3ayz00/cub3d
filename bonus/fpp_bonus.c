@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:19:36 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 21:03:10 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:21:36 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,18 @@ void	initialize_filenames(char *filenames[])
 	filenames[22] = "bonus/textures/idle/tile022.xpm";
 }
 
+int	check_filenames(char *filenames[])
+{
+	int i = 0;
+	while (i < FRAME_COUNT)
+	{
+		if (!check_file(filenames[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	load_weapon_frames(t_cub3d *cub3d)
 {
 	int		width;
@@ -97,6 +109,8 @@ void	load_weapon_frames(t_cub3d *cub3d)
 
 	i = 0;
 	initialize_filenames(filenames);
+	if (!check_filenames(filenames))
+		ft_exit_bonus(cub3d, 0);
 	while (i < FRAME_COUNT)
 	{
 		cub3d->frames[i].img = mlx_xpm_file_to_image(cub3d->mlx, filenames[i],
@@ -104,7 +118,7 @@ void	load_weapon_frames(t_cub3d *cub3d)
 		if (!cub3d->frames[i].img)
 		{
 			write(2, "error loading frame\n", 20);
-			ft_exit_bonus(cub3d);
+			ft_exit_bonus(cub3d, 1);
 		}
 		cub3d->frames[i].width = width;
 		cub3d->frames[i].height = height;
