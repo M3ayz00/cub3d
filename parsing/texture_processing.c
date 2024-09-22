@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:50:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 18:00:48 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:28:20 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	parse_texture(char **line, t_textures **textures, int *counter)
 	int		status;
 
 	if (!based_split(*line, &splitted))
-		return (printf("1\n"),free(*line), 0);
+		return (free(*line), 0);
 	status = process_texture(textures, splitted);
 	if (status == 1)
 		(*counter)++;

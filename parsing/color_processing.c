@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:48:50 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 14:17:31 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:28:07 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	based_split(char *line, char ***splitted)
 			return (0);
 		*splitted = ft_split(line, "\f\t\v\r\n ,");
 		if (count_rows(*splitted) != 4)
-			return (free_strs(*splitted) ,0);
+			return (free_strs(*splitted), 0);
 	}
 	return (1);
 }

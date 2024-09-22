@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 19:42:10 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:28:57 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,12 @@ int	check_line(char **line, t_cub3d *cub3d, int *i)
 	if (is_identifier(*line) == 1)
 	{
 		if (!parse_texture(line, &cub3d->textures, i))
-			return (free(cub3d->container), free_map(&cub3d->map), free_textures(&cub3d->textures), 0);
+			return (free(cub3d->container), free_map(&cub3d->map),
+				free_textures(&cub3d->textures), 0);
 	}
 	else if (is_identifier(*line) == -1)
-		return (free(cub3d->container), free(*line), free_map(&cub3d->map), free_textures(&cub3d->textures), 0);
+		return (free(cub3d->container), free(*line),
+			free_map(&cub3d->map), free_textures(&cub3d->textures), 0);
 	else
 		free(*line);
 	return (1);
@@ -96,6 +98,7 @@ int	parse_cub3d(t_cub3d *cub3d, char *path, int is_bonus)
 	if (!process_map_and_textures(fd, cub3d, is_bonus))
 		return (close(fd), 0);
 	if (!check_files(cub3d))
-		return (close(fd), free_map(&cub3d->map), free_textures(&cub3d->textures), 0);
+		return (close(fd), free_map(&cub3d->map),
+			free_textures(&cub3d->textures), 0);
 	return (close(fd), 1);
 }

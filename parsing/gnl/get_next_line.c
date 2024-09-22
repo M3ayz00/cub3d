@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:16:32 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 18:16:53 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:29:16 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ char	*get_next_line(int fd, char **rescue)
 		return (NULL);
 	line = gget_line(container);
 	container = update_container(container);
-	// if (*rescue != NULL)
 	(*rescue) = container;
 	return (line);
 }
