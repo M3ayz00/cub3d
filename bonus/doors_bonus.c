@@ -49,7 +49,7 @@ void	load_door_frames(t_cub3d *cub3d)
 	if (!door_frame)
 	{
 		write(2, "door frames allocation error\n", 29);
-		exit(1);
+		ft_exit_bonus(cub3d);
 	}
 	door_frame->img = mlx_xpm_file_to_image(cub3d->mlx,
 			"bonus/textures/door/wolfenstein_door.xpm", &door_frame->width,
@@ -57,7 +57,7 @@ void	load_door_frames(t_cub3d *cub3d)
 	if (!door_frame->img)
 	{
 		write(2, "door frames loading error\n", 28);
-		exit(1);
+		ft_exit_bonus(cub3d);
 	}
 	door_frame->addr = mlx_get_data_addr(door_frame->img,
 			&door_frame->bits_per_pixel, &door_frame->line_length,

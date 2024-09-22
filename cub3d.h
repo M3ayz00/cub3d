@@ -247,7 +247,7 @@ typedef struct s_cub3d
 	t_image			wall_t[4];
 	double			fov;
 	char			*container;
-	t_image			frames[FRAME_COUNT];
+	t_image			frames[23];
 }					t_cub3d;
 
 int					open_file(char *path);

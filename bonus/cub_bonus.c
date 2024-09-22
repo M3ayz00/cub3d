@@ -101,7 +101,7 @@ int	main(int ac, char **av)
 		if (!parse_cub3d(&cub3d, av[1], cub3d.bonus))
 		{
 			write(2, "error\n", 6);
-			exit(1);
+			ft_exit_bonus(&cub3d);
 		}
 		init(&cub3d);
 		get_player_pos(&cub3d);
