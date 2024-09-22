@@ -80,15 +80,15 @@ void	init(t_cub3d *cub3d)
 	}
 	init_doors(&cub3d->doors, cub3d);
 	cub3d->mlx = mlx_init();
+	cub3d->fov = deg_to_rad(60.0);
+	load_images(cub3d);
+	load_door_frames(cub3d);
+	load_weapon_frames(cub3d);
 	cub3d->win = mlx_new_window(cub3d->mlx, WIDTH, HEIGHT, "cub3d");
 	cub3d->image->img = mlx_new_image(cub3d->mlx, WIDTH, HEIGHT);
 	cub3d->image->addr = mlx_get_data_addr(cub3d->image->img,
 			&cub3d->image->bits_per_pixel, &cub3d->image->line_length,
 			&cub3d->image->endian);
-	cub3d->fov = deg_to_rad(60.0);
-	load_images(cub3d);
-	load_door_frames(cub3d);
-	load_weapon_frames(cub3d);
 }
 
 int	main(int ac, char **av)
