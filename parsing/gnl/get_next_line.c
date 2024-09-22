@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:16:32 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/07 17:16:34 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:16:53 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strjoin2(char *s1, char *s2)
 	size_t	str_len;
 
 	if (!s1)
-		return (s2);
+		return (ft_strdup(s2));
 	if (!s2)
 		return (s1);
 	str_len = ft_strlen(s1) + ft_strlen(s2);
@@ -110,7 +110,7 @@ char	*read_file(int fd, char *container)
 	return (container);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, char **rescue)
 {
 	static char	*container;
 	char		*line;
@@ -122,5 +122,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = gget_line(container);
 	container = update_container(container);
+	// if (*rescue != NULL)
+	(*rescue) = container;
 	return (line);
 }

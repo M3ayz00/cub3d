@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/21 19:14:20 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:23:51 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,7 @@ typedef struct s_cub3d
 	t_textures		*textures;
 	t_image			wall_t[4];
 	double			fov;
+	char			*container;
 	t_image			frames[FRAME_COUNT];
 }					t_cub3d;
 
@@ -314,8 +315,7 @@ int					check_adjacent(int curr_len, int adj_len, char c, int i);
 int					check_zeros(t_lst **rows, int is_bonus);
 int					check_first_last_rows(t_lst *rows);
 int					check_sides(char *row);
-int					check_line(char **line, t_textures **textures, t_map **map,
-						int *i);
+int					check_line(char **line, t_cub3d *cub3d, int *i);
 int					add_map_lines(char **line, t_cub3d **cub3d, int fd,
 						int is_bonus);
 int					check_row(char *row, int prev_len, int next_len);

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 16:35:22 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:25:59 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,15 @@ int	is_map_valid(t_lst **rows)
 	return (1);
 }
 
-int	check_line(char **line, t_textures **textures, t_map **map, int *i)
+int	check_line(char **line, t_cub3d *cub3d, int *i)
 {
 	if (is_identifier(*line) == 1)
 	{
-		if (!parse_texture(line, textures, i))
-			return (free_map(map), free_textures(textures), 0);
+		if (!parse_texture(line, &cub3d->textures, i))
+			return (free(*line), free(cub3d->container), free_map(&cub3d->map), free_textures(&cub3d->textures), 0);
 	}
 	else if (is_identifier(*line) == -1)
-		return (free_map(map), free_textures(textures), 0);
+		return (free(cub3d->container), free(*line), free_map(&cub3d->map), free_textures(&cub3d->textures), 0);
 	else
 		free(*line);
 	return (1);
