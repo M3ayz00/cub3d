@@ -38,21 +38,21 @@ void	free_struct_bonus(t_cub3d *cub3d)
 		free(cub3d->doors);
 }
 
-void free_weapon_frames(t_cub3d *cub3d)
+void	free_weapon_frames(t_cub3d *cub3d)
 {
-    int i = 0;
-    while (i < FRAME_COUNT)
-    {
-        if (cub3d->frames[i].img)
-        {
-            mlx_destroy_image(cub3d->mlx, cub3d->frames[i].img);
-            cub3d->frames[i].img = NULL;
-        }
-        i++;
-    }
+	int	i;
+
+	i = 0;
+	while (i < FRAME_COUNT)
+	{
+		if (cub3d->frames[i].img)
+		{
+			mlx_destroy_image(cub3d->mlx, cub3d->frames[i].img);
+			cub3d->frames[i].img = NULL;
+		}
+		i++;
+	}
 }
-
-
 
 void	free_doors(t_door **doors, t_cub3d *cub3d)
 {
