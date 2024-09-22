@@ -22,7 +22,7 @@ SRCS_BONUS =./bonus/cub_bonus.c ./parsing/memory_management.c ./parsing/map_pars
 
 INCLUDES = -I/usr/include -Imlx
 MLX_FLAGS = -L./minilibx-linux -lmlx -lX11 -lXext -lm
-CFLAGS=  -Wall -Werror -Wextra
+CFLAGS= -g3 -Wall -Werror -Wextra
 OBJS = $(SRCS:.c=.o)
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 GREEN = \033[0;32m

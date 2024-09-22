@@ -77,9 +77,9 @@ int	main(int ac, char **av)
 			exit(1);
 		}
 		init(&cub3d);
+		load_images(&cub3d);
 		get_player_pos(&cub3d);
 		init_key_state(&cub3d.keys);
-		load_images(&cub3d);
 		mlx_hook(cub3d.win, 2, 1L << 0, key_press, &cub3d);
 		mlx_hook(cub3d.win, 3, 1L << 1, key_release, &cub3d);
 		mlx_hook(cub3d.win, 17, 1L << 17, &ft_exit, NULL);

@@ -17,13 +17,13 @@ void	set_player_pos(t_player *player, int i, int j, char direction)
 	player->pos_x = j + 0.3;
 	player->pos_y = i + 0.3;
 	if (direction == 'N')
-		player->angle = 0.0;
-	else if (direction == 'S')
-		player->angle = M_PI;
-	else if (direction == 'W')
 		player->angle = 3 * M_PI / 2;
-	else if (direction == 'E')
+	else if (direction == 'S')
 		player->angle = M_PI / 2;
+	else if (direction == 'W')
+		player->angle = M_PI;
+	else if (direction == 'E')
+		player->angle = 0.0;
 }
 
 void	get_player_pos(t_cub3d *cub3d)
