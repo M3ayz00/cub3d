@@ -16,8 +16,6 @@ void	free_map(t_map **map)
 {
 	if ((*map)->rows)
 		ft_lstclear(&(*map)->rows);
-	free_strs((*map)->map);
-	free((*map));
 }
 
 void	free_strs(char **strs)

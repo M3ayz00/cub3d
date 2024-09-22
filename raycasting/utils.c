@@ -72,6 +72,8 @@ void free_struct(t_cub3d *cub3d)
 		}
 		i++;
 	}
+	free_strs(cub3d->map->map);
+	free(cub3d->map);
 	if (cub3d->player)
 		free(cub3d->player);
 	if (cub3d->ray)
