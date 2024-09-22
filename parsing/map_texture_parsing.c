@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:54:48 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 19:40:56 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:27:52 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,26 +61,6 @@ int	check_door_texture(char **line, t_textures **textures, int *i, int fd)
 	return (0);
 }
 
-char	**read_whole_file(int fd, t_cub3d *cub3d)
-{
-	char	*line;
-	char	*long_line;
-	char	**file;
-
-	long_line = NULL;
-	line = get_next_line(fd, &cub3d->container);
-	while (line)
-	{
-		long_line = ft_strjoin2(long_line, line);
-		free(line);
-		line = get_next_line(fd, &cub3d->container);
-	}
-	file = ft_split(long_line, "\n");
-	if (!file)
-		return (NULL);
-	return (file);
-}
-
 int	process_map_and_textures(int fd, t_cub3d *cub3d, int is_bonus)
 {
 	int			i;
@@ -97,10 +77,12 @@ int	process_map_and_textures(int fd, t_cub3d *cub3d, int is_bonus)
 		line = get_next_line(fd, &cub3d->container);
 	}
 	if (!check_textures(cub3d->textures, &line))
-		return (free(cub3d->container),free_map(&cub3d->map), free_textures(&cub3d->textures), 0);
+		return (free(cub3d->container), free_map(&cub3d->map),
+			free_textures(&cub3d->textures), 0);
 	if (!add_map_lines(&line, &cub3d, fd, is_bonus))
-		return (free(cub3d->container),0);
+		return (free(cub3d->container), 0);
 	if (!parse_map(&cub3d->map->rows, cub3d, is_bonus))
-		return (free(cub3d->container),free_map(&cub3d->map), free_textures(&cub3d->textures), 0);
+		return (free(cub3d->container), free_map(&cub3d->map),
+			free_textures(&cub3d->textures), 0);
 	return (1);
 }

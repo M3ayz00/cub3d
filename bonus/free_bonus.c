@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:57:04 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 20:25:46 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:30:00 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,3 @@ void	free_doors(t_door **doors, t_cub3d *cub3d)
 	free(*doors);
 	*doors = NULL;
 }
-
