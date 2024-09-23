@@ -44,10 +44,11 @@ void	render_door(t_cub3d *cub3d, int i, int start, int end)
 void	load_door_frames(t_cub3d *cub3d)
 {
 	t_image	*door_frame;
-
+	cub3d->doors = malloc(sizeof(t_door));
 	if (!check_file("bonus/textures/door/wolfenstein_door.xpm"))
 	{
-		write(2, "door frames loading error\n", 27);
+		free(cub3d->doors);
+		cub3d->doors = NULL;
 		ft_exit_bonus(cub3d, 0);
 	}
 	door_frame = malloc(sizeof(t_image));

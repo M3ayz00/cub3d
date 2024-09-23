@@ -28,13 +28,6 @@ int	get_longest_line(t_lst *rows)
 
 int	parse_map(t_lst **rows, t_cub3d *cub3d, int is_bonus)
 {
-	int		count;
-	int		before;
-	t_lst	*curr;
-
-	curr = *rows;
-	before = 0;
-	count = 0;
 	if (!is_map_valid(rows))
 		return (0);
 	if (!check_first_last_rows(*rows))

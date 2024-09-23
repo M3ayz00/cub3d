@@ -247,7 +247,7 @@ typedef struct s_cub3d
 	t_image			wall_t[4];
 	double			fov;
 	char			*container;
-	t_image			frames[23];
+	t_image			*frames;
 }					t_cub3d;
 
 int					open_file(char *path);
@@ -395,5 +395,5 @@ int					key_press_bonus(int key, t_cub3d *cub3d);
 int					ft_exit_bonus(t_cub3d *cub3d, int flag);
 void				free_struct_bonus(t_cub3d *cub3d);
 void				free_weapon_frames(t_cub3d *cub3d);
-void				free_doors(t_door **doors, t_cub3d *cub3d, int flag);
+void				free_doors(t_cub3d *cub3d);
 #endif

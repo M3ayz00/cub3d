@@ -73,6 +73,7 @@ void	init_cube(t_cub3d *cub3d)
 	cub3d->doors = NULL;
 	cub3d->mlx = NULL;
 	cub3d->win = NULL;
+	cub3d->frames = NULL;
 }
 
 void	init(t_cub3d *cub3d)
@@ -82,9 +83,8 @@ void	init(t_cub3d *cub3d)
 	cub3d->ray = malloc(sizeof(t_ray));
 	cub3d->image = malloc(sizeof(t_image));
 	cub3d->weapon = malloc(sizeof(t_image));
-	cub3d->doors = malloc(sizeof(t_door));
 	if (!cub3d->player || !cub3d->ray || !cub3d->image
-		|| !cub3d->weapon || !cub3d->doors)
+		|| !cub3d->weapon)
 	{
 		write(2, "error allocating memory\n", 25);
 		ft_exit_bonus(cub3d, 1);
@@ -96,8 +96,8 @@ void	init(t_cub3d *cub3d)
 			&cub3d->image->bits_per_pixel, &cub3d->image->line_length,
 			&cub3d->image->endian);
 	load_images(cub3d);
-	init_doors(&cub3d->doors, cub3d);
 	load_door_frames(cub3d);
+	init_doors(&cub3d->doors, cub3d);
 	get_player_pos(cub3d);
 	load_weapon_frames(cub3d);
 	cub3d->win = mlx_new_window(cub3d->mlx, WIDTH, HEIGHT, "cub3d");

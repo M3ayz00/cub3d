@@ -40,6 +40,8 @@ void	free_weapon_frames(t_cub3d *cub3d)
 {
 	int	i;
 
+	if (!cub3d->frames)
+		return;
 	i = 0;
 	while (i < FRAME_COUNT)
 	{
@@ -50,30 +52,34 @@ void	free_weapon_frames(t_cub3d *cub3d)
 		}
 		i++;
 	}
+	if (cub3d->frames)
+		free(cub3d->frames);	
 }
 
-void	free_doors(t_door **doors, t_cub3d *cub3d, int flag)
+void	free_doors(t_cub3d *cub3d)
 {
 	int	y;
 
-	if (!doors || !(*doors) || !cub3d->map)
-		return ;
-	y = 0;
-	if (flag && (*doors)->door_frame->img)
+	if (cub3d->doors)
 	{
-		mlx_destroy_image(cub3d->mlx, cub3d->doors->door_frame->img);
-		cub3d->doors->door_frame->img = NULL;
+		y = 0;
+		if (cub3d->doors->door_frame &&  cub3d->doors->door_frame->img)
+		{
+			mlx_destroy_image(cub3d->mlx, cub3d->doors->door_frame->img);
+			cub3d->doors->door_frame->img = NULL;
+		}
+		if (cub3d->doors->door_frame)
+			free(cub3d->doors->door_frame);
+		while (cub3d->map &&  y < cub3d->map->height)
+		{
+			free(cub3d->doors->is_open[y]);
+			free(cub3d->doors->timer[y]);
+			y++;
+		}
+		free(cub3d->doors->is_open);
+		free(cub3d->doors->timer);
+		free(cub3d->doors);
+		cub3d->doors = NULL;
 	}
-	if (cub3d->doors->door_frame)
-		free(cub3d->doors->door_frame);
-	while (y < cub3d->map->height)
-	{
-		free((*doors)->is_open[y]);
-		free((*doors)->timer[y]);
-		y++;
-	}
-	free((*doors)->is_open);
-	free((*doors)->timer);
-	free(*doors);
-	*doors = NULL;
+
 }

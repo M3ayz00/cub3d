@@ -30,10 +30,10 @@ int	get_texel(t_image weapon, int x, int y)
 
 int	ft_exit_bonus(t_cub3d *cub3d, int flag)
 {
-	if (flag == 1)
-		free_weapon_frames(cub3d);
+	(void)flag;
+	free_weapon_frames(cub3d);
 	free_strs(cub3d->map->map);
-	free_doors(&cub3d->doors, cub3d, flag);
+	free_doors(cub3d);
 	free_map(&cub3d->map);
 	if (cub3d->textures->ceil_tex.img)
 	{
