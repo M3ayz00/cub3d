@@ -29,7 +29,7 @@ void	my_mlx_pixel_put2(t_image *image, int x, int y, int color)
 
 	if ((x < WIDTH && x >= 0) && (y < HEIGHT && y >= 0))
 	{
-		dst = image->addr + ((y + 10) * image->line_length + (x + 10)
+		dst = image->addr + (y * image->line_length + x
 				* (image->bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
 	}

@@ -28,11 +28,14 @@
 
 # define WIDTH 1280
 # define HEIGHT 900
-# define TILE_SIZE 12
+# define TILE_SIZE 6
 # define SENSITIVITY 0.0005
 # define MOVE_SPEED 0.09
 # define ROT_SPEED 0.05
 # define MARGIN 0.1
+# define MAP_X 100
+# define MAP_Y 100
+# define RADIUS 100
 
 # define W_KEY 119
 # define S_KEY 115
@@ -396,4 +399,6 @@ int					ft_exit_bonus(t_cub3d *cub3d, int flag);
 void				free_struct_bonus(t_cub3d *cub3d);
 void				free_weapon_frames(t_cub3d *cub3d);
 void				free_doors(t_cub3d *cub3d);
+int is_inside_circle(int x, int y);
+void fill_circle(t_cub3d *cub3d,int color);
 #endif

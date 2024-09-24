@@ -43,9 +43,30 @@ void	define_sx(t_draw_tool *tool, t_line *line)
 		tool->sy = 1;
 }
 
-void	init_render(t_cub3d *cub3d, t_render *tools)
+int is_inside_circle(int x, int y)
 {
-	tools->offset = 10;
-	tools->scale = get_scale(cub3d);
-	tools->tile_size = TILE_SIZE * tools->scale;
+	return ((x - MAP_X) * (x - MAP_Y) + (y - MAP_X) * (y - MAP_Y)) <= (RADIUS * RADIUS);
+}
+
+void fill_circle(t_cub3d *cub3d,int color)
+{
+
+	int x;
+	int y;
+	
+	 x= MAP_X - RADIUS;
+	
+	 y= MAP_Y - RADIUS;
+
+	while (y <= MAP_Y + RADIUS)
+	{
+		x = MAP_X - RADIUS;
+		while (x <= MAP_X + RADIUS)
+		{
+			if (is_inside_circle(x, y))
+				my_mlx_pixel_put(cub3d->image, x, y, color);
+			x++;
+		}
+		y++; 
+	}
 }
