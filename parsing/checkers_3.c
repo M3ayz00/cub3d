@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:45:43 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/24 16:11:53 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:41:37 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,16 @@ int	is_valid_zero(t_lst *row, int i, int is_bonus)
 				&& !is_plane_or_player(row->prev->row[i], is_bonus)))
 			return (0);
 	}
+	else
+		return (0);
 	if (row->next)
 	{
 		if ((row->next->row[i]
 				&& !is_plane_or_player(row->next->row[i], is_bonus)))
 			return (0);
 	}
+	else
+		return (0);
 	return (1);
 }
 

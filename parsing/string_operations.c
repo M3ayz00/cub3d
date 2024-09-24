@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:53:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 20:00:08 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 22:28:25 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,21 @@ void	set_width_and_height(t_lst **rows, t_cub3d *cub3d)
 	}
 	cub3d->map->height = height;
 	cub3d->map->width = width - 1;
+}
+
+int	check_previous_lines(t_lst *current)
+{
+	t_lst	*curr;
+
+	curr = current;
+	while (curr)
+	{
+		if (is_it_all_spaces(curr->row))
+			curr = curr->prev;
+		else if (is_it_all_ones(curr->row))
+			return (1);
+		else
+			return (0);
+	}
+	return (1);
 }

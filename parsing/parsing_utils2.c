@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:30:35 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/24 21:20:07 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 22:28:03 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,21 @@ int	process_texture(t_textures **textures, char **splitted)
 			return (0);
 	}
 	return (-1);
+}
+
+int	check_next_lines(t_lst *current)
+{
+	t_lst	*curr;
+
+	curr = current;
+	while (curr)
+	{
+		if (is_it_all_spaces(curr->row))
+			curr = curr->next;
+		else if (is_it_all_ones(curr->row))
+			return (1);
+		else
+			return (0);
+	}
+	return (1);
 }

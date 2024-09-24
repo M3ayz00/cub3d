@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/24 21:33:42 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 22:28:33 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,6 +324,8 @@ void				remove_x_node(t_lst **curr, t_lst **prev, t_lst **to_rem);
 int					there_is_space(char *row);
 void				change_spaces(char **row);
 void				change_spaces_to_0s(t_lst **rows);
+int					check_next_lines(t_lst *current);
+int					check_previous_lines(t_lst *current);
 
 // raycasting prototypes
 void				my_mlx_pixel_put(t_image *image, int x, int y, int color);
