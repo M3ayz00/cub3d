@@ -24,7 +24,7 @@ void	calc_scale_and_position(t_cub3d *cub3d, t_weapon_vars *vars,
 	vars->start_x = (vars->screen_width - (int)(vars->image_width
 				* vars->scale_x)) / 2;
 	vars->start_y = vars->screen_height - (int)(vars->image_height
-			* vars->scale_y) - 10;
+			* vars->scale_y);
 }
 
 void	draw_weapon_img(t_cub3d *cub3d, t_weapon_vars *vars, int current_frame)
@@ -98,21 +98,12 @@ void	load_weapon_frames(t_cub3d *cub3d)
 	i = 0;
 	initialize_filenames(filenames);
 	cub3d->frames = malloc(sizeof(t_image) * FRAME_COUNT);
-	if (!check_filenames(filenames))
-	{
-		free(cub3d->frames);
-		cub3d->frames = NULL;
-		ft_exit_bonus(cub3d, 1);
-	}
+	check_file_n(cub3d, filenames);
 	while (i < FRAME_COUNT)
 	{
 		cub3d->frames[i].img = mlx_xpm_file_to_image(cub3d->mlx, filenames[i],
 				&width, &height);
-		if (!cub3d->frames[i].img)
-		{
-			write(2, "error loading frame\n", 20);
-			ft_exit_bonus(cub3d, 1);
-		}
+		check_valid_img(cub3d, &cub3d->frames[i]);
 		cub3d->frames[i].width = width;
 		cub3d->frames[i].height = height;
 		cub3d->frames[i].addr = mlx_get_data_addr(cub3d->frames[i].img,
@@ -120,21 +111,4 @@ void	load_weapon_frames(t_cub3d *cub3d)
 				&cub3d->frames[i].endian);
 		i++;
 	}
-	
-	// while (i < FRAME_COUNT)
-	// {
-	// 	cub3d->frames[i].img = mlx_xpm_file_to_image(cub3d->mlx, filenames[i],
-	// 			&width, &height);
-	// 	if (!cub3d->frames[i].img)
-	// 	{
-	// 		write(2, "error loading frame\n", 20);
-	// 		ft_exit_bonus(cub3d, 1);
-	// 	}
-	// 	cub3d->frames[i].width = width;
-	// 	cub3d->frames[i].height = height;
-	// 	cub3d->frames[i].addr = mlx_get_data_addr(cub3d->frames[i].img,
-	// 			&cub3d->frames[i].bits_per_pixel, &cub3d->frames[i].line_length,
-	// 			&cub3d->frames[i].endian);
-	// 	i++;
-	// }
 }

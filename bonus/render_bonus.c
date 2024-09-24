@@ -35,16 +35,35 @@ void	render_ceil_bonus(t_cub3d *cub3d, int i, int end)
 void	init_ceiling_texture(t_cub3d *cub3d)
 {
 	cub3d->textures->ceil_tex.img = mlx_xpm_file_to_image(cub3d->mlx,
-			"textures/sky_dark.xpm", &cub3d->textures->ceil_tex.width,
+			"textures/sky2.xpm", &cub3d->textures->ceil_tex.width,
 			&cub3d->textures->ceil_tex.height);
 	if (!cub3d->textures->ceil_tex.img)
 	{
 		write(2, "error loading sky texture\n", 26);
-		ft_exit_bonus(cub3d, 1);
+		ft_exit_bonus(cub3d);
 	}
 	cub3d->textures->ceil_tex.addr = \
 	mlx_get_data_addr(cub3d->textures->ceil_tex.img,
 			&cub3d->textures->ceil_tex.bits_per_pixel,
 			&cub3d->textures->ceil_tex.line_length,
 			&cub3d->textures->ceil_tex.endian);
+}
+
+void	check_valid_img(t_cub3d *cub3d, t_image *img)
+{
+	if (!img->img)
+	{
+		write(2, "error loading frame\n", 21);
+		ft_exit_bonus(cub3d);
+	}
+}
+
+void check_file_n(t_cub3d *cub3d, char *filenames[])
+{
+	if (!check_filenames(filenames))
+	{
+		free(cub3d->frames);
+		cub3d->frames = NULL;
+		ft_exit_bonus(cub3d);
+	}
 }

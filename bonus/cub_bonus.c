@@ -53,12 +53,12 @@ void	load_images(t_cub3d *cub3d)
 		cub3d->wall_t[i].img = mlx_xpm_file_to_image(cub3d->mlx, textures[i],
 				&cub3d->wall_t[i].width, &cub3d->wall_t[i].height);
 		if (!cub3d->wall_t[i].img)
-			ft_exit_bonus(cub3d, 1);
+			ft_exit_bonus(cub3d);
 		cub3d->wall_t[i].addr = mlx_get_data_addr(cub3d->wall_t[i].img,
 				&cub3d->wall_t[i].bits_per_pixel, &cub3d->wall_t[i].line_length,
 				&cub3d->wall_t[i].endian);
 		if (!cub3d->wall_t[i].addr)
-			ft_exit_bonus(cub3d, 1);
+			ft_exit_bonus(cub3d);
 		i++;
 	}
 	init_ceiling_texture(cub3d);
@@ -87,7 +87,7 @@ void	init(t_cub3d *cub3d)
 		|| !cub3d->weapon)
 	{
 		write(2, "error allocating memory\n", 25);
-		ft_exit_bonus(cub3d, 1);
+		ft_exit_bonus(cub3d);
 	}
 	cub3d->mlx = mlx_init();
 	cub3d->fov = deg_to_rad(60.0);

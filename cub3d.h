@@ -393,10 +393,12 @@ int					is_collide_wall_at_y(t_cub3d *cub3d, double newpos_y);
 int					is_collide_door_at_x(t_cub3d *cub3d, double newpos_x);
 int					is_collide_door_at_y(t_cub3d *cub3d, double newpos_y);
 int					key_press_bonus(int key, t_cub3d *cub3d);
-int					ft_exit_bonus(t_cub3d *cub3d, int flag);
+int					ft_exit_bonus(t_cub3d *cub3d);
 void				free_struct_bonus(t_cub3d *cub3d);
 void				free_weapon_frames(t_cub3d *cub3d);
 void				free_doors(t_cub3d *cub3d);
 int					is_inside_circle(int x, int y);
 void				fill_circle(t_cub3d *cub3d, int color);
+void				check_valid_img(t_cub3d *cub3d, t_image *img);
+void				check_file_n(t_cub3d *cub3d, char *filenames[]);
 #endif
