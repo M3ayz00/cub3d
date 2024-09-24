@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:19:36 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 22:22:08 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 19:23:12 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,25 +90,15 @@ void	initialize_filenames(char *filenames[])
 
 void	load_weapon_frames(t_cub3d *cub3d)
 {
-	int		width;
-	int		height;
 	int		i;
 	char	*filenames[FRAME_COUNT];
 
 	i = 0;
 	initialize_filenames(filenames);
 	cub3d->frames = malloc(sizeof(t_image) * FRAME_COUNT);
-	check_file_n(cub3d, filenames);
 	while (i < FRAME_COUNT)
 	{
-		cub3d->frames[i].img = mlx_xpm_file_to_image(cub3d->mlx, filenames[i],
-				&width, &height);
-		check_valid_img(cub3d, &cub3d->frames[i]);
-		cub3d->frames[i].width = width;
-		cub3d->frames[i].height = height;
-		cub3d->frames[i].addr = mlx_get_data_addr(cub3d->frames[i].img,
-				&cub3d->frames[i].bits_per_pixel, &cub3d->frames[i].line_length,
-				&cub3d->frames[i].endian);
+		init_frames(cub3d, &cub3d->frames[i], filenames[i]);
 		i++;
 	}
 }

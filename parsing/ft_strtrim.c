@@ -6,11 +6,21 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 20:30:41 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/08/09 16:27:04 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:34:38 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int	count_rows(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map && map[i])
+		i++;
+	return (i);
+}
 
 static int	ft_start(char *set, char *s)
 {

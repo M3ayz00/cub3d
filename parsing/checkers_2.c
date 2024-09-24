@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:44:14 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/24 16:12:16 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:19:11 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,13 @@ int	is_valid_elem(char *element, int is_bonus)
 			return (0);
 		i++;
 	}
+	return (1);
+}
+
+int	check_texture_file(char *file, char **texture)
+{
+	if (ft_strcmp(file + ft_strlen(file) - 4, ".xpm"))
+		return (0);
+	(*texture) = ft_strdup(file);
 	return (1);
 }

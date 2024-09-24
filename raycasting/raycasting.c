@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:32:28 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/21 14:59:21 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 20:09:16 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,25 @@ void	cast_ray(t_cub3d *cub3d, double ray_angle)
 
 void	cast_all_rays(t_cub3d *cub3d)
 {
+	t_casting	render;
 	int			i;
-	t_casting	wall;
 
-	wall.angle_step = cub3d->fov / WIDTH;
+	render.angle_step = cub3d->fov / WIDTH;
 	i = 0;
 	while (i < WIDTH - 1)
 	{
-		wall.ray_angle = cub3d->player->angle - (cub3d->fov / 2) + (i
-				* wall.angle_step);
-		cast_ray(cub3d, wall.ray_angle);
-		wall.start = (HEIGHT / 2) - (calc_height((cub3d->ray->hit_distance
-						* cos(wall.ray_angle - cub3d->player->angle)), HEIGHT)
+		render.ray_angle = cub3d->player->angle - (cub3d->fov / 2)
+			+ (i * render.angle_step);
+		cast_ray(cub3d, render.ray_angle);
+		render.start = (HEIGHT / 2) - (calc_height((cub3d->ray->hit_distance
+						* cos(render.ray_angle - cub3d->player->angle)), HEIGHT)
 				/ 2);
-		wall.end = (HEIGHT / 2) + (calc_height((cub3d->ray->hit_distance
-						* cos(wall.ray_angle - cub3d->player->angle)), HEIGHT)
+		render.end = (HEIGHT / 2) + (calc_height((cub3d->ray->hit_distance
+						* cos(render.ray_angle - cub3d->player->angle)), HEIGHT)
 				/ 2);
-		render_ceil(cub3d, i, wall.start);
-		render_walls(cub3d, i, wall.start, wall.end);
-		render_floor(cub3d, i, wall.end, HEIGHT);
+		render_ceil(cub3d, i, render.start);
+		render_walls(cub3d, i, render.start, render.end);
+		render_floor(cub3d, i, render.end, HEIGHT);
 		i++;
 	}
 }

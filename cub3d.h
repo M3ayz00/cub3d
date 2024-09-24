@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/24 15:21:25 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:33:42 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,6 +321,9 @@ int					add_map_lines(char **line, t_cub3d **cub3d, int fd,
 						int is_bonus);
 int					check_row(char *row, int prev_len, int next_len);
 void				remove_x_node(t_lst **curr, t_lst **prev, t_lst **to_rem);
+int					there_is_space(char *row);
+void				change_spaces(char **row);
+void				change_spaces_to_0s(t_lst **rows);
 
 // raycasting prototypes
 void				my_mlx_pixel_put(t_image *image, int x, int y, int color);
@@ -399,6 +402,5 @@ void				free_weapon_frames(t_cub3d *cub3d);
 void				free_doors(t_cub3d *cub3d);
 int					is_inside_circle(int x, int y);
 void				fill_circle(t_cub3d *cub3d, int color);
-void				check_valid_img(t_cub3d *cub3d, t_image *img);
-void				check_file_n(t_cub3d *cub3d, char *filenames[]);
+void				init_frames(t_cub3d *cub3d, t_image *image, char *filename);
 #endif
