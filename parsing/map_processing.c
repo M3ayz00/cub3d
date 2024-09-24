@@ -6,17 +6,65 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:51:55 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/24 16:12:08 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:49:46 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int	there_is_space(char *row)
+{
+	int	i;
+
+	i = 0;
+	while (row[i])
+	{
+		if (row[i] == ' ')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	change_spaces(char **row)
+{
+	int		i;
+	char	*changed;
+
+	i = 0;
+	changed = (char *)ft_calloc(ft_strlen((*row)) + 1, sizeof(char));
+	if (!changed)
+		return ;
+	while ((*row)[i])
+	{
+		changed[i] = (*row)[i];
+		if ((*row)[i] == ' ')
+			changed[i] = '1';
+		i++;
+	}
+	free((*row));
+	(*row) = changed;
+}
+
+void	change_spaces_to_1s(t_lst **rows)
+{
+	t_lst	*curr;
+
+	curr = *rows;
+	while (curr)
+	{
+		if (there_is_space(curr->row))
+			change_spaces(&curr->row);
+		curr = curr->next;
+	}
+}
 
 int	check_zeros(t_lst **rows, int is_bonus)
 {
 	t_lst	*curr;
 	int		i;
 
+	change_spaces_to_1s(rows);
 	curr = *rows;
 	while (curr)
 	{
