@@ -27,10 +27,10 @@
 
 # define WIDTH 1280
 # define HEIGHT 900
-# define TILE_SIZE 6
+# define TILE_SIZE 8
 # define SENSITIVITY 0.0005
-# define MOVE_SPEED 0.09
-# define ROT_SPEED 0.05
+# define MOVE_SPEED 0.03
+# define ROT_SPEED 0.06
 # define MARGIN 0.1
 # define MAP_X 100
 # define MAP_Y 100
