@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:51:55 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/24 19:15:45 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 22:24:39 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_zeros(t_lst **rows, int is_bonus)
 		i = 0;
 		while (curr->row[i])
 		{
-			if (curr->row[i] == '0')
+			if (curr->row[i] == '0' || is_player(curr->row[i]))
 			{
 				if (!is_valid_zero(curr, i, is_bonus))
 					return (0);
@@ -76,7 +76,7 @@ int	check_each_row(t_lst **rows)
 		if (curr->prev)
 			tools.prev_len = ft_strlen(curr->prev->row);
 		if (!check_row(curr->row, tools.prev_len, tools.next_len))
-			return (0);
+			return (printf("qlawi\n"), 0);
 		curr = curr->next;
 		tools.rowc++;
 	}

@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 15:47:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/24 19:08:06 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 22:26:32 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	there_is_space(char *row)
 	i = 0;
 	while (row[i])
 	{
-		if (row[i] == ' ')
+		if (is_space2(row[i]))
 			return (1);
 		i++;
 	}
@@ -48,8 +48,8 @@ void	change_spaces(char **row)
 	while ((*row)[i])
 	{
 		changed[i] = (*row)[i];
-		if ((*row)[i] == ' ')
-			changed[i] = '0';
+		if (is_space2(((*row)[i])))
+			changed[i] = '1';
 		i++;
 	}
 	free((*row));
