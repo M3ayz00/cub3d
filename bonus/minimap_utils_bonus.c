@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 18:54:23 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/21 18:55:42 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 19:15:23 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,19 @@ void	define_sx(t_draw_tool *tool, t_line *line)
 		tool->sy = 1;
 }
 
-int is_inside_circle(int x, int y)
+int	is_inside_circle(int x, int y)
 {
-	return ((x - MAP_X) * (x - MAP_Y) + (y - MAP_X) * (y - MAP_Y)) <= (RADIUS * RADIUS);
+	return (((x - MAP_X) * (x - MAP_Y)
+			+ (y - MAP_X) * (y - MAP_Y)) <= (RADIUS * RADIUS));
 }
 
-void fill_circle(t_cub3d *cub3d,int color)
+void	fill_circle(t_cub3d *cub3d, int color)
 {
+	int	x;
+	int	y;
 
-	int x;
-	int y;
-	
-	 x= MAP_X - RADIUS;
-	
-	 y= MAP_Y - RADIUS;
-
+	x = MAP_X - RADIUS;
+	y = MAP_Y - RADIUS;
 	while (y <= MAP_Y + RADIUS)
 	{
 		x = MAP_X - RADIUS;
@@ -67,6 +65,6 @@ void fill_circle(t_cub3d *cub3d,int color)
 				my_mlx_pixel_put(cub3d->image, x, y, color);
 			x++;
 		}
-		y++; 
+		y++;
 	}
 }

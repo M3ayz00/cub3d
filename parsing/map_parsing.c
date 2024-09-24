@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/24 15:49:03 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 20:59:11 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	get_longest_line(t_lst *rows)
 
 int	parse_map(t_lst **rows, t_cub3d *cub3d, int is_bonus)
 {
+	change_spaces_to_0s(rows);
 	if (!is_map_valid(rows))
 		return (0);
 	if (!check_first_last_rows(*rows))

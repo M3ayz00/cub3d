@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 07:05:49 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 21:19:51 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 19:23:39 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,23 @@ void	init_ceiling_texture(t_cub3d *cub3d)
 			&cub3d->textures->ceil_tex.bits_per_pixel,
 			&cub3d->textures->ceil_tex.line_length,
 			&cub3d->textures->ceil_tex.endian);
+}
+
+void	init_frames(t_cub3d *cub3d, t_image *image, char *filename)
+{
+	int	height;
+	int	width;
+
+	image->img = mlx_xpm_file_to_image(cub3d->mlx, filename,
+			&width, &height);
+	if (!image->img)
+	{
+		write(2, "error loading frame\n", 20);
+		ft_exit_bonus(cub3d, 1);
+	}
+	image->width = width;
+	image->height = height;
+	image->addr = mlx_get_data_addr(image->img,
+			&image->bits_per_pixel, &image->line_length,
+			&image->endian);
 }

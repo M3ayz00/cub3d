@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:30:35 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/24 15:40:41 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 21:20:07 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_adjacent(int curr_len, int adj_len, char c, int i)
 {
-	if (curr_len > adj_len - 2 && i > adj_len - 2)
+	if (curr_len > adj_len && i > adj_len)
 	{
 		if (!is_space(c))
 		{
@@ -57,13 +57,17 @@ int	colors_processing(char **splitted, t_textures **textures)
 	{
 		if (!color_processing(splitted, &(*textures)->floor))
 			return (0);
+		else
+			return (1);
 	}
 	else if (!ft_strcmp(splitted[0], "C"))
 	{
 		if (!color_processing(splitted, &(*textures)->ceiling))
 			return (0);
+		else
+			return (1);
 	}
-	return (1);
+	return (0);
 }
 
 int	process_texture(t_textures **textures, char **splitted)
