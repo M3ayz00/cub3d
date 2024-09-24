@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 15:51:55 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 14:55:41 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:12:08 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	check_each_row(t_lst **rows)
 
 	tools.count = 0;
 	curr = (*rows)->next;
-	while (curr && curr->next)
+	while (curr)
 	{
 		tools.prev_len = 0;
 		tools.next_len = 0;

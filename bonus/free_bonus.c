@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:57:04 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 23:24:19 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:16:44 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	free_weapon_frames(t_cub3d *cub3d)
 	int	i;
 
 	if (!cub3d->frames)
-		return;
+		return ;
 	i = 0;
 	while (i < FRAME_COUNT)
 	{
@@ -53,7 +53,7 @@ void	free_weapon_frames(t_cub3d *cub3d)
 		i++;
 	}
 	if (cub3d->frames)
-		free(cub3d->frames);	
+		free(cub3d->frames);
 }
 
 void	free_doors(t_cub3d *cub3d)
@@ -63,14 +63,14 @@ void	free_doors(t_cub3d *cub3d)
 	if (cub3d->doors)
 	{
 		y = 0;
-		if (cub3d->doors->door_frame &&  cub3d->doors->door_frame->img)
+		if (cub3d->doors->door_frame && cub3d->doors->door_frame->img)
 		{
 			mlx_destroy_image(cub3d->mlx, cub3d->doors->door_frame->img);
 			cub3d->doors->door_frame->img = NULL;
 		}
 		if (cub3d->doors->door_frame)
 			free(cub3d->doors->door_frame);
-		while (cub3d->map &&  y < cub3d->map->height)
+		while (cub3d->map && y < cub3d->map->height)
 		{
 			free(cub3d->doors->is_open[y]);
 			free(cub3d->doors->timer[y]);
@@ -81,5 +81,4 @@ void	free_doors(t_cub3d *cub3d)
 		free(cub3d->doors);
 		cub3d->doors = NULL;
 	}
-
 }

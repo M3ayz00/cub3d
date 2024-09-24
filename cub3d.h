@@ -6,15 +6,14 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:30:47 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 23:19:24 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:21:25 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-// # include "minilibx-linux/mlx.h"
-#include <mlx.h>
+# include <mlx.h>
 # include "parsing/gnl/get_next_line.h"
 # include <fcntl.h>
 # include <math.h>
@@ -296,7 +295,6 @@ int					color_processing(char **splitted, t_color **color);
 int					textures_processing(char **splitted, t_textures **textures);
 int					colors_processing(char **splitted, t_textures **textures);
 double				deg_to_rad(double degrees);
-int					validating_and_cleaning(t_lst **rows, t_lst *curr);
 int					is_map_valid(t_lst **rows);
 int					check_each_row(t_lst **rows);
 int					is_space(char c);
@@ -399,6 +397,6 @@ int					ft_exit_bonus(t_cub3d *cub3d, int flag);
 void				free_struct_bonus(t_cub3d *cub3d);
 void				free_weapon_frames(t_cub3d *cub3d);
 void				free_doors(t_cub3d *cub3d);
-int is_inside_circle(int x, int y);
-void fill_circle(t_cub3d *cub3d,int color);
+int					is_inside_circle(int x, int y);
+void				fill_circle(t_cub3d *cub3d, int color);
 #endif

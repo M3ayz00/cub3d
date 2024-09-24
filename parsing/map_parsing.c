@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:06:49 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 20:28:57 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:49:03 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,15 @@ int	is_map_valid(t_lst **rows)
 		{
 			ft_lst_remove(rows, curr);
 			curr = *rows;
+			continue ;
 		}
-		else
-			break ;
-	}
-	while (curr)
-	{
-		if (!check_sides(curr->row) || is_it_all_spaces(curr->row))
-			break ;
+		else if (!is_it_all_ones(curr->row)
+			&& (!curr->next || is_it_all_spaces(curr->next->row)))
+			return (0);
+		if (!check_sides(curr->row))
+			return (0);
 		curr = curr->next;
 	}
-	validating_and_cleaning(rows, curr);
 	return (1);
 }
 

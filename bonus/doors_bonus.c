@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 15:43:31 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 23:20:33 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:52:30 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,10 @@ void	render_door(t_cub3d *cub3d, int i, int start, int end)
 void	load_door_frames(t_cub3d *cub3d)
 {
 	t_image	*door_frame;
+
 	cub3d->doors = malloc(sizeof(t_door));
 	if (!check_file("bonus/textures/door/wolfenstein_door.xpm"))
-	{
-		free(cub3d->doors);
-		cub3d->doors = NULL;
-		ft_exit_bonus(cub3d, 0);
-	}
+		(free(cub3d->doors), cub3d->doors = NULL, ft_exit_bonus(cub3d, 0));
 	door_frame = malloc(sizeof(t_image));
 	if (!door_frame)
 	{

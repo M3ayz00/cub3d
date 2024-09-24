@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 16:30:35 by msaadidi          #+#    #+#             */
-/*   Updated: 2024/09/22 14:53:31 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:40:41 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,16 @@ void	remove_x_node(t_lst **curr, t_lst **prev, t_lst **to_rem)
 		if ((*curr) == (*to_rem))
 		{
 			if ((*prev))
+			{
 				(*prev)->next = (*curr)->next;
+				if ((*curr)->next)
+					(*curr)->next->prev = (*prev);
+			}
+			else
+			{
+				(*curr) = (*curr)->next;
+				(*curr)->prev = NULL;
+			}
 			free((*to_rem)->row);
 			free((*to_rem));
 			return ;
@@ -40,24 +49,6 @@ void	remove_x_node(t_lst **curr, t_lst **prev, t_lst **to_rem)
 		(*prev) = (*curr);
 		(*curr) = (*curr)->next;
 	}
-}
-
-int	validating_and_cleaning(t_lst **rows, t_lst *curr)
-{
-	t_lst	*checkpoint;
-
-	checkpoint = ft_lst_before(*rows, curr);
-	while (curr)
-	{
-		if (!is_it_all_spaces(curr->row))
-			return (0);
-		else
-		{
-			ft_lst_remove(rows, curr);
-			curr = checkpoint->next;
-		}
-	}
-	return (1);
 }
 
 int	colors_processing(char **splitted, t_textures **textures)
