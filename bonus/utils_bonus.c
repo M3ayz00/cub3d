@@ -28,9 +28,8 @@ int	get_texel(t_image weapon, int x, int y)
 	return (*(int *)pixel);
 }
 
-int	ft_exit_bonus(t_cub3d *cub3d, int flag)
+int	ft_exit_bonus(t_cub3d *cub3d)
 {
-	(void)flag;
 	free_weapon_frames(cub3d);
 	free_strs(cub3d->map->map);
 	free_doors(cub3d);
@@ -58,7 +57,7 @@ int	ft_exit_bonus(t_cub3d *cub3d, int flag)
 int	key_press_bonus(int key, t_cub3d *cub3d)
 {
 	if (key == ESC_KEY)
-		ft_exit_bonus(cub3d, 1);
+		ft_exit_bonus(cub3d);
 	else if (key == W_KEY)
 		cub3d->keys.forward = 1;
 	else if (key == S_KEY)

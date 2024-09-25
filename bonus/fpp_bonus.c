@@ -24,7 +24,7 @@ void	calc_scale_and_position(t_cub3d *cub3d, t_weapon_vars *vars,
 	vars->start_x = (vars->screen_width - (int)(vars->image_width
 				* vars->scale_x)) / 2;
 	vars->start_y = vars->screen_height - (int)(vars->image_height
-			* vars->scale_y) - 10;
+			* vars->scale_y);
 }
 
 void	draw_weapon_img(t_cub3d *cub3d, t_weapon_vars *vars, int current_frame)
@@ -96,12 +96,6 @@ void	load_weapon_frames(t_cub3d *cub3d)
 	i = 0;
 	initialize_filenames(filenames);
 	cub3d->frames = malloc(sizeof(t_image) * FRAME_COUNT);
-	if (!check_filenames(filenames))
-	{
-		free(cub3d->frames);
-		cub3d->frames = NULL;
-		ft_exit_bonus(cub3d, 1);
-	}
 	while (i < FRAME_COUNT)
 	{
 		init_frames(cub3d, &cub3d->frames[i], filenames[i]);

@@ -35,12 +35,12 @@ void	render_ceil_bonus(t_cub3d *cub3d, int i, int end)
 void	init_ceiling_texture(t_cub3d *cub3d)
 {
 	cub3d->textures->ceil_tex.img = mlx_xpm_file_to_image(cub3d->mlx,
-			"textures/sky_dark.xpm", &cub3d->textures->ceil_tex.width,
+			"textures/sky2.xpm", &cub3d->textures->ceil_tex.width,
 			&cub3d->textures->ceil_tex.height);
 	if (!cub3d->textures->ceil_tex.img)
 	{
 		write(2, "error loading sky texture\n", 26);
-		ft_exit_bonus(cub3d, 1);
+		ft_exit_bonus(cub3d);
 	}
 	cub3d->textures->ceil_tex.addr = \
 	mlx_get_data_addr(cub3d->textures->ceil_tex.img,
@@ -59,7 +59,7 @@ void	init_frames(t_cub3d *cub3d, t_image *image, char *filename)
 	if (!image->img)
 	{
 		write(2, "error loading frame\n", 20);
-		ft_exit_bonus(cub3d, 1);
+		ft_exit_bonus(cub3d);
 	}
 	image->width = width;
 	image->height = height;

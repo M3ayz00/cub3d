@@ -27,10 +27,10 @@
 
 # define WIDTH 1280
 # define HEIGHT 900
-# define TILE_SIZE 6
+# define TILE_SIZE 8
 # define SENSITIVITY 0.0005
-# define MOVE_SPEED 0.09
-# define ROT_SPEED 0.05
+# define MOVE_SPEED 0.03
+# define ROT_SPEED 0.06
 # define MARGIN 0.1
 # define MAP_X 100
 # define MAP_Y 100
@@ -398,7 +398,7 @@ int					is_collide_wall_at_y(t_cub3d *cub3d, double newpos_y);
 int					is_collide_door_at_x(t_cub3d *cub3d, double newpos_x);
 int					is_collide_door_at_y(t_cub3d *cub3d, double newpos_y);
 int					key_press_bonus(int key, t_cub3d *cub3d);
-int					ft_exit_bonus(t_cub3d *cub3d, int flag);
+int					ft_exit_bonus(t_cub3d *cub3d);
 void				free_struct_bonus(t_cub3d *cub3d);
 void				free_weapon_frames(t_cub3d *cub3d);
 void				free_doors(t_cub3d *cub3d);
