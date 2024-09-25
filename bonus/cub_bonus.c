@@ -6,7 +6,7 @@
 /*   By: msaadidi <msaadidi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 06:13:25 by aes-sarg          #+#    #+#             */
-/*   Updated: 2024/09/22 22:36:23 by msaadidi         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:34:30 by msaadidi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	main(int ac, char **av)
 		mlx_hook(cub3d.win, 2, 1L << 0, key_press_bonus, &cub3d);
 		mlx_hook(cub3d.win, 3, 1L << 1, key_release, &cub3d);
 		mlx_hook(cub3d.win, 6, 1L << 6, mouse_move, &cub3d);
-		mlx_hook(cub3d.win, 17, 1L << 17, &ft_exit_bonus, NULL);
+		mlx_hook(cub3d.win, 17, 1L << 17, &ft_exit_bonus, &cub3d);
 		mlx_loop_hook(cub3d.mlx, render, &cub3d);
 		mlx_loop(cub3d.mlx);
 	}
